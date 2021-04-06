@@ -105,7 +105,7 @@ doc_events = {
     "Quality Inspection": {
         "before_submit": "next_quality.next_quality.custom_quality_inspection.set_insepection_in_batch",
         "on_submit":"next_quality.next_quality.custom_quality_inspection.on_submit",
-        "before_save":"next_quality.next_quality.custom_quality_inspection.get_parameter"
+        # "before_save":"next_quality.next_quality.custom_quality_inspection.get_parameter"
     },
     "Sales Order": {
         "before_submit": "next_quality.custom_methods.make_customer_quality_insp_submit_time",
@@ -123,8 +123,8 @@ doc_events = {
         "onload":"next_quality.next_quality.custom_batch.set_status"
     },
     "Purchase Receipt":{
-        "before_submit":"next_quality.next_quality.custom_purchase_receipt.before_submit",
-        "before_save":"next_quality.next_quality.custom_purchase_receipt.before_save"
+        # "before_submit":"next_quality.next_quality.custom_purchase_receipt.before_submit",
+        # "before_save":"next_quality.next_quality.custom_purchase_receipt.before_save"
     }
 }
 
@@ -165,9 +165,7 @@ scheduler_events = {
 # ------------------------------
 #
 override_whitelisted_methods = {
-# 	"erpnext/stock/doctype/quality_inspection/quality_inspection.inspect_and_set_status":"nextquality/next_quality/custom_quality_inspection.inspect_and_set_status",
-    # "erpnext/stock/doctype/quality_inspection/quality_inspection.set_status_based_on_acceptance_formula":"nextquality/next_quality/custom_quality_inspection.set_status_based_on_acceptance_formula",
-    # "erpnext/stock/doctype/quality_inspection/quality_inspection.update_qc_reference": "next_quality/next_quality/custom_quality_inspection.update_qc_reference"
+    "erpnext/stock/doctype/quality_inspection/quality_inspection.update_qc_reference": "next_quality/next_quality/custom_quality_inspection.update_qc_reference"
 
 }
 #

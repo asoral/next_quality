@@ -67,21 +67,21 @@ frappe.ui.form.on("Quality Inspection", {
 				}
 			})
 		},
-	onload:function(frm){
-		if(frm.doc.inspec_type=== "On Finish" && frm.doc.reference_type==="Work Order"){
-			frm.call({
-				method: "set_batch_no",
-				doc:frm.doc,
-		    callback: function(r) {
+	// onload:function(frm){
+	// 	if(frm.doc.inspec_type=== "On Finish" && frm.doc.reference_type==="Work Order"){
+	// 		frm.call({
+	// 			method: "set_batch_no",
+	// 			doc:frm.doc,
+	// 	    callback: function(r) {
 
-					 cur_frm.set_value("batch_no",r.message);
+	// 				 cur_frm.set_value("batch_no",r.message);
 
 
 
-				}
-			});
-		}
-	}
+	// 			}
+	// 		});
+	// 	}
+	// }
 });
 
 // frappe.ui.form.on("Quality Inspection Reading",{
