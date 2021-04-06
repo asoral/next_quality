@@ -40,7 +40,7 @@ frappe.ui.form.on("Quality Inspection", {
 			set_field_options("reference_type", ["Purchase Receipt", "Purchase Invoice","Delivery Note","Sales Invoice","Stock Entry"])
 		  }
 		},
-		quality_inspection_template:function(frm){
+		item_code:function(frm){
 			frm.call({
 				method: "next_quality.next_quality.custom_quality_inspection.get_parameter_values",
 				args: {
@@ -51,12 +51,12 @@ frappe.ui.form.on("Quality Inspection", {
 				callback: function(r){
 					if (r.message) {
 						console.log(r.message)
-						frappe.utils.filter_dict(frm.fields_dict["readings"].grid.docfields, {"fieldname": "parameter_values"}).options = r.message;
+						// frappe.utils.filter_dict(frm.fields_dict["readings"].grid.docfields, {"fieldname": "parameter_values"}).options = r.message;
 						// frm.set_df_property("parameter_values","options", ["ajay","Ujjwal"]);
 						// frm.refresh_field("parameter_values")
 						// frappe.meta.get_docfield('Quality Inspection Reading', 'parameter_values',frm.doc.name).options = r.message;
 	
-						// frappe.meta.get_docfield('Quality Inspection Reading', 'parameter_values').options = r.message;
+						frappe.meta.get_docfield('Quality Inspection Reading', 'parameter_values').options = r.message;
 	
 						// set_field_options("readings","parameter_values", r.message)
 						frm.refresh_field("parameter_values")
@@ -66,7 +66,22 @@ frappe.ui.form.on("Quality Inspection", {
 					
 				}
 			})
+		},
+	onload:function(frm){
+		if(frm.doc.inspec_type=== "On Finish" && frm.doc.reference_type==="Work Order"){
+			frm.call({
+				method: "set_batch_no",
+				doc:frm.doc,
+		    callback: function(r) {
+
+					 cur_frm.set_value("batch_no",r.message);
+
+
+
+				}
+			});
 		}
+	}
 });
 
 // frappe.ui.form.on("Quality Inspection Reading",{

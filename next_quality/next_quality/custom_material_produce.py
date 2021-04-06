@@ -3,7 +3,7 @@ import frappe
 
 def before_submit(self,method):
         doc = frappe.get_doc("Work Order",self.work_order)
-        for row in doc.quality_inspection_par:
+        for row in doc.quality_inspection_parameter:
             iqit_doc = frappe.new_doc("Quality Inspection")
             iqit_doc.inspection_type = "In Process"
             iqit_doc.reference_type = doc.doctype

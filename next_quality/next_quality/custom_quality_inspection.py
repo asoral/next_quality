@@ -45,6 +45,14 @@ def set_insepection_in_batch(qc,method):
         batch.flags.ignore_validate_update_after_submit = True
         batch.save(ignore_permissions=True)
         batch.clear_cache()	
+
+    def set_batch_no(self):
+		doc = frappe.get_doc("Stock Entry", item_code)
+        print("***************",doc)
+		for i in doc.get("items"):
+			if i.get('item_code') == self.item_code:
+				batch =i.get("batch_no")
+			return batch
         
 @frappe.whitelist()
 def get_item_specification_details(quality_inspection_template,item_code = None):
