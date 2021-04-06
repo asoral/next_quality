@@ -126,7 +126,7 @@ def make_customer_quality_insp_submit_time(sl, method):
 		for line in sl.items:
 				cic = frappe.db.sql("""select name from `tabCustomer Inspection Criteria` 
 						where customer = %s and item = %s and docstatus = 1 
-						and disabled = 0 order by creation desc limit 1""",(sl.customer,line.item_code))
+					    order by creation desc limit 1""",(sl.customer,line.item_code))
 				if cic:
 					cic_doc = frappe.get_doc("Customer Inspection Criteria",cic[0][0])
 					cqc = frappe.new_doc("Customer Quality Inspection")
