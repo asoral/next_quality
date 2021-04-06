@@ -40,11 +40,11 @@ frappe.ui.form.on("Quality Inspection", {
 			set_field_options("reference_type", ["Purchase Receipt", "Purchase Invoice","Delivery Note","Sales Invoice","Stock Entry"])
 		  }
 		},
-	onload:function(frm){
+		quality_inspection_template:function(frm){
 			frm.call({
 				method: "next_quality.next_quality.custom_quality_inspection.get_parameter_values",
 				args: {
-					"quality_inspection_template":quality_inspection_template_name
+					"quality_inspection_template_name":frm.doc.quality_inspection_template
 	
 	
 				},

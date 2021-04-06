@@ -63,10 +63,10 @@ def get_item_specification_details(quality_inspection_template,item_code = None)
                         order_by="idx")
 
 @frappe.whitelist()
-def get_parameter_values(quality_inspection_template):
+def get_parameter_values(quality_inspection_template_name):
     # doc=frappe.db.sql("""select i.values from `tabItem Quality Inspection Parameter` i,`tabQuality Inspection` q  where i.parent=q.quality_inspection_template """)
     print("************")
-    doc = frappe.get_doc("Quality Inspection Template",quality_inspection_template)
+    doc = frappe.get_doc("Quality Inspection Template",quality_inspection_template_name)
     c=[]
     for i in doc.get('item_quality_inspection_parameter'):
         con_to_json = json.loads(i.get('values'))
