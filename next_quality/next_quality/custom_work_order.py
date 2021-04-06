@@ -3,6 +3,12 @@ import frappe
 from frappe.model.mapper import get_mapped_doc
 
 
+def set_inq(name):
+	doc=frappe.db.get_all("InProcess Quality Inspection",{"reference_name":name},['name'])
+	for i in doc:
+		lst=i.get('name')
+	return lst
+
 @frappe.whitelist()
 def create_inps_qlt_ins(doctype,name,production_item,template):
 	res = []

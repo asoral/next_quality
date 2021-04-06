@@ -67,6 +67,29 @@ frappe.ui.form.on("Work Order", {
 				}
 			});
     },
+    before_submit:function(frm){
+        frm.call({
+            method: "next_quality.next_quality.custom_work_order.set_inq",
+				args: {
+				   name:frm.doc.name
+				},
+				callback: function(r) {
+				    console.log(r.message)
+					if (r.message) {
+					    var arr = r.message;
+                        for( var i in arr){
+                            var childTable = frm.add_child("quality_inspection_parameter");
+                            childTable.inprocess_quality_inspection = arr[i]
+                            
+					    }
+
+					    
+					    }
+
+					}
+				});
+       
+    }
 
 
 

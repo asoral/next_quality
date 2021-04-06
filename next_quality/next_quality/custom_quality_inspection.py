@@ -18,6 +18,7 @@ def on_submit(self,method):
     else:
         self.status = "Rejected"
 
+
 def set_insepection_in_batch(qc,method):
     if qc.item_code:
         item_doc = frappe.get_doc("Item", qc.item_code)
@@ -46,13 +47,12 @@ def set_insepection_in_batch(qc,method):
         batch.save(ignore_permissions=True)
         batch.clear_cache()	
 
-    def set_batch_no(self):
-		doc = frappe.get_doc("Stock Entry", item_code)
-        print("***************",doc)
-		for i in doc.get("items"):
-			if i.get('item_code') == self.item_code:
-				batch =i.get("batch_no")
-			return batch
+def set_batch_no(self):
+    doc = frappe.get_doc("Stock Entry", self.item_code)
+    for i in doc.get("items"):
+        if i.get('item_code') == self.item_code:
+            batch =i.get('batch_no')
+        return batch
         
 @frappe.whitelist()
 def get_item_specification_details(quality_inspection_template,item_code = None):
@@ -70,6 +70,27 @@ def get_item_specification_details(quality_inspection_template,item_code = None)
                         filters={'parenttype': 'Quality Inspection Template', 'parent': quality_inspection_template},
                         order_by="idx")
 
+
+def get_parameter(self,method):
+    # doc=frappe.db.sql("""select i.values from `tabItem Quality Inspection Parameter` i,`tabQuality Inspection` q  where i.parent=q.quality_inspection_template """)
+    print("************")
+    doc = frappe.get_doc("Quality Inspection Template",self.quality_inspection_template)
+    c=[]
+    for i in doc.get('item_quality_inspection_parameter'):
+        con_to_json = json.loads(i.get('values'))
+        print(con_to_json)
+        for a in con_to_json:
+           if a.get('is_correct')==1:
+               b=a.get('value')
+               c.append(b)
+    for i in self.readings:
+        if not i.parameter_values:
+            i.status= "Not Tested"
+        elif i.parameter_values not in c:
+            i.status = "Rejected"
+        else:
+            i.status = "Accepted"
+
 @frappe.whitelist()
 def get_parameter_values(quality_inspection_template_name):
     # doc=frappe.db.sql("""select i.values from `tabItem Quality Inspection Parameter` i,`tabQuality Inspection` q  where i.parent=q.quality_inspection_template """)
@@ -83,6 +104,7 @@ def get_parameter_values(quality_inspection_template_name):
             b=a.get("value")
             c.append(b)
         return c
+
 
 
 @frappe.whitelist()
