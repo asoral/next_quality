@@ -1,0 +1,105 @@
+{
+ "actions": [],
+ "creation": "2021-04-04 18:59:47.075692",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "company",
+  "column_break_2",
+  "inspection_type",
+  "reference_type",
+  "inspections_item_list_section",
+  "get_item_from_purchase_receipt",
+  "get_item_from_purchase_invoice",
+  "get_item_from_delivery_note",
+  "get_item_from_sales_invoice",
+  "get_item_from_stock_entry",
+  "inspections_to_be_created"
+ ],
+ "fields": [
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "inspection_type",
+   "fieldtype": "Select",
+   "label": "Inspection Type",
+   "options": "\nIncomming\nOutgoing\nIn Process"
+  },
+  {
+   "fieldname": "reference_type",
+   "fieldtype": "Select",
+   "label": "Reference Type",
+   "options": "\nPurchase Receipt\nPurchase Invoice\nDelivery Note\nSales Invoice\nStock Entry"
+  },
+  {
+   "fieldname": "inspections_item_list_section",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "get_item_from_purchase_receipt",
+   "fieldtype": "Button",
+   "label": "Get Item From Purchase Receipt"
+  },
+  {
+   "fieldname": "get_item_from_purchase_invoice",
+   "fieldtype": "Button",
+   "label": "Get Item From Purchase Invoice"
+  },
+  {
+   "fieldname": "get_item_from_delivery_note",
+   "fieldtype": "Button",
+   "label": "Get Item From Delivery Note"
+  },
+  {
+   "fieldname": "get_item_from_sales_invoice",
+   "fieldtype": "Button",
+   "label": "Get Item From Sales Invoice"
+  },
+  {
+   "fieldname": "get_item_from_stock_entry",
+   "fieldtype": "Button",
+   "label": "Get Item From Stock Entry"
+  },
+  {
+   "fieldname": "inspections_to_be_created",
+   "fieldtype": "Table",
+   "label": "Inspections to be created",
+   "options": "Inspections Item",
+   "reqd": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2021-04-04 19:19:57.044970",
+ "modified_by": "Administrator",
+ "module": "Next Quality",
+ "name": "Quality Inspection Creation Tool",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

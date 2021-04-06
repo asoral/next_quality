@@ -1,0 +1,67 @@
+{
+ "actions": [],
+ "creation": "2021-04-04 15:53:32.441265",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "inprocess_quality_inspection_template",
+  "inspection_name",
+  "inspection_type",
+  "inspection_applicable_on",
+  "periodicity",
+  "inprocess_quality_inspection"
+ ],
+ "fields": [
+  {
+   "fieldname": "inprocess_quality_inspection_template",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "InProcess Quality Inspection Template",
+   "options": "Quality Inspection Template"
+  },
+  {
+   "fieldname": "inspection_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Inspection Name"
+  },
+  {
+   "fieldname": "inspection_type",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Inspection Type"
+  },
+  {
+   "fieldname": "inspection_applicable_on",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Inspection Applicable On"
+  },
+  {
+   "fieldname": "periodicity",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Periodicity"
+  },
+  {
+   "fieldname": "inprocess_quality_inspection",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Inprocess Quality Inspection"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2021-04-05 09:30:22.749822",
+ "modified_by": "Administrator",
+ "module": "Next Quality",
+ "name": "Work InProcess Quality Inspection Template",
+ "owner": "Administrator",
+ "permissions": [],
+ "quick_entry": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

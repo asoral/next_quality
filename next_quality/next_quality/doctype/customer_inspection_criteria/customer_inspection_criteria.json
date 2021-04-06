@@ -1,0 +1,105 @@
+{
+ "actions": [],
+ "autoname": "CIC-.FY.-.####",
+ "creation": "2021-04-04 17:12:07.028239",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "customer",
+  "customer_name",
+  "column_break_3",
+  "item",
+  "item_name",
+  "quality_inspection_section",
+  "quality_inspection_template",
+  "item_quality_inspection_parameter",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "label": "Customer ",
+   "options": "Customer",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "customer.customer_name",
+   "fieldname": "customer_name",
+   "fieldtype": "Read Only",
+   "label": "Customer Name"
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "item",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Item Code",
+   "options": "Item",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "item.item_name",
+   "fieldname": "item_name",
+   "fieldtype": "Read Only",
+   "label": "Item Name"
+  },
+  {
+   "fieldname": "quality_inspection_section",
+   "fieldtype": "Section Break",
+   "label": "Quality Inspection "
+  },
+  {
+   "fieldname": "quality_inspection_template",
+   "fieldtype": "Link",
+   "label": "Quality Inspection Template",
+   "options": "Quality Inspection Template"
+  },
+  {
+   "fieldname": "item_quality_inspection_parameter",
+   "fieldtype": "Table",
+   "label": "Item Quality Inspection Parameter",
+   "options": "Item Quality Inspection Parameter",
+   "reqd": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Customer Inspection Criteria",
+   "print_hide": 1,
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2021-04-04 19:20:22.874020",
+ "modified_by": "Administrator",
+ "module": "Next Quality",
+ "name": "Customer Inspection Criteria",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "quick_entry": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}
