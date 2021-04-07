@@ -5,7 +5,7 @@ from datetime import datetime
 from frappe.model.mapper import get_mapped_doc
 from frappe import _
 from frappe.utils import flt, cint
-from nextquality.next_quality.custom_quality_inspection_template import get_template_details
+from next_quality.next_quality.custom_quality_inspection_template import get_template_details
 from erpnext.stock.doctype.quality_inspection.quality_inspection import QualityInspection
 import json
 
