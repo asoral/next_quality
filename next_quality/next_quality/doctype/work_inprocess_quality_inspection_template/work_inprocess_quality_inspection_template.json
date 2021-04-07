@@ -45,6 +45,7 @@
    "label": "Periodicity"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "inprocess_quality_inspection",
    "fieldtype": "Data",
    "in_list_view": 1,
@@ -54,7 +55,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2021-04-05 09:30:22.749822",
+ "modified": "2021-04-06 20:53:46.309934",
  "modified_by": "Administrator",
  "module": "Next Quality",
  "name": "Work InProcess Quality Inspection Template",

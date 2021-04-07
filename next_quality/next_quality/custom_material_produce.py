@@ -12,6 +12,7 @@ def before_submit(self,method):
             iqit_doc.sample_size = "1"
             iqit_doc.inspected_by = frappe.session.user
             iqit_doc.quality_inspection_template = row.inprocess_quality_inspection_template
+            iqit_doc.inps_type=row.inspection_type
             obj = frappe.get_doc("Quality Inspection Template", row.inprocess_quality_inspection_template)
             for ro in obj.item_quality_inspection_parameter:
                 iqit_doc.append("readings", {

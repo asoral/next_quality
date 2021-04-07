@@ -6,8 +6,62 @@ from frappe.model.mapper import get_mapped_doc
 from frappe import _
 from frappe.utils import flt, cint
 from nextquality.next_quality.custom_quality_inspection_template import get_template_details
+from erpnext.stock.doctype.quality_inspection.quality_inspection import QualityInspection
 import json
 
+class CustomQualityInspection(QualityInspection):
+    def update_qc_reference(self):
+        quality_inspection = self.name if self.docstatus == 1 else ""
+
+        if self.reference_type == 'Job Card':
+            if self.reference_name:
+                frappe.db.sql("""
+                    UPDATE `tab{doctype}`
+                    SET quality_inspection = %s, modified = %s
+                    WHERE name = %s and production_item = %s
+                """.format(doctype=self.reference_type),
+                    (quality_inspection, self.modified, self.reference_name, self.item_code))
+        elif self.reference_type == 'Work Order':
+            if self.reference_name:
+                frappe.db.sql("""
+					UPDATE `tab{doctype}`
+					SET quality_inspection = %s, modified = %s
+					WHERE name = %s and production_item = %s
+				    """.format(doctype=self.reference_type),
+					(quality_inspection, self.modified, self.reference_name, self.item_code))
+
+        else:
+            args = [quality_inspection, self.modified, self.reference_name, self.item_code]
+            doctype = self.reference_type + ' Item'
+
+            if self.reference_type == 'Stock Entry':
+                doctype = 'Stock Entry Detail'
+
+            if self.reference_type and self.reference_name:
+                conditions = ""
+                if self.batch_no and self.docstatus == 1:
+                    conditions += " and t1.batch_no = %s"
+                    args.append(self.batch_no)
+
+                if self.docstatus == 2: # if cancel, then remove qi link wherever same name
+                    conditions += " and t1.quality_inspection = %s"
+                    args.append(self.name)
+
+                    frappe.db.sql("""
+					UPDATE
+						`tab{child_doc}` t1, `tab{parent_doc}` t2
+					SET
+						t1.quality_inspection = %s, t2.modified = %s
+					WHERE
+						t1.parent = %s
+						and t1.item_code = %s
+						and t1.parent = t2.name
+						{conditions}
+				    """.format(parent_doc=self.reference_type, child_doc=doctype, conditions=conditions),
+					args)
+
+
+    
 def on_submit(self,method):
     count = 0
     for i in self.readings:
@@ -50,9 +104,11 @@ def set_insepection_in_batch(qc,method):
 def set_batch_no(self):
     doc = frappe.get_doc("Stock Entry", self.item_code)
     for i in doc.get("items"):
-        if i.get('item_code') == self.item_code:
-            batch =i.get('batch_no')
-        return batch
+        if not i.batch_no:
+            pass
+        else:
+            self.batch_no=i.batch_no
+    doc.save(ignore_permissions=True)
         
 @frappe.whitelist()
 def get_item_specification_details(quality_inspection_template,item_code = None):
@@ -70,26 +126,14 @@ def get_item_specification_details(quality_inspection_template,item_code = None)
                         filters={'parenttype': 'Quality Inspection Template', 'parent': quality_inspection_template},
                         order_by="idx")
 
-
-# def get_parameter(self,method):
-#     # doc=frappe.db.sql("""select i.values from `tabItem Quality Inspection Parameter` i,`tabQuality Inspection` q  where i.parent=q.quality_inspection_template """)
-#     print("************")
-#     doc = frappe.get_doc("Quality Inspection Template",self.quality_inspection_template)
-#     c=[]
-#     for i in doc.get('item_quality_inspection_parameter'):
-#         con_to_json = json.loads(i.get('values'))
-#         print(con_to_json)
-#         for a in con_to_json:
-#            if a.get('is_correct')==1:
-#                b=a.get('value')
-#                c.append(b)
-#     for i in self.readings:
-#         if not i.parameter_values:
-#             i.status= "Not Tested"
-#         elif i.parameter_values not in c:
-#             i.status = "Rejected"
-#         else:
-#             i.status = "Accepted"
+def set_inps(self,method):
+    if self.reference_type== "Work Order":
+        doc=frappe.get_doc("Work Order",self.reference_name)
+        for i in doc.get('quality_inspection_parameter'):
+            i.inprocess_quality_inspection = self.name 
+        doc.save(ignore_permissions=True)
+    
+    
 
 @frappe.whitelist()
 def get_parameter_values(quality_inspection_template_name):
@@ -98,12 +142,15 @@ def get_parameter_values(quality_inspection_template_name):
     doc = frappe.get_doc("Quality Inspection Template",quality_inspection_template_name)
     c=[]
     for i in doc.get('item_quality_inspection_parameter'):
-        con_to_json = json.loads(i.get('values'))
-        print(con_to_json)
-        for a in con_to_json:
-            b=a.get("value")
-            c.append(b)
-        return c
+        if not i.values:
+            pass
+        else:
+            con_to_json = json.loads(i.get('values'))
+            print(con_to_json)
+            for a in con_to_json:
+                b=a.get("value")
+                c.append(b)
+            return c
 
 
 

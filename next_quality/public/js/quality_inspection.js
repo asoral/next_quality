@@ -1,4 +1,3 @@
-let df_status=frappe.meta.get_docfield("Quality Inspection Reading", "status", cur_frm.doc.name)
 
 frappe.ui.form.on("Quality Inspection", {
     
@@ -40,78 +39,37 @@ frappe.ui.form.on("Quality Inspection", {
 			set_field_options("reference_type", ["Purchase Receipt", "Purchase Invoice","Delivery Note","Sales Invoice","Stock Entry"])
 		  }
 		},
-		item_code:function(frm){
-			frm.call({
-				method: "next_quality.next_quality.custom_quality_inspection.get_parameter_values",
-				args: {
-					"quality_inspection_template_name":frm.doc.quality_inspection_template
-	
-	
-				},
-				callback: function(r){
-					if (r.message) {
-						console.log(r.message)
-						// frappe.utils.filter_dict(frm.fields_dict["readings"].grid.docfields, {"fieldname": "parameter_values"}).options = r.message;
-						// frm.set_df_property("parameter_values","options", ["ajay","Ujjwal"]);
-						// frm.refresh_field("parameter_values")
-						// frappe.meta.get_docfield('Quality Inspection Reading', 'parameter_values',frm.doc.name).options = r.message;
-	
-						frappe.meta.get_docfield('Quality Inspection Reading', 'parameter_values').options = r.message;
-	
-						// set_field_options("readings","parameter_values", r.message)
-						frm.refresh_field("parameter_values")
-					}
-					// frm.refresh_field("readings")
-					
-					
-				}
-			})
-		},
-	// onload:function(frm){
-	// 	if(frm.doc.inspec_type=== "On Finish" && frm.doc.reference_type==="Work Order"){
-	// 		frm.call({
-	// 			method: "set_batch_no",
-	// 			doc:frm.doc,
-	// 	    callback: function(r) {
-
-	// 				 cur_frm.set_value("batch_no",r.message);
-
-
-
-	// 			}
-	// 		});
-	// 	}
-	// }
-});
-
-// frappe.ui.form.on("Quality Inspection Reading",{
-// 	form_render:function(frm){
-//         frm.call({
-// 		    method: "next_quality.next_quality.custom_quality_inspection.get_parameter_values",
-// 		    args: {
-// 				specification:"specification"
-
-
-// 			},
-// 			callback: function(r){
-// 				if (r.message) {
-// 					console.log(r.message)
-// 					frappe.utils.filter_dict(frm.fields_dict["readings"].grid.docfields, {"fieldname": "parameter_values"}).options = r.message;
-// 					// frm.set_df_property("parameter_values","options", ["ajay","Ujjwal"]);
-// 					// frm.refresh_field("parameter_values")
-// 					// frappe.meta.get_docfield('Quality Inspection Reading', 'parameter_values',frm.doc.name).options = r.message;
-
-// 					// frappe.meta.get_docfield('Quality Inspection Reading', 'parameter_values').options = r.message;
-
-// 					// set_field_options("readings","parameter_values", r.message)
-// 					frm.refresh_field("parameter_values")
-// 				}
-// 				// frm.refresh_field("readings")
-				
-				
-// 			}
-//         })
 		
-//     },
+});
+frappe.ui.form.on("Quality Inspection Reading",{
+	form_render:function(frm){
+        frm.call({
+		    method: "next_quality.next_quality.custom_quality_inspection.get_parameter_values",
+		    args: {
+				"quality_inspection_template_name":frm.doc.quality_inspection_template
+			},
+			callback: function(r){
+				if (r.message) {
+					frappe.utils.filter_dict(cur_frm.fields_dict["readings"].grid.docfields, {"fieldname": "parameter_values"})[0].options = r.message;
+					// frappe.meta.get_docfield('Reading', 'parameter_values').options = r.message;
+
+					// frappe.meta.get_docfield('Quality Inspection Reading', 'parameter_values').options =arr;
+					// frm.set_df_property('parameter_values', 'options',arr[0]);
+
+					// set_field_options("parameter_values", ["Stock Entry","Work Order"])
+					frm.refresh_field("parameter_values")
+
+					// frappe.meta.get_docfield('Quality Inspection Reading', 'parameter_values').options = r.message;
+ 
+				}
+				
+				
+				
+				
+			}
+			
+        })
+		
+    },
 	
-// });
+});

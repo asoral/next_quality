@@ -63,7 +63,7 @@ def create_QIT(source_name, target_doc=None):
 
 def periodic_quality_inspection():
 	WIQIT = frappe.db.get_all("Work InProcess Quality Inspection Template", fields=["parent", "parenttype",
-																					"quality_inspection_template"],
+																					"quality_inspection_template","inspection_type"],
 							filters={ "docstatus": 1,'inspection_type':'Periodic'})
 	for res in WIQIT:
 		obj = frappe.get_doc("Quality Inspection Template", res.inprocess_quality_inspection_template)
@@ -76,6 +76,7 @@ def periodic_quality_inspection():
 		iqit_doc.item_code = obj.production_item
 		iqit_doc.sample_size = "1"
 		iqit_doc.inspected_by = frappe.session.user
+		iqit_doc.inps_type=res.inspection_type
 		obj = frappe.get_doc("Quality Inspection Template", res.inprocess_quality_inspection_template)
 		for row in obj.item_quality_inspection_parameter:
 			iqit_doc.append("readings", {

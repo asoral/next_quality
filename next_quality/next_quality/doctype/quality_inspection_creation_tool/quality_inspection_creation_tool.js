@@ -74,6 +74,7 @@ function fetch_data(frm, args_doc,reference_doc){
 		},
 		callback: function (r) {
 		    frm.clear_table("inspections_to_be_created");
+			console.log(r.message)
 			r.message.map(item => {
 				frm.add_child('inspections_to_be_created', {
 					reference_doc: reference_doc,

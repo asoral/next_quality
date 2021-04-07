@@ -95,6 +95,7 @@ doctype_js = {
 
 override_doctype_class = {
     "Pick List": "next_quality.custom_picklist.CustomPickList",
+    "Quality Inspection":"next_quality.next_quality.custom_quality_inspection.CustomQualityInspection",
 }
 
 # Document Events
@@ -105,7 +106,8 @@ doc_events = {
     "Quality Inspection": {
         "before_submit": "next_quality.next_quality.custom_quality_inspection.set_insepection_in_batch",
         "on_submit":"next_quality.next_quality.custom_quality_inspection.on_submit",
-        # "before_save":"next_quality.next_quality.custom_quality_inspection.get_parameter"
+        "validate":"next_quality.next_quality.custom_quality_inspection.set_inps"
+        # "before_save":"next_quality.next_quality.custom_quality_inspection.get_parameter",
     },
     "Sales Order": {
         "before_submit": "next_quality.custom_methods.make_customer_quality_insp_submit_time",
@@ -124,7 +126,7 @@ doc_events = {
     },
     "Purchase Receipt":{
         # "before_submit":"next_quality.next_quality.custom_purchase_receipt.before_submit",
-        # "before_save":"next_quality.next_quality.custom_purchase_receipt.before_save"
+        "before_save":"next_quality.next_quality.custom_purchase_receipt.before_save"
     }
 }
 
@@ -165,7 +167,7 @@ scheduler_events = {
 # ------------------------------
 #
 override_whitelisted_methods = {
-    "erpnext/stock/doctype/quality_inspection/quality_inspection.update_qc_reference": "next_quality/next_quality/custom_quality_inspection.update_qc_reference"
+    # "erpnext/stock/doctype/quality_inspection/quality_inspection.update_qc_reference": "next_quality/next_quality/custom_quality_inspection.update_qc_reference"
 
 }
 #
