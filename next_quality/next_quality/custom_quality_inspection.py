@@ -59,14 +59,14 @@ class CustomQualityInspection(QualityInspection):
 						{conditions}
 				    """.format(parent_doc=self.reference_type, child_doc=doctype, conditions=conditions),
 					args)
-
-
-    
+  
 def before_save(self,method):
     count = 0
     for i in self.readings:
         if i.get('status') == "Rejected":
             count = count + 1
+        elif not i.get('value'):
+            self.status="Not Tested"
     if (count == 0):
         self.status = "Accepted"
     else:
@@ -89,6 +89,7 @@ def set_insepection_in_batch(qc,method):
         batch = frappe.get_doc("Batch", qc.batch_no)
         batch.last_test_date = datetime.now()
         batch.last_quality_inspection = qc.name
+        batch.quality_inspection = qc.name
         frappe.db.sql("delete from `tabQuality Inspection Reading` where parent =%s", (batch.name))
         for res in qc.readings:
             r = res.as_dict()
@@ -106,6 +107,7 @@ def set_insepection_in_batch(qc,method):
         batch.flags.ignore_validate_update_after_submit = True
         batch.save(ignore_permissions=True)
         batch.clear_cache()	
+     
 
 def set_batch_no(self):
     doc = frappe.get_doc("Stock Entry", self.item_code)
@@ -138,7 +140,6 @@ def set_inps(self,method):
         for i in doc.get('quality_inspection_parameter'):
             i.inprocess_quality_inspection = self.name 
         doc.save(ignore_permissions=True)
-    
     
 
 @frappe.whitelist()

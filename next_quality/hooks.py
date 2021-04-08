@@ -108,6 +108,7 @@ doc_events = {
         "before_save":"next_quality.next_quality.custom_quality_inspection.before_save",
         "validate":"next_quality.next_quality.custom_quality_inspection.set_inps",
         "before_submit":"next_quality.next_quality.custom_quality_inspection.before_submit",
+        "after_save":"next_quality.next_quality.custom_quality_inspection.set_qc"
     },
     "Sales Order": {
         "before_submit": "next_quality.custom_methods.make_customer_quality_insp_submit_time",

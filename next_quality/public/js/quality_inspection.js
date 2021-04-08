@@ -52,10 +52,10 @@ frappe.ui.form.on("Quality Inspection Reading",{
 			callback: function(r){
 				console.log(r.message)
 				if (r.message) {
-					frappe.utils.filter_dict(cur_frm.fields_dict["readings"].grid.docfields, {"fieldname": "parameter_values"}).options = r.message;
-					// frappe.meta.get_docfield('readings', 'parameter_values').options = r.message;
-					// frm.set_df_property('parameter_values', 'options',r.message);
-					// frappe.meta.get_docfield('Quality Inspection Reading', 'parameter_values',cur_frm.doc.name).options = r.message;
+					// frappe.utils.filter_dict(frm.fields_dict["readings"].grid.docfields, {"fieldname": "parameter__values"})[0].options = r.message;
+					// frappe.meta.get_docfield('readings', 'parameter__values').options = ["ajay","ujjwal"];
+					// frm.set_df_property('parameter__values', 'options',r.message);
+					frappe.meta.get_docfield('Quality Inspection Reading', 'parameter__values',frm.doc.name).options = r.message;
 					
 					frm.refresh_field("parameter_values") 
 				}

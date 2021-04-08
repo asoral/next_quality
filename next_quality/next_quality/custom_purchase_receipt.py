@@ -16,7 +16,7 @@ def create_quality_inspection(doc_name):
                                           "quality_inspection_template"])
 
 
-
+        print(itm_detail)
         for inspect_det in itm_detail:
 
             if doc.doctype == "Purchase Receipt" and inspect_det.inspection_required_before_purchase == 1:
@@ -31,11 +31,13 @@ def create_quality_inspection(doc_name):
                 doc_qi.reference_name = doc.name
                 doc_qi.item_code = item.item_code
                 doc_qi.batch_no = item.batch_no
+                doc_qi.status="Not Tested"
                 doc_qi.sample_size = "1"
                 doc_qi.inspected_by = frappe.session.user
                 doc_qi.quality_inspection_template = inspect_det.quality_inspection_template
                 if inspect_det.quality_inspection_template:
                     obj = frappe.get_doc("Quality Inspection Template",inspect_det.quality_inspection_template)
+                    print(obj)
                     for ro in obj.item_quality_inspection_parameter:
                         doc_qi.append("readings", {
                             'specification': ro.specification,
