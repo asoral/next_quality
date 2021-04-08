@@ -104,10 +104,10 @@ override_doctype_class = {
 
 doc_events = {
     "Quality Inspection": {
-        "before_submit": "next_quality.next_quality.custom_quality_inspection.set_insepection_in_batch",
-        "on_submit":"next_quality.next_quality.custom_quality_inspection.on_submit",
-        "validate":"next_quality.next_quality.custom_quality_inspection.set_inps"
-        # "before_save":"next_quality.next_quality.custom_quality_inspection.get_parameter",
+        "on_submit": "next_quality.next_quality.custom_quality_inspection.set_insepection_in_batch",
+        "before_save":"next_quality.next_quality.custom_quality_inspection.before_save",
+        "validate":"next_quality.next_quality.custom_quality_inspection.set_inps",
+        "before_submit":"next_quality.next_quality.custom_quality_inspection.before_submit",
     },
     "Sales Order": {
         "before_submit": "next_quality.custom_methods.make_customer_quality_insp_submit_time",

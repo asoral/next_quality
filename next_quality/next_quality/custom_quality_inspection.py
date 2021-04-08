@@ -62,7 +62,7 @@ class CustomQualityInspection(QualityInspection):
 
 
     
-def on_submit(self,method):
+def before_save(self,method):
     count = 0
     for i in self.readings:
         if i.get('status') == "Rejected":
@@ -71,6 +71,12 @@ def on_submit(self,method):
         self.status = "Accepted"
     else:
         self.status = "Rejected"
+
+def before_submit(self,method):
+    if self.status in ["Not Tested","Rejected"]:
+        frappe.throw("{0} status is ' Not Tested Or Rejected").format(self.name)
+    else:
+        pass
 
 
 def set_insepection_in_batch(qc,method):
