@@ -40,6 +40,7 @@ frappe.ui.form.on("Quality Inspection", {
 		  }
 		},
 		
+		
 });
 frappe.ui.form.on("Quality Inspection Reading",{
 	form_render:function(frm){
@@ -49,20 +50,16 @@ frappe.ui.form.on("Quality Inspection Reading",{
 				"quality_inspection_template_name":frm.doc.quality_inspection_template
 			},
 			callback: function(r){
+				console.log(r.message)
 				if (r.message) {
-					// frappe.utils.filter_dict(cur_frm.fields_dict["readings"].grid.docfields, {"fieldname": "parameter_values"})[0].options = r.message;
-					frappe.meta.get_docfield('reading', 'parameter_values').options = r.message;
-
-					// frappe.meta.get_docfield('Quality Inspection Reading', 'parameter_values').options =arr;
-					// frm.set_df_property('parameter_values', 'options',arr[0]);
-
-					// set_field_options("parameter_values", ["Stock Entry","Work Order"])
-					frm.refresh_field("parameter_values")
-
-					// frappe.meta.get_docfield('Quality Inspection Reading', 'parameter_values').options = r.message;
- 
+					frappe.utils.filter_dict(cur_frm.fields_dict["readings"].grid.docfields, {"fieldname": "parameter_values"}).options = r.message;
+					// frappe.meta.get_docfield('readings', 'parameter_values').options = r.message;
+					// frm.set_df_property('parameter_values', 'options',r.message);
+					// frappe.meta.get_docfield('Quality Inspection Reading', 'parameter_values',cur_frm.doc.name).options = r.message;
+					
+					frm.refresh_field("parameter_values") 
 				}
-				
+				// frm.refresh_field("readings")
 				
 				
 				
