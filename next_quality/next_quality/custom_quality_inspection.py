@@ -127,7 +127,7 @@ def get_item_specification_details(quality_inspection_template,item_code = None)
     return frappe.get_all('Item Quality Inspection Parameter',
                         fields=[
                                 "specification", "value", "acceptance_formula",
-                               "values","selection","numeric","alphanumeric","formula_based_criteria" "min_value", "max_value"
+                               "values","selection","numeric","alphanumeric","formula_based_criteria","min_value", "max_value"
                                 ],
                         filters={'parenttype': 'Quality Inspection Template', 'parent': quality_inspection_template},
                         order_by="idx")
