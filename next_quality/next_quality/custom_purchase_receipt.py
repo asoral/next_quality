@@ -63,21 +63,8 @@ def create_quality_inspection(doc_name):
     return True
 
 
-# def before_submit(self,method):
-#     doc=frappe.db.get_value("Quality Inspection",{"reference_name":self.name},["reference_name","item_code"],as_dict=1)
-#     if self.name == doc.get('reference_name'):
-#         pass
-#     else:
-#         msg="Quality Inspection Not found for item"
-#         frappe.throw(msg)
 
-
-#     if doc.get('status') in ["Rejected","Not Tested"]:
-#             msg="Quality Inspection is Rejected or Not Tested"
-#             frappe.throw(msg)
-
-def before_save(self,method):
-#     #doc = frappe.db.sql("""SELECT item_code FROM `tabItem` WHERE has_batch_no = 1""", as_dict = True)
+def validate(self,method):
     all_doc = frappe.db.get_all("Item", {"has_batch_no" : 1}, ['item_code'])
     doc = []
     for d in all_doc:

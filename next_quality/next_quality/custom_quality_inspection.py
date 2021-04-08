@@ -60,21 +60,27 @@ class CustomQualityInspection(QualityInspection):
 				    """.format(parent_doc=self.reference_type, child_doc=doctype, conditions=conditions),
 					args)
   
-def before_save(self,method):
+def before_save(self,method):  
     count = 0
+    null =0
     for i in self.readings:
+        if i.numeric == 1 :
+            if not i.get('reading_1'):
+                null=null+1
         if i.get('status') == "Rejected":
             count = count + 1
-        elif not i.get('value'):
-            self.status="Not Tested"
-    if (count == 0):
+    if count == 0 and null == 0:
         self.status = "Accepted"
-    else:
-        self.status = "Rejected"
+    elif null > 0:
+        print(null)
+        self.status = "Not Tested"
+    elif count > 0 and null < 0:
+        self.status ="Rejected"
+
 
 def before_submit(self,method):
     if self.status in ["Not Tested","Rejected"]:
-        frappe.throw("{0} status is ' Not Tested Or Rejected").format(self.name)
+        frappe.throw("status is ' Not Tested Or Rejected")
     else:
         pass
 
@@ -134,13 +140,20 @@ def get_item_specification_details(quality_inspection_template,item_code = None)
                         filters={'parenttype': 'Quality Inspection Template', 'parent': quality_inspection_template},
                         order_by="idx")
 
+def set_qc(self,method):
+    if self.reference_type== "Purchase Receipt":
+        doc=frappe.get_doc("Purchase Receipt",self.reference_name)
+        for i in doc.get('items'):
+            i.quality_inspection = self.name 
+        doc.save(ignore_permissions=True)
+
 def set_inps(self,method):
     if self.reference_type== "Work Order":
         doc=frappe.get_doc("Work Order",self.reference_name)
         for i in doc.get('quality_inspection_parameter'):
             i.inprocess_quality_inspection = self.name 
         doc.save(ignore_permissions=True)
-    
+
 
 @frappe.whitelist()
 def get_parameter_values(quality_inspection_template_name):

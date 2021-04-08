@@ -108,7 +108,7 @@ doc_events = {
         "before_save":"next_quality.next_quality.custom_quality_inspection.before_save",
         "validate":"next_quality.next_quality.custom_quality_inspection.set_inps",
         "before_submit":"next_quality.next_quality.custom_quality_inspection.before_submit",
-        "after_save":"next_quality.next_quality.custom_quality_inspection.set_qc"
+        "after_insert":"next_quality.next_quality.custom_quality_inspection.set_qc"
     },
     "Sales Order": {
         "before_submit": "next_quality.custom_methods.make_customer_quality_insp_submit_time",
@@ -127,7 +127,7 @@ doc_events = {
     },
     "Purchase Receipt":{
         # "before_submit":"next_quality.next_quality.custom_purchase_receipt.before_submit",
-        "before_save":"next_quality.next_quality.custom_purchase_receipt.before_save"
+        "validate":"next_quality.next_quality.custom_purchase_receipt.validate"
     }
 }
 
@@ -180,7 +180,8 @@ override_doctype_dashboards = {
     "Sales Order": "next_quality.sales_order_dashboard.get_data",
     "Work Order": "next_quality.next_quality.custom_work_order_dashboard.get_data",
     "Job Card":"next_quality.next_quality.custom_job_card_dashboard.get_data",
-#     "Purchase Receipt":"nextquality.next_quality.custom_purchase_receipt_dashboard.get_data"
+    "Purchase Receipt":"next_quality.next_quality.custom_purchase_receipt_dashboard.get_data"
+
 }
 
 # jenv = {

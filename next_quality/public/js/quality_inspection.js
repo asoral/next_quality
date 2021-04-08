@@ -39,6 +39,7 @@ frappe.ui.form.on("Quality Inspection", {
 			set_field_options("reference_type", ["Purchase Receipt", "Purchase Invoice","Delivery Note","Sales Invoice","Stock Entry"])
 		  }
 		},
+	
 		
 		
 });
