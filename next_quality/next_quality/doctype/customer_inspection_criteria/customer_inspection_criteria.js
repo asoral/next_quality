@@ -16,16 +16,18 @@ frappe.ui.form.on('Customer Inspection Criteria', {
                         row.value = data.value;
                         row.number_of_readings = data.number_of_readings;
                         row.numeric = data.numeric;
+                        row.alphanumeric=data.alphanumeric;
+                        row.selection=data.selection;
                         row.min_value = data.min_value;
                         row.max_value = data.max_value;
                         row.formula_based_criteria = data.formula_based_criteria;
                         row.acceptance_formula = data.acceptance_formula;
-                        row.lower_limit = data.lower_limit;
-                        row.upper_limit = data.upper_limit;
-                        row.target_value = data.target_value;
-                        row.uom = data.uom;
-                        row.target_alpha_value = data.target_alpha_value;
-                        row.testing_instructions = data.testing_instructions;
+                        // row.lower_limit = data.lower_limit;
+                        // row.upper_limit = data.upper_limit;
+                        // row.target_value = data.target_value;
+                        // row.uom = data.uom;
+                        // row.target_alpha_value = data.target_alpha_value;
+                        // row.testing_instructions = data.testing_instructions;
                     }
                     frm.refresh_field('item_quality_inspection_parameter');
 			    }
