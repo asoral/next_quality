@@ -128,7 +128,7 @@ def get_data(filters):
 		conditions = get_condition(filters)
 		doc = frappe.db.sql("""select p.name ,ip.item_code,ip.item_name,ip.description,ip.quality_inspection_template,p.total_qty as qty,
 									ip.batch_no,ip.item_serial_no,p.status as status1,ip.status From `tabPurchase Receipt` p,
-									`tabQuality Inspection` ip where ip.status != 'Completed' and ip.inspection_type = 'Incoming' {conditions} """.format(conditions=conditions),filters, as_dict=1)
+									`tabQuality Inspection` ip where ip.reference_name=p.name and ip.status != 'Completed' and ip.inspection_type = 'Incoming' {conditions} """.format(conditions=conditions),filters, as_dict=1)
 		return doc
 	# elif filters.tree_type == 'Delivery Note':
 	# 	conditions = get_condition(filters)
