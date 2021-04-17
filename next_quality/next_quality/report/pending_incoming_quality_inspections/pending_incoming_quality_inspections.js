@@ -28,18 +28,10 @@ frappe.query_reports["Pending Incoming Quality Inspections"] = {
 			reqd: 0
 		},
 		{
-			fieldname: "work_order",
-			label: __("Work Order"),
+			fieldname: "purchase_receipt",
+			label: __("Purchase Receipt"),
 			fieldtype: "Link",
-			options:"Work Order",
-			default: "",
-			reqd: 0
-		},
-		{
-			fieldname: "job_card",
-			label: __("Job Card"),
-			fieldtype: "Link",
-			options:"Job Card",
+			options:"Purchase Receipt",
 			default: "",
 			reqd: 0
 		},

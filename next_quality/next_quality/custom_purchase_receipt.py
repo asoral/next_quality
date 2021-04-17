@@ -6,6 +6,49 @@ from frappe import _
 from frappe.utils import flt, get_datetime, getdate, date_diff, cint, nowdate, get_link_to_form, time_diff_in_hours
 from frappe.model.document import Document
 from frappe.model.mapper import get_mapped_doc
+from datetime import datetime
+
+
+def on_submit(self,method):
+    for i in self.items:
+        batch_no = i.batch_no if self.docstatus == 1 else "" 
+        doc = frappe.get_doc("Quality Inspection",i.quality_inspection)
+        if doc.reference_type=="Purchase Receipt":
+            if i.batch_no and i.quality_inspection and i.batch_no!=doc.batch_no:
+                q="""
+					UPDATE `tabQuality Inspection`
+					SET batch_no ='{0}', modified = '{1}'
+					WHERE name = '{2}' and item_code = '{3}'
+				    """.format(i.get('batch_no'), i.modified , i.quality_inspection, i.item_code)
+                frappe.db.sql(q)
+                frappe.db.commit()
+                doc.reload()
+            if doc.batch_no and doc.readings:
+                batch = frappe.get_doc("Batch", doc.batch_no)
+                batch.last_test_date = datetime.now()
+                # batch.last_quality_inspection = doc.name
+                batch.quality_inspection = i.quality_inspection
+                frappe.db.sql("delete from `tabQuality Inspection Reading` where parent =%s", (batch.name))
+                for res in doc.readings:
+                    r = res.as_dict()
+                    r.pop("name")
+                    r.pop("owner")
+                    r.pop("creation")
+                    r.pop("modified")
+                    r.pop("modified_by")
+                    r.pop("parent")
+                    r.pop("parentfield")
+                    r.pop("parenttype")
+                    r.pop("idx")
+                    r.pop("docstatus")
+                    batch.append("test_result", r)
+                batch.flags.ignore_validate_update_after_submit = True
+                batch.save(ignore_permissions=True)
+                batch.clear_cache()
+                batch.reload()
+
+        else:
+            pass
 
 @frappe.whitelist()
 def create_quality_inspection(doc_name):
@@ -16,7 +59,6 @@ def create_quality_inspection(doc_name):
                                           "quality_inspection_template"])
 
 
-        print(itm_detail)
         for inspect_det in itm_detail:
 
             if doc.doctype == "Purchase Receipt" and inspect_det.inspection_required_before_purchase == 1:
@@ -37,7 +79,6 @@ def create_quality_inspection(doc_name):
                 doc_qi.quality_inspection_template = inspect_det.quality_inspection_template
                 if inspect_det.quality_inspection_template:
                     obj = frappe.get_doc("Quality Inspection Template",inspect_det.quality_inspection_template)
-                    print(obj)
                     for ro in obj.item_quality_inspection_parameter:
                         doc_qi.append("readings", {
                             'specification': ro.specification,
@@ -64,16 +105,5 @@ def create_quality_inspection(doc_name):
 
 
 
-def validate(self,method):
-    all_doc = frappe.db.get_all("Item", {"has_batch_no" : 1}, ['item_code'])
-    doc = []
-    for d in all_doc:
-        doc.append(d.get("item_code"))
-    for i in self.items:
-        print(i.item_code)
-        if i.item_code  not in doc:
-           pass
-        elif i.batch_no:
-            pass
-        else:
-           frappe.throw("batch no required")
+    
+    

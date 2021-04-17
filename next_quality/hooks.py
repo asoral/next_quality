@@ -43,6 +43,7 @@ doctype_js = {
     "Purchase Receipt": "public/js/purchase_receipt.js",
     "Job Card": "public/js/job_card.js",
     "Item": "public/js/item.js",
+    "Material Produce": "public/js/material_produce.js"
 }
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
@@ -118,6 +119,7 @@ doc_events = {
     },
     "Material Produce": {
         "before_submit":"next_quality.next_quality.custom_material_produce.before_submit",
+        # "on_submit":"next_quality.next_quality.custom_material_produce.on_submit"
     },
     "Job Card":{
         "before_save":"next_quality.next_quality.custom_job_card.make_inprocess_quality_inspection",
@@ -126,8 +128,11 @@ doc_events = {
         "onload":"next_quality.next_quality.custom_batch.set_status"
     },
     "Purchase Receipt":{
-        # "before_submit":"next_quality.next_quality.custom_purchase_receipt.before_submit",
+        "on_submit":"next_quality.next_quality.custom_purchase_receipt.on_submit",
         "validate":"next_quality.next_quality.custom_purchase_receipt.validate"
+    },
+    "Stock Entry":{
+        "on_submit": "next_quality.next_quality.custom_stock_entry.on_submit"
     }
 }
 
@@ -180,7 +185,8 @@ override_doctype_dashboards = {
     "Sales Order": "next_quality.sales_order_dashboard.get_data",
     "Work Order": "next_quality.next_quality.custom_work_order_dashboard.get_data",
     "Job Card":"next_quality.next_quality.custom_job_card_dashboard.get_data",
-    "Purchase Receipt":"next_quality.next_quality.custom_purchase_receipt_dashboard.get_data"
+    "Purchase Receipt":"next_quality.next_quality.custom_purchase_receipt_dashboard.get_data",
+    # "Material Produce":"next_quality.next_quality.custom_material_produce_dashboard.get_data"
 
 }
 

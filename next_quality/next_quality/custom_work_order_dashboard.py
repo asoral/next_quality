@@ -5,7 +5,7 @@ def get_data(data):
 	return {
 		'fieldname': 'work_order',
 		'non_standard_fieldnames': {
-		   'InProcess Quality Inspection': 'reference_name'
+		   'Quality Inspection': 'reference_name'
 	    },
 		'transactions': [
 			{
@@ -18,7 +18,7 @@ def get_data(data):
 			},
 			{
 				'label': _('Inspection'),
-				'items': ['InProcess Quality Inspection']
+				'items': ['Quality Inspection']
 			},
 		]
 	}

@@ -29,14 +29,13 @@ def make_inprocess_quality_inspection(self,method):
 						'numeric': ro.numeric,
 						'value': ro.value,
 						'selection':ro.selection,
-						'alphanumeric':ro.alphanumeric,
 						'values': ro.values,
 						'formula_based_criteria': ro.formula_based_criteria,
 						'acceptance_formula': ro.acceptance_formula,
 						'min_value': ro.min_value,
 						'max_value': ro.max_value
 					})
-				iqit_doc.insert(ignore_permissions=True)
+				iqit_doc.save(ignore_permissions=True)
 
 @frappe.whitelist()
 def get_inprocess_qite(bom,workstation):
@@ -69,7 +68,6 @@ def periodic_quality_inspect():
 				'numeric': row.numeric,
 				'value':row.value,
 				'values': row.values,
-				'alphanumeric':row.alphanumeric,
 				'selection':row.selection,
 				'formula_based_criteria': row.formula_based_criteria,
 				'acceptance_formula': row.acceptance_formula,

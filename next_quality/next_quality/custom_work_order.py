@@ -2,12 +2,12 @@ from __future__ import unicode_literals
 import frappe
 from frappe.model.mapper import get_mapped_doc
 
-
+@frappe.whitelist()
 def set_inq(name):
-	doc=frappe.db.get_all("InProcess Quality Inspection",{"reference_name":name},['name'])
+	doc=frappe.db.get_all("Quality Inspection",{"reference_name":name},['name'])
 	for i in doc:
 		lst=i.get('name')
-	return lst
+		return lst
 
 @frappe.whitelist()
 def create_inps_qlt_ins(doctype,name,production_item,template):
@@ -28,7 +28,6 @@ def create_inps_qlt_ins(doctype,name,production_item,template):
 				'specification': row.specification,
 				'numeric': row.numeric,
 				'value': row.value,
-				'alphanumeric':row.alphanumeric,
 				'values':row.values,
 				'formula_based_criteria': row.formula_based_criteria,
 				'acceptance_formula': row.acceptance_formula,
@@ -85,7 +84,6 @@ def periodic_quality_inspection():
 				'value': row.value,
 				'selection':row.selection,
 				'values': row.values,
-				'alphanumeric':row.alphanumeric,
 				'formula_based_criteria': row.formula_based_criteria,
 				'acceptance_formula': row.acceptance_formula,
 				'min_value': row.min_value,

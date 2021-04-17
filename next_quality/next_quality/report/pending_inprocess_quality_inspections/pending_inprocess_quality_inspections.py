@@ -55,21 +55,14 @@ def get_columns(filters):
 			},
 
 			{
-				"label": _("BOM"),
-				"fieldname": 'bom_no',
-				"fieldtype": "Link",
-				"options": "BOM",
-				"width": 100
-			},
-			{
-				"label": _("Batch Number Series"),
-				"fieldname": 'batch_no_series',
+				"label": _("Batch Number"),
+				"fieldname": 'batch_no',
 				"fieldtype": "Data",
 				"width": 100
 			},
 			{
-				"label": _("Serial Number Series"),
-				"fieldname": 'serial_no_series',
+				"label": _("Serial Number"),
+				"fieldname": 'serial_no',
 				"fieldtype": "Data",
 				"width": 100
 			},
@@ -113,7 +106,7 @@ def get_data(filters):
 							w.bom_no,ip.batch_no,ip.item_serial_no,w.status,ip.status as status1 From `tabWork Order` w , 
 							`tabQuality Inspection` ip 
 							Where ip.reference_name=w.name 
-							and w.status !='Completed' 
+							and ip.status !='Accepted' 
 							{conditions} """.format(conditions=conditions),filters, as_dict=1)
 		return doc
 	elif filters.tree_type == 'Job Card':
@@ -121,7 +114,7 @@ def get_data(filters):
 		doc = frappe.db.sql("""select j.name ,ip.item_code,ip.item_name,ip.description,ip.quality_inspection_template,j.for_quantity as qty,
 									j.bom_no,ip.batch_no,ip.item_serial_no,j.status,ip.status as status1 From `tabJob Card` j ,
 									`tabQuality Inspection` ip where ip.reference_name=j.name and
-									 j.status not in ('Submitted','Cancelled','Completed')
+									 ip.status !='Accepted'
 									 {conditions} """.format(conditions=conditions),filters, as_dict=1)
 		return doc
 	# elif filters.tree_type == 'Purchase Reciept':

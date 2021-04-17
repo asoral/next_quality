@@ -65,31 +65,47 @@ def before_save(self,method):
     null =0
     for i in self.readings:
         if i.numeric == 1 :
-            if not i.get('reading_1'):
+            print(i.reading_1)
+            if not i.get("reading_1"):
+                null=null+1
+        if i.numeric == 0 and i.formula_based_criteria ==0 and i.selection==0:
+            if not i.get("reading_value"):
                 null=null+1
         if i.get('status') == "Rejected":
             count = count + 1
     if count == 0 and null == 0:
         self.status = "Accepted"
     elif null > 0:
-        print(null)
         self.status = "Not Tested"
-    elif count > 0 and null < 0:
+    elif count > 0 and null > 0 :
         self.status ="Rejected"
 
 
 def before_submit(self,method):
-    if self.status in ["Not Tested","Rejected"]:
-        frappe.throw("status is ' Not Tested Or Rejected")
+    if self.status in ["Not Tested"]:
+        frappe.throw("Quality Inspection has not been completed. The status for document has to be Accepted or Rejected before you can post it.")
     else:
         pass
 
 
 def set_insepection_in_batch(qc,method):
-    if qc.item_code:
-        item_doc = frappe.get_doc("Item", qc.item_code)
-        if item_doc.has_batch_no and not qc.batch_no:
-            frappe.throw("Batch No. is required.")
+    if qc.inps_type=="On Finish" and qc.reference_type=="Work Order":
+        doc=frappe.get_doc("Material Produce",{"work_order":qc.reference_name})
+        doc.quality_inspection=qc.name
+        doc.save(ignore_permissions=True)
+        doc.reload()
+    else:
+        pass
+
+    if qc.batch_no:
+        if qc.reference_type== "Purchase Receipt":
+            doc=frappe.get_doc("Purchase Receipt",qc.reference_name)
+            for i in doc.get('items'):
+                i.batch_no = qc.batch_no
+            doc.save(ignore_permissions=True)
+            doc.reload()
+        else:
+            pass
 
     if qc.batch_no and qc.readings:
         batch = frappe.get_doc("Batch", qc.batch_no)
@@ -112,8 +128,9 @@ def set_insepection_in_batch(qc,method):
             batch.append("test_result", r)
         batch.flags.ignore_validate_update_after_submit = True
         batch.save(ignore_permissions=True)
-        batch.clear_cache()	
-     
+        batch.clear_cache()
+        batch.reload()	
+    
 
 def set_batch_no(self):
     doc = frappe.get_doc("Stock Entry", self.item_code)
@@ -135,7 +152,7 @@ def get_item_specification_details(quality_inspection_template,item_code = None)
     return frappe.get_all('Item Quality Inspection Parameter',
                         fields=[
                                 "specification", "value", "acceptance_formula",
-                               "values","selection","numeric","alphanumeric","formula_based_criteria","min_value", "max_value"
+                               "values","selection","numeric","formula_based_criteria","min_value", "max_value"
                                 ],
                         filters={'parenttype': 'Quality Inspection Template', 'parent': quality_inspection_template},
                         order_by="idx")
@@ -144,31 +161,34 @@ def set_qc(self,method):
     if self.reference_type== "Purchase Receipt":
         doc=frappe.get_doc("Purchase Receipt",self.reference_name)
         for i in doc.get('items'):
-            i.quality_inspection = self.name 
+            i.quality_inspection = self.name
         doc.save(ignore_permissions=True)
+        doc.reload()
 
 def set_inps(self,method):
     if self.reference_type== "Work Order":
         doc=frappe.get_doc("Work Order",self.reference_name)
         for i in doc.get('quality_inspection_parameter'):
-            i.inprocess_quality_inspection = self.name 
+            i.inprocess_quality_inspection = self.name
+            i.reload() 
         doc.save(ignore_permissions=True)
+        doc.reload()
 
 
-@frappe.whitelist()
-def get_parameter_values(quality_inspection_template_name):
-    doc = frappe.get_doc("Quality Inspection Template",quality_inspection_template_name)
-    c=[]
-    for i in doc.get('item_quality_inspection_parameter'):
-        if not i.values:
-            pass
-        else:
-            con_to_json = json.loads(i.get('values'))
-            print(con_to_json)
-            for a in con_to_json:
-                b=a.get("value")
-                c.append(b)
-            return c
+# @frappe.whitelist()
+# def get_parameter_values(quality_inspection_template_name):
+#     doc = frappe.get_doc("Quality Inspection Template",quality_inspection_template_name)
+#     c=[]
+#     for i in doc.get('item_quality_inspection_parameter'):
+#         if not i.values:
+#             pass
+#         else:
+#             con_to_json = json.loads(i.get('values'))
+#             print(con_to_json)
+#             for a in con_to_json:
+#                 b=a.get("value")
+#                 c.append(b)
+#             return c
 
 
 
