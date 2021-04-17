@@ -1,12 +1,17 @@
 {
  "category": "Modules",
- "charts": [],
+ "charts": [
+  {
+   "chart_name": "Quality Inspection Analysis"
+  }
+ ],
  "creation": "2021-04-17 14:36:26.869636",
  "developer_mode_only": 0,
  "disable_user_customization": 0,
  "docstatus": 0,
  "doctype": "Workspace",
- "extends_another_page": 0,
+ "extends": "Quality",
+ "extends_another_page": 1,
  "hide_custom": 0,
  "icon": "quality",
  "idx": 0,
@@ -68,7 +73,7 @@
    "type": "Link"
   }
  ],
- "modified": "2021-04-17 15:17:48.344741",
+ "modified": "2021-04-17 17:56:18.431127",
  "modified_by": "Administrator",
  "module": "Next Quality",
  "name": "Quality I",
@@ -81,6 +86,18 @@
    "label": "Quality Inspection",
    "link_to": "Quality Inspection",
    "type": "DocType"
+  },
+  {
+   "doc_view": "",
+   "label": "Pending Inprocess Quality Inspection",
+   "link_to": "Pending Inprocess Quality Inspections",
+   "type": "Report"
+  },
+  {
+   "doc_view": "",
+   "label": "Pending Incoming Quality Inspection",
+   "link_to": "Pending Incoming Quality Inspections",
+   "type": "Report"
   }
  ]
 }

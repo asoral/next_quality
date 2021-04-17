@@ -40,6 +40,7 @@ def create_inps(work_order):
             iqit_doc.reference_type = doc.doctype
             iqit_doc.reference_name = doc.name
             iqit_doc.item_code = doc.production_item
+            iqit_doc.bom_no = doc.bom_no
             iqit_doc.sample_size = "1"
             iqit_doc.inspected_by = frappe.session.user
             iqit_doc.quality_inspection_template = row.inprocess_quality_inspection_template

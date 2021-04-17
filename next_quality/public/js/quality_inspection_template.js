@@ -8,7 +8,28 @@ frappe.ui.form.on("Quality Inspection Template", {
 				]
 			}
 		});
-	}
+	},
+	refresh:function(frm){
+        frm.call({
+			method:"next_quality.next_quality.custom_quality_inspection_template.get_list",
+			args:{
+				"bom":bom,
+			},
+			callback: function(r) {
+				if (r.message) {
+					frm.set_query("item_bom", function() {
+						return {
+							filters: [
+								["name", "in",r.message]
+							]
+						}
+					});
+				}
+			}
+        });
+
+	},   
+	
 
 });
 

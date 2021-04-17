@@ -10,10 +10,14 @@ def before_insert(self,method):
 	    msg="There is already a Quality Inspection created for {0} with same Inspection Type and Applicability. Please edit that inspection or delete and recreate one.".format(self.bom)
 	    frappe.throw(msg)
 
-# def get_list(self,method):
-# 	list=frappe.db.get_all("Quality Inspection",{"inps_type":"On Finish","bom_no":self.bom})
-
-
+@frappe.whitelist()
+def get_list(bom):
+	list=[]
+	list=frappe.db.get_all("Quality Inspection",{"inps_type":"On Finish","bom_no":bom},['bom_no'])
+	for i in list:
+		list.append(i.get('bom_no'))
+		print(list)
+	return list
 
 
 def get_template_details(template):
