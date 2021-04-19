@@ -129,7 +129,7 @@ doc_events = {
     },
     "Purchase Receipt":{
         "on_submit":"next_quality.next_quality.custom_purchase_receipt.on_submit",
-        "validate":"next_quality.next_quality.custom_purchase_receipt.validate"
+       # "validate":"next_quality.next_quality.custom_purchase_receipt.validate"
     },
     "Stock Entry":{
         "on_submit": "next_quality.next_quality.custom_stock_entry.on_submit"
