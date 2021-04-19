@@ -108,3 +108,9 @@ def create_quality_inspection(doc_name):
 
     
     
+
+
+
+
+    
+    
