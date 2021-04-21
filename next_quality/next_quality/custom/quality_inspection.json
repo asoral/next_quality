@@ -59,7 +59,8 @@
    "translatable": 1,
    "unique": 0,
    "width": null
-  },
+  }
+],
  "custom_perms": [],
  "doctype": "Quality Inspection",
  "property_setters": [

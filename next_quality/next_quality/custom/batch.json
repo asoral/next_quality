@@ -239,7 +239,8 @@
    "translatable": 0,
    "unique": 0,
    "width": null
-  },
+  }
+],
  "custom_perms": [],
  "doctype": "Batch",
  "property_setters": [],
