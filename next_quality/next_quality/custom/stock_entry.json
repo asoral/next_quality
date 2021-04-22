@@ -61,5 +61,7 @@
    "width": null
   }
  ],
+ "doctype": "Stock Entry",
+ "property_setters": [],
  "sync_on_migrate": 1
 }

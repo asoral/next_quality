@@ -61,5 +61,7 @@
    "width": null
   }
  ],
+ "property_setters": [],
+ "doctype": "Purchase Receipt Item",
  "sync_on_migrate": 1
 }
