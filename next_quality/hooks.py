@@ -11,6 +11,12 @@ app_color = "grey"
 app_email = "dexciss@gmail.com"
 app_license = "MIT"
 
+fixtures = [
+    # {"dt":"Custom Field", "filters": [["fieldname", "in", ("release_fence", "search_mode", "priority", "size_minimum", "size_maximum", "customer_pricing_rule_id", "planning_parameters", "column_break_16", "alternate_selection", "column_break_25", "type", "post_op_time", "postop_time", "size_minimum", "size_multiple", "size_maximum", "planning_parameters", "release_fence", "duration", "duration_per_unit", "column_break_66", "search_mode", "priority", "alternate_selection", "type", "c", "location", "available", "type", "column_break_5", "minimum_calendar", "min_interval", "location", "column_break_7", "priority", "fence", "effective_start", "effective_end", "size_minimum", "size_multiple", "size_maximum", "section_break_2", "resource", "resource_quantity", "lead_time", "type", "release_plan", "release_plan_wo", "frepple_po_ref", "column_break_2", "calendar", "release_plan_wo", "frepple_mo_ref", "section_break_15", "warehouse", "type", "constrained", "column_break_21", "efficiency", "maximum_calendar", "available", "maximum", "max_early", "efficiency_calendar")]]}, 
+    
+    {"dt":"Property Setter", "filters": [["doc_type", "in", ("Item Quality Inspection Parameter", "Job Card", "Quality Inspection Reading", "Quality Inspection", "Work Order")]]}
+    ]
+
 
 # include js, css files in header of desk.html
 # app_include_css = "/assets/nextquality/css/nextquality.css"
@@ -95,8 +101,7 @@ doctype_js = {
 # Override standard doctype classes
 
 override_doctype_class = {
-    "Pick List": "next_quality.custom_picklist.CustomPickList",
-    "Quality Inspection":"next_quality.next_quality.custom_quality_inspection.CustomQualityInspection",
+    "Quality Inspection":"next_quality.next_quality.custom_quality_inspection.CustomQualityInspection"
 }
 
 # Document Events
