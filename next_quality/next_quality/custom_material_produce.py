@@ -12,7 +12,7 @@ def before_submit(self,method):
     doc = frappe.get_doc("Work Order",self.work_order)
     if self.quality_inspection:
         doc = frappe.get_doc("Quality Inspection",self.quality_inspection)
-        if doc.docstatus==1:
+        if doc.docstatus==0:
             frappe.throw("Please complete quality Inspection created on Work Order {0}".format(self.work_order))
         else:
             pass
