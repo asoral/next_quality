@@ -10,22 +10,20 @@ import frappe
 
 def before_submit(self,method):
     doc = frappe.get_doc("Work Order",self.work_order)
-    if self.quality_inspection_created==1:
-        doc = frappe.get_doc("Quality Inspection",{"reference_name":self.work_order})
-        if doc.inps_type=="On Finish" and doc.reference_name==self.work_order and doc.status == "Not Tested" and doc.docstatus==0:
+    if self.quality_inspection:
+        doc = frappe.get_doc("Quality Inspection",self.quality_inspection)
+        if doc.docstatus==1:
             frappe.throw("Please complete quality Inspection created on Work Order {0}".format(self.work_order))
         else:
             pass
-    elif self.quality_inspection_created==0:
+    else:
         doc = frappe.get_doc("Work Order",self.work_order)
         for row in doc.quality_inspection_parameter:
             if row.inspection_type=="On Finish":
                 frappe.throw("Quality Inspection is applied for FG on BOM, please create a quality inspection before submitting the production details.")
             else:
                 pass
-    else:
-        pass
-
+    
 
 @frappe.whitelist()
 def create_inps(work_order):
