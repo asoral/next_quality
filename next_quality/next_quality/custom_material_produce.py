@@ -27,8 +27,6 @@ def before_submit(self,method):
         pass
 
 
-        
-
 @frappe.whitelist()
 def create_inps(work_order):
     doc = frappe.get_doc("Work Order",work_order)
@@ -60,3 +58,47 @@ def create_inps(work_order):
                     })
             iqit_doc.insert(ignore_permissions=True)
     return True
+
+
+@frappe.whitelist()
+def copy_inps(work_order,bom,item_name):
+    doc = frappe.get_doc("Work Order",work_order)
+    lst = frappe.get_doc("Quality Inspection Template",{"bom":bom})
+    l=frappe.db.get_value("Quality Inspection Template",{"bom":lst.select_intermediate_bom_to_copy_results_from},['name'],as_dict=True)
+    bom=frappe.get_doc("bom",{"name":lst.select_intermediate_bom_to_copy_results_from})
+    list=[]
+    for i in bom.items:
+        if lst.inspection_type=="On Finish" and lst.reference_type=="Work Order":
+            iqit_doc = frappe.new_doc("Quality Inspection")
+            iqit_doc.inspection_type = "In Process"
+            iqit_doc.reference_type = doc.doctype
+            iqit_doc.reference_name = doc.name
+            iqit_doc.item_code = doc.production_item
+            iqit_doc.bom_no = doc.bom_no
+            iqit_doc.sample_size = "1"
+            iqit_doc.inspected_by = frappe.session.user
+            # iqit_doc.quality_inspection_template = l.get('name')
+            iqit_doc.inps_type=lst.inspection_type
+            obj=frappe.get_doc("Quality Inspection",{"bom_no":lst.select_intermediate_bom_to_copy_results_from})
+            print(obj.status)
+            if obj.status=="Accepted" and obj.inps_type=="On Finish" and obj.readings:
+                for ro in obj.readings:
+                    r = ro.as_dict()
+                    r.pop("name")
+                    r.pop("owner")
+                    r.pop("creation")
+                    r.pop("modified")
+                    r.pop("modified_by")
+                    r.pop("parent")
+                    r.pop("parentfield")
+                    r.pop("parenttype")
+                    r.pop("idx")
+                    r.pop("docstatus")
+                    iqit_doc.append("readings", r)
+                iqit_doc.flags.ignore_validate_update_after_submit = True
+                iqit_doc.save(ignore_permissions=True)
+                iqit_doc.clear_cache()
+                iqit_doc.reload()
+        iqit_doc.save(ignore_permissions=True)
+        iqit_doc.submit()
+        return True

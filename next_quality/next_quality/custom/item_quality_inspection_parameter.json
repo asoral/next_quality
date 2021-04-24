@@ -74,7 +74,7 @@
    "creation": "2021-04-04 12:25:14.810825",
    "default": null,
    "depends_on": "eval:(doc.selection)",
-   "description": null,
+   "description": "e.g.Follow description for Syntax\n\n1).[\n    {\n    \"value\":\"blue\",\n    \"is_correct\":1\n    },\n    {\n    \"value\":\"red\",\n    \"is_correct\":0\n    }\n    \n]\n2).\n[\n    {\n    \"value\":\"High\",\n    \"is_correct\":1\n    },\n    {\n    \"value\":\"low\",\n    \"is_correct\":0\n    }\n    \n]",
    "docstatus": 0,
    "dt": "Item Quality Inspection Parameter",
    "fetch_from": null,
@@ -208,6 +208,6 @@
    "row_name": null,
    "value": "eval:(!doc.formula_based_criteria && !doc.numeric && !doc.selection)"
   }
-],
+ ],
  "sync_on_migrate": 1
 }

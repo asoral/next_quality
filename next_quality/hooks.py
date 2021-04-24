@@ -115,7 +115,9 @@ doc_events = {
         "before_submit": "next_quality.custom_methods.make_customer_quality_insp_submit_time",
     },
     "Quality Inspection Template": {
-       "before_insert":"next_quality.next_quality.custom_quality_inspection_template.before_insert",
+        "before_insert":"next_quality.next_quality.custom_quality_inspection_template.before_insert",
+        # "before_save":"next_quality.next_quality.custom_quality_inspection_template.before_save",
+
     },
     "Material Produce": {
         "before_submit":"next_quality.next_quality.custom_material_produce.before_submit",
@@ -129,7 +131,7 @@ doc_events = {
     },
     "Purchase Receipt":{
         "on_submit":"next_quality.next_quality.custom_purchase_receipt.on_submit",
-       # "validate":"next_quality.next_quality.custom_purchase_receipt.validate"
+        # "validate":"next_quality.next_quality.custom_purchase_receipt.validate"
     },
     "Stock Entry":{
         "on_submit": "next_quality.next_quality.custom_stock_entry.on_submit"

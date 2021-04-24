@@ -48,8 +48,8 @@ def on_submit(self,method):
                     batch.clear_cache()
                     batch.reload()
 
-            else:
-                pass
+                else:
+                    pass
 
 @frappe.whitelist()
 def create_quality_inspection(doc_name):

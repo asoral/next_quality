@@ -75,14 +75,16 @@ def before_save(self,method):
             count = count + 1
     if count == 0 and null == 0:
         self.status = "Accepted"
+        self.not_tested = 0
     elif null > 0:
-        self.status = "Not Tested"
+        self.not_tested = 1
     elif count > 0 and null > 0 :
         self.status ="Rejected"
+        self.not_tested = 0
 
 
 def before_submit(self,method):
-    if self.status in ["Not Tested"]:
+    if self.not_tested == 1:
         frappe.throw("Quality Inspection has not been completed. The status for document has to be Accepted or Rejected before you can post it.")
     else:
         pass
@@ -173,22 +175,34 @@ def set_inps(self,method):
             i.reload() 
         doc.save(ignore_permissions=True)
         doc.reload()
-
-
-# @frappe.whitelist()
-# def get_parameter_values(quality_inspection_template_name):
-#     doc = frappe.get_doc("Quality Inspection Template",quality_inspection_template_name)
-#     c=[]
-#     for i in doc.get('item_quality_inspection_parameter'):
-#         if not i.values:
-#             pass
-#         else:
-#             con_to_json = json.loads(i.get('values'))
-#             print(con_to_json)
-#             for a in con_to_json:
-#                 b=a.get("value")
-#                 c.append(b)
-#             return c
+    for i in self.readings:
+        if i.parameter_value:
+            doc = frappe.get_doc("Quality Inspection Template",self.quality_inspection_template)
+            for j in doc.item_quality_inspection_parameter:
+                if j.selection==1:
+                    con_to_json = json.loads(j.get('values'))
+                    for a in con_to_json:
+                        if a.get('value') == i.parameter_value and a.get('is_correct')==1:
+                            i.status="Accepted"
+                            break
+                        elif a.get('value') == i.parameter_value and a.get('is_correct')==0:
+                            i.status="Rejected"
+                            break
+                           
+@frappe.whitelist()
+def get_parameter_values(quality_inspection_template_name):
+    doc = frappe.get_doc("Quality Inspection Template",quality_inspection_template_name)
+    c=[]
+    for i in doc.get('item_quality_inspection_parameter'):
+        if not i.values:
+            pass
+        else:
+            con_to_json = json.loads(i.values)
+            print(con_to_json)
+            for a in con_to_json:
+                b=a.get("value")
+                c.append(b)
+            return c
 
 
 

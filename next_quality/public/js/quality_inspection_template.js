@@ -9,15 +9,15 @@ frappe.ui.form.on("Quality Inspection Template", {
 			}
 		});
 	},
-	refresh:function(frm){
+	setup:function(frm){
         frm.call({
 			method:"next_quality.next_quality.custom_quality_inspection_template.get_list",
 			args:{
-				"bom":bom,
+					"select_intermediate_bom_to_copy_results_from":frm.doc.select_intermediate_bom_to_copy_results_from
 			},
 			callback: function(r) {
 				if (r.message) {
-					frm.set_query("item_bom", function() {
+					frm.set_query("select_intermediate_bom_to_copy_results_from", function() {
 						return {
 							filters: [
 								["name", "in",r.message]
