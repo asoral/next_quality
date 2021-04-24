@@ -23,7 +23,7 @@
   "doctype": "Property Setter",
   "doctype_or_field": "DocField",
   "field_name": "naming_series",
-  "modified": "2021-04-19 03:43:42.807407",
+  "modified": "2021-03-01 15:44:29.369851",
   "name": "Work Order-naming_series-options",
   "parent": null,
   "parentfield": null,
@@ -31,7 +31,7 @@
   "property": "options",
   "property_type": "Text",
   "row_name": null,
-  "value": "WO.abbr..YY..MM.-.####"
+  "value": "MFG-WO-.YYYY.-"
  },
  {
   "default_value": null,
@@ -613,23 +613,6 @@
  },
  {
   "default_value": null,
-  "doc_type": "Quality Inspection",
-  "docstatus": 0,
-  "doctype": "Property Setter",
-  "doctype_or_field": "DocField",
-  "field_name": "batch_no",
-  "modified": "2021-04-15 15:45:48.633959",
-  "name": "Quality Inspection-batch_no-depends_on",
-  "parent": null,
-  "parentfield": null,
-  "parenttype": null,
-  "property": "depends_on",
-  "property_type": "Data",
-  "row_name": null,
-  "value": "eval:!doc.__islocal;"
- },
- {
-  "default_value": null,
   "doc_type": "Quality Inspection Reading",
   "docstatus": 0,
   "doctype": "Property Setter",
@@ -664,19 +647,19 @@
  },
  {
   "default_value": null,
-  "doc_type": "Work Order",
+  "doc_type": "Quality Inspection",
   "docstatus": 0,
   "doctype": "Property Setter",
   "doctype_or_field": "DocField",
-  "field_name": "naming_series",
-  "modified": "2021-04-19 03:43:42.858346",
-  "name": "Work Order-naming_series-default",
+  "field_name": "batch_no",
+  "modified": "2021-04-23 16:59:46.416691",
+  "name": "Quality Inspection-batch_no-depends_on",
   "parent": null,
   "parentfield": null,
   "parenttype": null,
-  "property": "default",
-  "property_type": "Text",
+  "property": "depends_on",
+  "property_type": "Data",
   "row_name": null,
-  "value": "WO.abbr..YY..MM.-.####"
+  "value": ""
  }
 ]
