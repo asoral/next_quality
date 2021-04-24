@@ -4,7 +4,7 @@ from datetime import datetime
 
 
 def on_submit(self,method):
-    if self.material_produce:
+    if self.material_produce and self.quality_inspection_created==1:
         lst = frappe.get_doc("Material Produce",self.material_produce)
         for i in self.items:
             batch_no = i.batch_no if self.docstatus == 1 else "" 
