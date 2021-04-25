@@ -70,7 +70,7 @@ frappe.ui.form.on("Quality Inspection Reading",{
         frm.call({
 		    method: "next_quality.next_quality.custom_quality_inspection.get_parameter_values",
 		    args: {
-				"quality_inspection_template_name":frm.doc.quality_inspection_template,
+				"quality_inspection_template":frm.doc.quality_inspection_template,
 			},
 			callback: function(r){
 				console.log(r.message)

@@ -75,27 +75,31 @@ class CustomQualityInspection(QualityInspection):
 				    """.format(parent_doc=self.reference_type, child_doc=doctype, conditions=conditions),
 					args)
   
-def before_save(self,method):  
+def before_save(self,method):
     count = 0
     null =0
     for i in self.readings:
         if i.numeric == 1 :
-            print(i.reading_1)
             if not i.get("reading_1"):
                 null=null+1
         if i.numeric == 0 and i.formula_based_criteria ==0 and i.selection==0:
             if not i.get("reading_value"):
                 null=null+1
-        if i.get('status') == "Rejected":
+        if i.selection == 1:
+            if not i.get("parameter_value"):
+               null=null+1
+        if i.status == "Rejected":
             count = count + 1
-    if count == 0 and null == 0:
+    if count == 0 and null == 0 :
         self.status = "Accepted"
         self.not_tested = 0
-    elif null > 0:
-        self.not_tested = 1
-    elif count > 0 and null > 0 :
+    if count > 0 :
+        print(count)
         self.status ="Rejected"
         self.not_tested = 0
+    if null > 0:
+        self.not_tested = 1
+
 
 
 def before_submit(self,method):
@@ -196,17 +200,19 @@ def set_inps(self,method):
             for j in doc.item_quality_inspection_parameter:
                 if j.selection==1:
                     con_to_json = json.loads(j.get('values'))
-                    for a in con_to_json:
-                        if a.get('value') == i.parameter_value and a.get('is_correct')==1:
-                            i.status="Accepted"
-                            break
-                        elif a.get('value') == i.parameter_value and a.get('is_correct')==0:
-                            i.status="Rejected"
-                            break
+                    if i.selection==1:
+                        for a in con_to_json:
+                            if a.get('value') == i.parameter_value and a.get('is_correct')==1:
+                                i.status="Accepted"
+                                break
+                            elif a.get('value') == i.parameter_value and a.get('is_correct')==0:
+                                i.status="Rejected"
+                                break
+    
                            
 @frappe.whitelist()
-def get_parameter_values(quality_inspection_template_name):
-    doc = frappe.get_doc("Quality Inspection Template",quality_inspection_template_name)
+def get_parameter_values(quality_inspection_template):
+    doc = frappe.get_doc("Quality Inspection Template",quality_inspection_template)
     c=[]
     for i in doc.get('item_quality_inspection_parameter'):
         if not i.values:
