@@ -133,6 +133,8 @@ def set_insepection_in_batch(qc,method):
         batch.last_test_date = datetime.now()
         batch.last_quality_inspection = qc.name
         batch.quality_inspection = qc.name
+        batch.reference_doctype=qc.reference_type
+        batch.reference_name=qc.reference_name
         frappe.db.sql("delete from `tabQuality Inspection Reading` where parent =%s", (batch.name))
         for res in qc.readings:
             r = res.as_dict()
