@@ -6,17 +6,19 @@ from datetime import datetime
 def on_submit(self,method):
     if self.material_produce:
         lst = frappe.get_doc("Material Produce",self.material_produce)
-        for i in self.items:
-            batch_no = i.batch_no if self.docstatus == 1 else ""
+        doc=frappe.get_doc("Work Order",self.work_order)
+        a=doc.production_item
+        for a in self.items:
+            batch_no = a.batch_no if self.docstatus == 1 else ""
             if lst.quality_inspection:
                 doc = frappe.get_doc("Quality Inspection",lst.quality_inspection)
                 if doc.reference_type=="Work Order"and doc.inps_type=="On Finish":
-                    if i.batch_no and lst.quality_inspection and i.batch_no!=doc.batch_no:
+                    if a.batch_no and lst.quality_inspection and a.batch_no!=doc.batch_no:
                         q="""
                         UPDATE `tabQuality Inspection`
                         SET batch_no ='{0}', modified = '{1}'
                         WHERE name = '{2}' and item_code = '{3}'
-                        """.format(i.get('batch_no'), i.modified , lst.quality_inspection, i.item_code)
+                        """.format(a.batch_no, a.modified , lst.quality_inspection, doc.item_code)
                         frappe.db.sql(q)
                         frappe.db.commit()
                         doc.reload()
@@ -46,5 +48,8 @@ def on_submit(self,method):
 
                 else:
                     pass
-        else:
-            pass
+            else:
+                pass
+           
+    else:
+        pass

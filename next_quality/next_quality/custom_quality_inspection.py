@@ -150,7 +150,7 @@ def set_insepection_in_batch(qc,method):
             r.pop("docstatus")
             batch.append("test_result", r)
         batch.flags.ignore_validate_update_after_submit = True
-        batch.save(ignore_permissions=True)
+        batch.save(ignore_permissions= True)
         batch.clear_cache()
         batch.reload()	
     

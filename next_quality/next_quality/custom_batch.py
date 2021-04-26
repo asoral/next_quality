@@ -11,3 +11,10 @@ def set_status(self,method):
         self.status = "Accepted"
     else:
         self.status = "Rejected"
+    if self.status=="Rejected":
+        self.disabled=1
+
+        
+# # def after_save(self,method)
+# #     if self.status=="Rejected":
+# #         self.disable=1
