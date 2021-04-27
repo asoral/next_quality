@@ -26,8 +26,9 @@ refresh:function(frm){
                         }
                     });
                     d.hide();
-                    frm.set_value("disabled", 1);
+                    frm.set_value("disabled", 0);
 				    frm.refresh_field("disabled");
+                    frm.save();
 
                 } 
         });
@@ -62,7 +63,7 @@ refresh:function(frm){
                     d.hide();
                     frm.set_value("disabled", 1);
 				    frm.refresh_field("disabled");
-
+                    frm.save();
                 } 
         });
         d.show();

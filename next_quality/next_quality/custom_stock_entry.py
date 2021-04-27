@@ -6,8 +6,8 @@ from datetime import datetime
 def on_submit(self,method):
     if self.material_produce:
         lst = frappe.get_doc("Material Produce",self.material_produce)
-        doc=frappe.get_doc("Work Order",self.work_order)
-        a=doc.production_item
+        l=frappe.get_doc("Work Order",self.work_order)
+        a=l.production_item
         for a in self.items:
             batch_no = a.batch_no if self.docstatus == 1 else ""
             if lst.quality_inspection:
@@ -18,7 +18,7 @@ def on_submit(self,method):
                         UPDATE `tabQuality Inspection`
                         SET batch_no ='{0}', modified = '{1}'
                         WHERE name = '{2}' and item_code = '{3}'
-                        """.format(a.batch_no, a.modified , lst.quality_inspection, doc.item_code)
+                        """.format(a.batch_no, a.modified , lst.quality_inspection, l.production_item)
                         frappe.db.sql(q)
                         frappe.db.commit()
                         doc.reload()

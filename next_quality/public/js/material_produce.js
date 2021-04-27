@@ -19,7 +19,7 @@ frappe.ui.form.on("Material Produce",{
             	});
 				frm.set_value("quality_inspection_created", 1);
 				frm.refresh_field("quality_inspection_created");
-				frm.doc.save();
+				frm.save();
 		}, __("Create"));  }
 		}
 		else if(d.copy_quality_inspection==1){
@@ -40,7 +40,7 @@ frappe.ui.form.on("Material Produce",{
 				});
 				frm.set_value("quality_inspection_created", 1);
 				frm.refresh_field("quality_inspection_created");
-				frm.doc.save();
+				frm.save();
 	}, __("Create"));  }
 
 	}
