@@ -1306,7 +1306,7 @@
   "name": "Batch-status",
   "no_copy": 0,
   "non_negative": 0,
-  "options": "Not Tested\nAccepted\nRejected",
+  "options": "Accepted\nRejected",
   "parent": null,
   "parentfield": null,
   "parenttype": null,

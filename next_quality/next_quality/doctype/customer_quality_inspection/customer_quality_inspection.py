@@ -7,6 +7,7 @@ import frappe
 from frappe.model.document import Document
 
 class CustomerQualityInspection(Document):
+	@frappe.whitelist()
 	def get_template_line(self):
 		if self.quality_inspection_template:
 			qit = frappe.get_doc("Quality Inspection Template",self.quality_inspection_template)

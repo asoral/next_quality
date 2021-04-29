@@ -21,24 +21,24 @@ frappe.ui.form.on("Delivery Note", {
         }
     }
 });
-frappe.ui.form.on("Delivery Note Item", {
-    batch_no: function(frm){
-        set_batch_filter(frm)
-    }
-});
+// frappe.ui.form.on("Delivery Note Item", {
+//     batch_no: function(frm){
+//         set_batch_filter(frm)
+//     }
+// });
 
-function set_batch_filter(frm){
-    frm.set_query('batch_no', 'items', (frm, cdt, cdn) => {
-        const row = locals[cdt][cdn];
-        return {
-            query: 'next_quality.custom_methods.get_batch_nos',
-            filters: {
-                item_code: row.item_code,
-                warehouse: row.warehouse,
-                posting_date:row.posting_date,
-                sales_order_item:row.so_detail
-            },
-        };
-    });
+// function set_batch_filter(frm){
+//     frm.set_query('batch_no', 'items', (frm, cdt, cdn) => {
+//         const row = locals[cdt][cdn];
+//         return {
+//             query: 'next_quality.custom_methods.get_batch_nos',
+//             filters: {
+//                 item_code: row.item_code,
+//                 warehouse: row.warehouse,
+//                 posting_date:row.posting_date,
+//                 sales_order_item:row.so_detail
+//             },
+//         };
+//     });
 
-}
+// }

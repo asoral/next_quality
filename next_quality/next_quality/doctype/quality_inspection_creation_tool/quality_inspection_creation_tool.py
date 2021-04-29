@@ -8,7 +8,7 @@ from frappe.model.document import Document
 from frappe import _
 
 class QualityInspectionCreationTool(Document):
-
+	@frappe.whitelist()
 	def make_quality_inspection(self):
 		for row in self.inspections_to_be_created:
 			itm = frappe.get_doc("Item",row.item)
@@ -42,7 +42,7 @@ class QualityInspectionCreationTool(Document):
 			frappe.db.sql(q)
 			frappe.db.commit()
 		return True
-	
+	@frappe.whitelist()
 	def get_item_from_doc(self, doc):
 		item_list = []
 		get_item = frappe.get_all(doc, filters={"docStatus":"0","quality_inspection_created":"0" }, fields=["item_code","description", "serial_no","batch_no","parent"])

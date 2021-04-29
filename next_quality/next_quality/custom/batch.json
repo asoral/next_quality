@@ -161,7 +161,7 @@
    "name": "Batch-status",
    "no_copy": 0,
    "non_negative": 0,
-   "options": "\nAccepted\nRejected",
+   "options": "Accepted\nRejected",
    "owner": "Administrator",
    "parent": null,
    "parentfield": null,

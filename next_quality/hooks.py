@@ -145,6 +145,9 @@ doc_events = {
     },
     "Stock Entry":{
         "on_submit": "next_quality.next_quality.custom_stock_entry.on_submit"
+    },
+    "Delivery Note":{
+        "before_submit": "next_quality.next_quality.custom_delivery_note.get_list"
     }
 }
 

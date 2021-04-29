@@ -16,7 +16,7 @@ frappe.ui.form.on('Customer Inspection Criteria', {
                         row.value = data.value;
                         row.number_of_readings = data.number_of_readings;
                         row.numeric = data.numeric;
-                        row.alphanumeric=data.alphanumeric;
+                        // row.alphanumeric=data.alphanumeric;
                         row.selection=data.selection;
                         row.min_value = data.min_value;
                         row.max_value = data.max_value;

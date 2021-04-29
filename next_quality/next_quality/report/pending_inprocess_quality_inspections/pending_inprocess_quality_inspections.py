@@ -17,12 +17,13 @@ def get_columns(filters):
 			{
 				"label": _("Name"),
 				"fieldname": "name",
-				"fieldtype": "Data",
+				"fieldtype": "Link",
+				"options": "Work Order",
 				"width": 140
 			},
 			{
 				"label": _("Item Code"),
-				"fieldname": 'item_code',
+				"fieldname": 'production_item',
 				"fieldtype": "Link",
 				"options": "Item",
 				"width": 100
@@ -42,7 +43,7 @@ def get_columns(filters):
 			},
 			{
 				"label": _("Quality Inspection Template"),
-				"fieldname": 'quality_inspection_template',
+				"fieldname": 'inprocess_quality_inspection_template',
 				"fieldtype": "Link",
 				"options":"Quality Inspection Template",
 				"width": 100
@@ -53,7 +54,13 @@ def get_columns(filters):
 				"fieldtype": "Float",
 				"width": 100
 			},
-
+			{
+				"label": _("BOM"),
+				"fieldname": 'bom_no',
+				"fieldtype": "Link",
+				"options":"BOM",
+				"width": 100
+			},
 			{
 				"label": _("Batch Number"),
 				"fieldname": 'batch_no',
@@ -85,47 +92,41 @@ def get_condition(filters):
 
 	conditions=" "
 	if filters.get("from_date"):
-		conditions += " AND ip.report_date>='%s'" % filters.get('from_date')
+		conditions += "AND ip.creation>='%s'" % filters.get('from_date')
 	if filters.get("to_date"):
-		conditions += " AND ip.report_date<='%s'" % filters.get('to_date')
+		conditions += " AND ip.modified<='%s'" % filters.get('to_date')
 	if filters.get("item_code"):
-		conditions += "AND ip.item_code = '%s'" % filters.get('item_code')
+		conditions += "AND w.production_item = '%s'" % filters.get('item_code')
 	if filters.get("work_order"):
 		conditions += "AND w.name = '%s'" % filters.get('work_order')
 	if filters.get("job_card"):
 		conditions += "AND j.name = '%s'" % filters.get('job_card')
 	if filters.get("batch_no"):
-		conditions += "AND ip.batch_no = '%s'" % filters.get('batch_no')
+		conditions += " ip.batch_no = '%s'" % filters.get('batch_no')
 	return conditions
 
 
 def get_data(filters):
 	if filters.tree_type == 'Work Order':
 		conditions=get_condition(filters)
-		doc=frappe.db.sql("""select w.name ,ip.item_code,ip.item_name,ip.description,ip.quality_inspection_template,w.qty,
-							w.bom_no,ip.batch_no,ip.item_serial_no,w.status,ip.status as status1 From `tabWork Order` w , 
-							`tabQuality Inspection` ip 
-							Where ip.reference_name=w.name 
-							and ip.status !='Accepted' 
-							{conditions} """.format(conditions=conditions),filters, as_dict=1)
+		doc=frappe.db.sql("""select distinct w.name ,w.production_item,w.item_name,ip.inprocess_quality_inspection_template,w.qty,
+							w.bom_no,w.status 
+							From `tabWork Order` w 
+		 					join `tabWork InProcess Quality Inspection Template` ip 
+							on ip.parent=w.name
+							left outer join `tabQuality Inspection` q
+		 					on w.name=q.reference_name Where w.status!="Completed"
+		 					{conditions} """.format(conditions=conditions),filters, as_dict=1)
 		return doc
 	elif filters.tree_type == 'Job Card':
 		conditions = get_condition(filters)
-		doc = frappe.db.sql("""select j.name ,ip.item_code,ip.item_name,ip.description,ip.quality_inspection_template,j.for_quantity as qty,
-									j.bom_no,ip.batch_no,ip.item_serial_no,j.status,ip.status as status1 From `tabJob Card` j ,
-									`tabQuality Inspection` ip where ip.reference_name=j.name and
-									 ip.status !='Accepted'
-									 {conditions} """.format(conditions=conditions),filters, as_dict=1)
+		doc=frappe.db.sql("""select distinct j.name ,j.production_item,j.item_name,ip.inprocess_quality_inspection_template,j.for_quantity as qty,
+							j.bom_no,j.status 
+							From `tabJob Card` j 
+		 					inner join `tabWork InProcess Quality Inspection Template` ip 
+							on ip.parent=j.name
+							left outer join `tabQuality Inspection` q
+		 					on j.name=q.reference_name Where j.status!="Completed"
+		 					{conditions} """.format(conditions=conditions),filters, as_dict=1)
 		return doc
-	# elif filters.tree_type == 'Purchase Reciept':
-	# 	conditions = get_condition(filters)
-	# 	doc = frappe.db.sql("""select p.name ,ip.item_code,ip.item_name,ip.description,ip.quality_inspection_template,p.total_qty as qty,
-	# 								ip.batch_no,ip.item_serial_no,p.status as status1,ip.status From `tabPurchase Receipt` p,
-	# 								`tabInProcess Quality Inspection` ip where p.status != 'Completed' {conditions} """.format(conditions=conditions),filters, as_dict=1)
-	# 	return doc
-	# elif filters.tree_type == 'Delivery Note':
-	# 	conditions = get_condition(filters)
-	# 	doc = frappe.db.sql("""select d.name ,ip.item_code,ip.item_name,ip.description,ip.quality_inspection_template,d.total_qty as qty,
-	# 								ip.batch_no,ip.item_serial_no,d.status as status1,ip.status From `tabDelivery Note` d,
-	# 								`tabInProcess Quality Inspection` ip where  d.status != 'Completed' {conditions} """.format(conditions=conditions),filters, as_dict=1)
-	# 	return doc
+	

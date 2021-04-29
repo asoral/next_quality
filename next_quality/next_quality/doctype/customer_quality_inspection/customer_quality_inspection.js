@@ -29,7 +29,7 @@ frappe.ui.form.on('Customer Quality Inspection', {
                         row.number_of_readings = data.number_of_readings;
                         row.numeric = data.numeric;
                         row.selection= data.selection;
-                        row.alphanumeric=data.alphanumeric;
+                        // row.alphanumeric=data.alphanumeric;
                         row.min_value = data.min_value;
                         row.max_value = data.max_value;
                         row.formula_based_criteria = data.formula_based_criteria;
