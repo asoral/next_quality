@@ -17,17 +17,17 @@ def get_list(self,method):
                     for row2 in lst.test_result:
                         if row1.specification == row2.specification and row1.numeric and row1.formula_based_criteria==0 :
                             if float(row2.reading_1) <= row1.min_value or float(row2.reading_1) >= row1.max_value:
-                                frappe.throw("Please Select another Batch No")
+                                frappe.throw("Please Select another Batch No quality inspection didn't match As per customer requirement ")
                         if row1.specification == row2.specification and row1.selection==0 and row1.numeric==0 and row1.formula_based_criteria==0:
                             if not row1.value==row2.reading_value:
-                                frappe.throw("Please Select Batch No")
+                                frappe.throw("Please Select another Batch No quality inspection didn't match As per customer requirement")
                         if row1.specification == row2.specification and row1.selection:
                             con_to_json = json.loads(row1.get('values'))
                             for a in con_to_json:
                                 print(a.get('value'))
                                 print(row2.parameter_value)
                                 if a.get('value') != row2.parameter_value:
-                                    frappe.throw("Please Batch No")
+                                    frappe.throw("Please Select another Batch No quality inspection didn't match As per customer requirement")
                         if row1.specification == row2.specification and row1.numeric and row1.formula_based_criteria:
                             from statistics import mean
                             readings_list = []
@@ -48,7 +48,7 @@ def get_list(self,method):
                             if result :
                                 pass
                             else:
-                                frappe.throw("&&&&&&&&&&& Please select batch")
+                                frappe.throw("Please Select another Batch No quality inspection didn't match As per customer requirement")
                         if row1.specification == row2.specification and row1.numeric==0 and row1.formula_based_criteria==1:
                             data = {"reading_value": row2.get("reading_value")}
                             condition=row1.acceptance_formula 
@@ -57,7 +57,7 @@ def get_list(self,method):
                             if result :
                                 pass
                             else:
-                                frappe.throw("******************Please select batch")          
+                                frappe.throw("Please Select another Batch No quality inspection didn't match As per customer requirement")          
                 else:
                     pass
         else:
