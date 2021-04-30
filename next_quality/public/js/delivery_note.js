@@ -1,5 +1,5 @@
 frappe.ui.form.on("Delivery Note", {
-    refresh: function(frm){
+    onload: function(frm){
         set_batch_filter(frm)
         if(frm.doc.docstatus == 0)
         {
