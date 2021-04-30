@@ -10,7 +10,7 @@ def on_submit(self,method):
         a=l.production_item
         for a in self.items:
             batch_no = a.batch_no if self.docstatus == 1 else ""
-            if lst.quality_inspection:
+            if lst.quality_inspection_created==1:
                 doc = frappe.get_doc("Quality Inspection",lst.quality_inspection)
                 if doc.reference_type=="Work Order"and doc.inps_type=="On Finish":
                     if a.batch_no and lst.quality_inspection and a.batch_no!=doc.batch_no:

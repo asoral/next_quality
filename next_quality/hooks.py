@@ -131,7 +131,7 @@ doc_events = {
     },
     "Material Produce": {
         "before_submit":"next_quality.next_quality.custom_material_produce.before_submit",
-        # "on_submit":"next_quality.next_quality.custom_material_produce.on_submit"
+        "after_save":"next_quality.next_quality.custom_material_produce.after_save"
     },
     "Job Card":{
         "before_save":"next_quality.next_quality.custom_job_card.make_inprocess_quality_inspection",

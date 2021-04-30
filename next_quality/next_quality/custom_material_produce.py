@@ -10,8 +10,8 @@ import frappe
 
 def before_submit(self,method):
     doc = frappe.get_doc("Work Order",self.work_order)
-    if self.quality_inspection:
-        doc = frappe.get_doc("Quality Inspection",self.quality_inspection)
+    if self.quality_inspection_created==1:
+        doc = frappe.get_doc("Quality Inspection",{"reference_name":self.work_order})
         if doc.docstatus==0:
             frappe.throw("Please complete quality Inspection created on Work Order {0}".format(self.work_order))
         else:
@@ -23,7 +23,12 @@ def before_submit(self,method):
                 frappe.throw("Quality Inspection is applied for FG on BOM, please create a quality inspection before submitting the production details.")
             else:
                 pass
-    
+
+def after_save(self,method):
+    if self.quality_inspection_created==1:
+        doc = frappe.get_doc("Quality Inspection",{"reference_name":self.work_order})
+        self.quality_inspection=doc.name
+        self.save()
 
 @frappe.whitelist()
 def create_inps(work_order):
@@ -55,8 +60,8 @@ def create_inps(work_order):
                     'max_value': ro.max_value
                     })
             iqit_doc.insert(ignore_permissions=True)
+            return iqit_doc.name
     return True
-
 
 @frappe.whitelist()
 def copy_inps(work_order,bom,item_name):
@@ -98,4 +103,5 @@ def copy_inps(work_order,bom,item_name):
             iqit_doc.reload()
     iqit_doc.save(ignore_permissions=True)
     iqit_doc.submit()
+    return iqit_doc.name
     return True

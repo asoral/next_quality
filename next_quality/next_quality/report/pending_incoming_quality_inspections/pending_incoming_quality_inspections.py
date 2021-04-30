@@ -99,8 +99,12 @@ def get_condition(filters):
 def get_data(filters):
 	if filters.tree_type == 'Purchase Reciept':
 		conditions = get_condition(filters)
-		doc = frappe.db.sql("""select p.name ,ip.item_code,ip.item_name,ip.description,ip.quality_inspection_template,p.total_qty as qty,
-									ip.batch_no,ip.item_serial_no,p.status as status1,ip.status From `tabPurchase Receipt` p,
-									`tabQuality Inspection` ip where ip.reference_name=p.name and ip.status != 'Completed' and ip.inspection_type = 'Incoming' {conditions} """.format(conditions=conditions),filters, as_dict=1)
+		doc = frappe.db.sql("""select distinct p.name ,pi.item_code,pi.item_name,pi.description,i.quality_inspection_template,p.total_qty as qty,
+									pi.batch_no,pi.serial_no,p.status as status1 From 
+									`tabPurchase Receipt` p inner join `tabPurchase Receipt Item` pi
+									on p.name=pi.parent left outer join `tabQuality Inspection` ip  on ip.reference_name=p.name join `tabItem` i
+									on pi.item_code=i.item_code
+									 where p.status != 'Completed' and i.inspection_required_before_purchase=1
+									 {conditions} """.format(conditions=conditions),filters, as_dict=1)
 		return doc
 	
