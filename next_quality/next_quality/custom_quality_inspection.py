@@ -112,7 +112,7 @@ def before_submit(self,method):
 def set_insepection_in_batch(qc,method):
     if qc.reference_type== "On Finish":
         doc=frappe.get_doc("Material Produce",{"work_order":qc.reference_name})
-        doc.quality_inspection==qc.name
+        doc.quality_inspection=qc.name
         doc.save(ignore_permissions=True)
         doc.reload()
 
