@@ -13,7 +13,7 @@ def get_list(self,method):
         count=frappe.db.sql("""select distinct count(qci.name) as count from `tabCustomer Quality Inspection` qci where qci.sales_order='{0}' and qci.item='{1}'and qci.docstatus=1""".format(i.against_sales_order,i.item_code),as_dict=1)
         for j in count:
             if j.get('count')>0:
-                doc=frappe.get_doc("Customer Quality Inspection",{"sales_order":a[0],"docstatus":1})
+                doc=frappe.get_doc("Customer Quality Inspection",{"sales_order":i.against_sales_order,"docstatus":1})
                 print(doc.name)
                 if doc.item==i.item_code:
                     lst=frappe.get_doc("Batch",b)
