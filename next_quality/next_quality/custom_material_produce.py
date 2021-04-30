@@ -24,11 +24,11 @@ def before_submit(self,method):
             else:
                 pass
 
-def after_save(self,method):
-    if self.quality_inspection_created==1:
-        doc = frappe.get_doc("Quality Inspection",{"reference_name":self.work_order})
-        self.quality_inspection=doc.name
-        self.save()
+# def after_save(self,method):
+#     if self.quality_inspection_created==1:
+#         doc = frappe.get_doc("Quality Inspection",{"reference_name":self.work_order})
+#         self.quality_inspection=doc.name
+#         self.save()
 
 @frappe.whitelist()
 def create_inps(work_order):
