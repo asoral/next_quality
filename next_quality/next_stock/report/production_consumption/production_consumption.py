@@ -403,6 +403,7 @@ def get_data(filters):
 
 def get_conditions(filters):
 	
+	if filters:
 		query = """ """
 		# and stock_entry_type = 'Manufacture'
 		if filters.get('item_code'):
@@ -425,7 +426,7 @@ def get_conditions(filters):
 		if filters.get('group_by'):
 			if filters.get("group_by") == 'trxtype':
 				query += """group by trxtype"""
-		return query
+	return query
 
 
 def get_chart_data():
