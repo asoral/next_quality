@@ -20,48 +20,64 @@ def get_list(self,method):
                     for row1 in doc.item_quality_inspection_parameter:
                         if row1.specification:
                             for row2 in lst.test_result:
-                                print(row1.numeric)
-                                if row1.specification == row2.specification and row1.numeric and row1.formula_based_criteria==0 :
-                                    if float(row2.reading_1) <= row1.min_value or float(row2.reading_1) >= row1.max_value:
-                                        frappe.throw("Please Select another Batch No quality inspection didn't match As per customer requirement ")
-                                if row1.specification == row2.specification and row1.selection==0 and row1.numeric==0 and row1.formula_based_criteria==0:
-                                    if not row1.value==row2.reading_value:
+                                if row1.specification == row2.specification:
+                                    print(row1.numeric)
+                                    print(row2.numeric)
+                                    if not row2.reading_1 and row1.numeric==1:
                                         frappe.throw("Please Select another Batch No quality inspection didn't match As per customer requirement")
-                                if row1.specification == row2.specification and row1.selection:
-                                    con_to_json = json.loads(row1.get('values'))
-                                    for a in con_to_json:
-                                        if a.get('value') != row2.parameter_value:
+                                    elif row2.reading_1 and row1.numeric==1 and row2.numeric==1 and row1.formula_based_criteria==0 and row2.formula_based_criteria==0:
+                                        if float(row2.reading_1) <= row1.min_value or float(row2.reading_1) >= row1.max_value:
                                             frappe.throw("Please Select another Batch No quality inspection didn't match As per customer requirement")
-                                if row1.specification == row2.specification and row1.numeric and row1.formula_based_criteria:
-                                    from statistics import mean
-                                    readings_list = []
-                                    for i in range(1, 11):
-                                        reading_value = row2.get("reading_" + str(i))
-                                        if reading_value is not None and reading_value.strip():
-                                            readings_list.append(flt(reading_value))
-
-                                        actual_mean = mean(readings_list) if readings_list else 0
-                                    data = {}
-                                    for i in range(1, 11):
-                                        field = "reading_" + str(i)
-                                        data[field] = flt(row2.get(field))
-                                    data["mean"] = actual_mean
-                                    condition=row1.acceptance_formula 
-                                    result = frappe.safe_eval(condition, None, data)
-                                    print(result)
-                                    if result :
-                                        pass
-                                    else:
+                                if row1.specification == row2.specification:
+                                    if not row2.reading_value and row1.numeric==0 and row1.formula_based_criteria==0 and row1.selection==0:
+                                        frappe.throw("Please Select another Batch No quality inspection didn't match As per customer requirement$")
+                                    elif row2.reading_value and row1.value!=row2.reading_value:
+                                        if row1.numeric==row2.numeric and row1.formula_based_criteria==row2.formula_based_criteria and row1.selection==row2.selection:
+                                            frappe.throw("Please Select another Batch No quality inspection didn't match As per customer requirement")
+                                if row1.specification == row2.specification :
+                                    if not row2.parameter_value and row1.selection==1:
                                         frappe.throw("Please Select another Batch No quality inspection didn't match As per customer requirement")
-                                if row1.specification == row2.specification and row1.numeric==0 and row1.formula_based_criteria==1:
-                                    data = {"reading_value": row2.get("reading_value")}
-                                    condition=row1.acceptance_formula 
-                                    result = frappe.safe_eval(condition, None, data)
-                                    print(result)
-                                    if result :
-                                        pass
-                                    else:
-                                        frappe.throw("Please Select another Batch No quality inspection didn't match As per customer requirement")          
+                                    elif row2.parameter_value and row1.selection==1 and row2.selection==1:
+                                        con_to_json = json.loads(row1.get('values'))
+                                        for a in con_to_json:
+                                            if a.get('value') != row2.parameter_value:
+                                                frappe.throw("Please Select another Batch No quality inspection didn't match As per customer requirement")
+                                if row1.specification == row2.specification :
+                                    if not row2.reading_1 and row1.numeric==1 and row1.formula_based_criteria==1 :
+                                        frappe.throw("Please Select another Batch No quality inspection didn't match As per customer requirement")
+                                    elif row2.reading_1 and row1.numeric==1 and row2.numeric==1 and row1.formula_based_criteria==1 and row2.formula_based_criteria==1:
+                                        from statistics import mean
+                                        readings_list = []
+                                        for i in range(1, 11):
+                                            reading_value = row2.get("reading_" + str(i))
+                                            if reading_value is not None and reading_value.strip():
+                                                readings_list.append(flt(reading_value))
+
+                                            actual_mean = mean(readings_list) if readings_list else 0
+                                        data = {}
+                                        for i in range(1, 11):
+                                            field = "reading_" + str(i)
+                                            data[field] = flt(row2.get(field))
+                                        data["mean"] = actual_mean
+                                        condition=row1.acceptance_formula 
+                                        result = frappe.safe_eval(condition, None, data)
+                                        print(result)
+                                        if result :
+                                            pass
+                                        else:
+                                            frappe.throw("Please Select another Batch No quality inspection didn't match As per customer requirement")
+                                if row1.specification == row2.specification:
+                                    if not row2.reading_value and row1.numeric==0 and row1.formula_based_criteria==1:
+                                        frappe.throw("Please Select another Batch No quality inspection didn't match As per customer requirement")
+                                    elif row2.reading_value and row1.numeric==0 and row2.numeric==0 and row1.formula_based_criteria==1 and row2.formula_based_criteria==1:
+                                        data = {"reading_value": row2.get("reading_value")}
+                                        condition=row1.acceptance_formula 
+                                        result = frappe.safe_eval(condition, None, data)
+                                        print(result)
+                                        if result :
+                                            pass
+                                        else:
+                                            frappe.throw("Please Select another Batch No quality inspection didn't match As per customer requirement")          
                         else:
                             pass
                 else:
