@@ -5,7 +5,6 @@ import json
 from frappe.utils import flt, cint
 
 def get_list(self,method):
-
     for i in self.items:
         a=[]
         a.append(i.against_sales_order)
@@ -21,8 +20,6 @@ def get_list(self,method):
                         if row1.specification:
                             for row2 in lst.test_result:
                                 if row1.specification == row2.specification:
-                                    print(row1.numeric)
-                                    print(row2.numeric)
                                     if not row2.reading_1 and row1.numeric==1:
                                         frappe.throw("Please Select another Batch No quality inspection didn't match As per customer requirement")
                                     elif row2.reading_1 and row1.numeric==1 and row2.numeric==1 and row1.formula_based_criteria==0 and row2.formula_based_criteria==0:

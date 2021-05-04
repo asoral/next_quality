@@ -17,7 +17,6 @@ frappe.ui.form.on("Material Produce",{
 					},
 					callback: function(r) {
 						if (r.message) {
-							frm.refresh_field("quality_inspection")
 					    	frappe.msgprint(__("Quality Inspection Created"));
 							frm.set_value("quality_inspection", r.message)
 							frm.save();

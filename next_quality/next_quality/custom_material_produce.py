@@ -2,11 +2,6 @@ from __future__ import unicode_literals
 import frappe
 
 
-# def on_submit(self,method):
-#     doc=frappe.get_doc("Stock Entry",{"material_produce":self.name})
-#     doc.quality_inspection=self.quality_inspection
-#     doc.save(ignore_permissions=True)
-#     doc.reload()
 
 def before_submit(self,method):
     doc = frappe.get_doc("Work Order",self.work_order)
@@ -23,12 +18,6 @@ def before_submit(self,method):
                 frappe.throw("Quality Inspection is applied for FG on BOM, please create a quality inspection before submitting the production details.")
             else:
                 pass
-
-# def after_save(self,method):
-#     if self.quality_inspection_created==1:
-#         doc = frappe.get_doc("Quality Inspection",{"reference_name":self.work_order})
-#         self.quality_inspection=doc.name
-#         self.save()
 
 @frappe.whitelist()
 def create_inps(work_order):

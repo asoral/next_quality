@@ -1,7 +1,8 @@
 frappe.ui.form.on("Work Order", {
 
     refresh:function(frm){
-        if(frm.doc.docstatus == 1 || frm.doc.docstatus == 4){
+        if(frm.doc.docstatus == 1 && frm.doc.status != "Completed"){
+            console.log(frm.doc.status)
             var count = 0;
             var temp = ""
 
