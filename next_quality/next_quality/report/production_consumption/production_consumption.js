@@ -1,5 +1,6 @@
-frappe.query_reports['Production-Consumption'] = {
-    filters: [
+frappe.query_reports["Production-Consumption"] = {
+	"filters": [
+
 
         {
             fieldname: 'item_code',
