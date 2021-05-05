@@ -234,7 +234,6 @@ def set_inps(self,method):
 #     return c
 
 
-
 @frappe.whitelist()
 def make_quality_inspection(doc_name):
     sale_ord = frappe.get_doc("Sales Order",doc_name)

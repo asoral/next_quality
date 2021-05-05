@@ -207,9 +207,9 @@ override_doctype_dashboards = {
 
 # jenv = {
 #     "methods": [
-#         "get_details:nextquality.next_quality.custom_sales_invoice.get_details"
+#         "get_jinja_data:next_quality.custom_sales_invoice.get_jinja_data"
 #     ]
-#
+
 # }
 
 # exempt linked doctypes from being automatically cancelled
