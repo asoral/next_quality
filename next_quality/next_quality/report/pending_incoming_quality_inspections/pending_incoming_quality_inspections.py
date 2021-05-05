@@ -17,7 +17,8 @@ def get_columns(filters):
 			{
 				"label": _("Name"),
 				"fieldname": "name",
-				"fieldtype": "Data",
+				"fieldtype": "Link",
+				"options": "Purchase Receipt",
 				"width": 140
 			},
 			{
