@@ -211,20 +211,27 @@ def set_inps(self,method):
                                 break
     
                            
-@frappe.whitelist()
-def get_parameter_values(quality_inspection_template):
-    doc = frappe.get_doc("Quality Inspection Template",quality_inspection_template)
-    c=[]
-    for i in doc.get('item_quality_inspection_parameter'):
-        if not i.values:
-            pass
-        else:
-            con_to_json = json.loads(i.values)
-            print(con_to_json)
-            for a in con_to_json:
-                b=a.get("value")
-                c.append(b)
-            return c
+# @frappe.whitelist()
+# def get_parameter_values(quality_inspection_template,name):
+#     doc = frappe.get_doc("Quality Inspection Template",quality_inspection_template)
+#     lst=frappe.get_doc("Quality Inspection",name)
+#     c=[]
+#     for i in doc.get('item_quality_inspection_parameter'):
+#         for j in lst.readings:
+#             # print("*********",j.specification)
+#             # print("&&&&&",i.specification)
+#             if not i.values:
+#                 break
+#             else:
+#                 if i.specification==j.specification:
+#                     con_to_json = json.loads(i.values)
+#                     print(con_to_json)
+#                     for a in con_to_json:
+#                         # print(a)
+#                         b=a.get("value")
+#                         # print(b)
+#                         c.append(b)
+#     return c
 
 
 

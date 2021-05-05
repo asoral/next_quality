@@ -67,28 +67,18 @@ frappe.ui.form.on("Quality Inspection", {
 
 frappe.ui.form.on("Quality Inspection Reading",{
 	form_render:function(frm,cdt,cdn){
-        frm.call({
-		    method: "next_quality.next_quality.custom_quality_inspection.get_parameter_values",
-		    args: {
-				"quality_inspection_template":frm.doc.quality_inspection_template,
-			},
-			callback: function(r){
-				console.log(r.message)
-				var child = locals[cdt][cdn];
-				if (r.message) {
-					if(child.selection==1){
-						frm.fields_dict.readings.grid.update_docfield_property(
-							'parameter_value',
-							'options',
-							[''].concat(r.message)
-						);
-						
- 
-					}
-				}
-			}
-			
-        })
+		var child = locals[cdt][cdn];
+		var obj = JSON.parse(child.values);
+		var i = 0;
+		var b=[];
+		for(i; i < obj.length; i++) {
+			b.push(obj[i].value);
+			frm.fields_dict.readings.grid.update_docfield_property(
+								'parameter_value',
+								'options',
+								[''].concat(b)
+							); 
+		}
 		
     },
 	
