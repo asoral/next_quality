@@ -240,8 +240,9 @@ def get_data(filters):
     sed.basic_amount,
     sed.additional_cost,
     sed.amount,
-    sed.valuation_rate
-
+    sed.valuation_rate,
+	wo.actual_yeild,
+	wo.yeild_deviation
     
     
 
@@ -303,7 +304,9 @@ def get_data(filters):
 					"amount":q[24],
 					"valuation_rate":q[25],
 					"trxtype": q[8],
-					# "work_n":q[26]
+					"actual_yeild":q[26],
+					"yeild_deviation":q[27]
+
 				}
 				data.append(row)
 		return data
@@ -350,7 +353,9 @@ def get_data(filters):
 			sed.basic_amount,
 			sed.additional_cost,
 			sed.amount,
-			sed.valuation_rate
+			sed.valuation_rate,
+			wo.actual_yeild,
+			wo.yeild_deviation
 			
 			
 
@@ -397,95 +402,99 @@ def get_data(filters):
 					"amount":q[24],
 					"valuation_rate":q[25],
 					"trxtype": q[8],
+					"actual_yeild":q[26],
+					"yeild_deviation":q[27]
 
 				}
 				data.append(row)
 
 		return data
-	else:
-		query = """ select
-			se.work_order,
-			wo.production_item,
-			i.item_group as FGGroup,
-			i.brand as 'FG Brand',
-			se.name as 'SE Voucher',
-			qi.name as 'FG Inspection',
-			se.posting_date as 'Posting Date',
-			se.posting_time as 'Posting Time',
-			case
-			when sed.s_warehouse is not null and sed.t_warehouse is null then 'Consumed'
-			when sed.s_warehouse is null and sed.t_warehouse is not null then 'Produced'
-			end as 'Trx. Type',
-			case
-			when sed.s_warehouse is not null and sed.t_warehouse is null then sed.s_warehouse
-			when sed.s_warehouse is null and sed.t_warehouse is not null then sed.t_warehouse
-			end as 'Warehouse',
-			se.material_consumption as 'Consumption ID',
-			se.material_produce as 'Production ID',
-			sed.item_code as Item,
-			sed.item_name as 'Item Name',
-			sed.batch_no as 'Batch No.',
-			sed.serial_no as 'Serial No',
-			sed.qty,
-			sed.uom,
-			sed.transfer_qty as 'Qty in Stock UOM',
-			sed.stock_uom as 'Stock UOM',
-			sed.basic_rate,
-			sed.basic_amount,
-			sed.additional_cost,
-			sed.amount,
-			sed.valuation_rate,
-			se.company as 'Company ID'
+	# else:
+	# 	query = """ select
+	# 		se.work_order,
+	# 		wo.production_item,
+	# 		i.item_group as FGGroup,
+	# 		i.brand as 'FG Brand',
+	# 		se.name as 'SE Voucher',
+	# 		qi.name as 'FG Inspection',
+	# 		se.posting_date as 'Posting Date',
+	# 		se.posting_time as 'Posting Time',
+	# 		case
+	# 		when sed.s_warehouse is not null and sed.t_warehouse is null then 'Consumed'
+	# 		when sed.s_warehouse is null and sed.t_warehouse is not null then 'Produced'
+	# 		end as 'Trx. Type',
+	# 		case
+	# 		when sed.s_warehouse is not null and sed.t_warehouse is null then sed.s_warehouse
+	# 		when sed.s_warehouse is null and sed.t_warehouse is not null then sed.t_warehouse
+	# 		end as 'Warehouse',
+	# 		se.material_consumption as 'Consumption ID',
+	# 		se.material_produce as 'Production ID',
+	# 		sed.item_code as Item,
+	# 		sed.item_name as 'Item Name',
+	# 		sed.batch_no as 'Batch No.',
+	# 		sed.serial_no as 'Serial No',
+	# 		sed.qty,
+	# 		sed.uom,
+	# 		sed.transfer_qty as 'Qty in Stock UOM',
+	# 		sed.stock_uom as 'Stock UOM',
+	# 		sed.basic_rate,
+	# 		sed.basic_amount,
+	# 		sed.additional_cost,
+	# 		sed.amount,
+	# 		sed.valuation_rate,
+	# 		se.company as 'Company ID',
+	# 		wo.actual_yeild,
+	# 		wo.yeild_deviation
 
-			from 
-			`tabStock Entry` as se
-			inner join `tabStock Entry Detail` as sed on sed.parent = se.name
-			inner join `tabWork Order` as wo on se.work_order = wo.name
-			inner join `tabItem` as i on wo.production_item = i.name
-			left outer join `tabQuality Inspection` as qi on qi.reference_name = wo.name and qi.docstatus = 1
-			where 
-			se.stock_entry_type in ('Material Consumption for Manufacture', 'Manufacture')
-			and se.docstatus = 1
+	# 		from 
+	# 		`tabStock Entry` as se
+	# 		inner join `tabStock Entry Detail` as sed on sed.parent = se.name
+	# 		inner join `tabWork Order` as wo on se.work_order = wo.name
+	# 		inner join `tabItem` as i on wo.production_item = i.name
+	# 		left outer join `tabQuality Inspection` as qi on qi.reference_name = wo.name and qi.docstatus = 1
+	# 		where 
+	# 		se.stock_entry_type in ('Material Consumption for Manufacture', 'Manufacture')
+	# 		and se.docstatus = 1
 
 					
 
-					"""
-		# and d.item_code = c.item_code
-		# group by work_order
-		# print("====query",query+conditions)
-		order_by = """ order by se.posting_date desc, wo.name , wo.production_item"""
-		q_data = frappe.db.sql(query + conditions + order_by)
-		data = []
-		for q in q_data:
-			row = {
-					"name": q[4],
-					"posting_date": q[6],
-					"work_order": q[0],
-					"material_consumption":q[10],
-					"material_produce":q[11],
-					"item_code": q[1],
-					"item_group": q[2],
-					# "s_warehouse": q[13],
-					"t_warehouse": q[9],
-					"company":q[25],
-					"serial_no": q[15],
-					"batch_no": q[14],
-					"name1":q[5],
-					"qty": q[16],
-					"uom": q[17],
-					"basic_rate": q[20],
-					"brand": q[3],
-					"production_item":q[13],
-					"item_no_stock_entry":q[12],
-					"stock_uom":q[19],
-					"transfer_qty":q[18],
-					"amount":q[23],
-					"valuation_rate":q[20],
-					"trxtype": q[8]
-			}
-			data.append(row)
+	# 				"""
+	# 	# and d.item_code = c.item_code
+	# 	# group by work_order
+	# 	# print("====query",query+conditions)
+	# 	order_by = """ order by se.posting_date desc, wo.name , wo.production_item"""
+	# 	q_data = frappe.db.sql(query + conditions + order_by)
+	# 	data = []
+	# 	for q in q_data:
+	# 		row = {
+	# 				"name": q[4],
+	# 				"posting_date": q[6],
+	# 				"work_order": q[0],
+	# 				"material_consumption":q[10],
+	# 				"material_produce":q[11],
+	# 				"item_code": q[1],
+	# 				"item_group": q[2],
+	# 				# "s_warehouse": q[13],
+	# 				"t_warehouse": q[9],
+	# 				"company":q[25],
+	# 				"serial_no": q[15],
+	# 				"batch_no": q[14],
+	# 				"name1":q[5],
+	# 				"qty": q[16],
+	# 				"uom": q[17],
+	# 				"basic_rate": q[20],
+	# 				"brand": q[3],
+	# 				"production_item":q[13],
+	# 				"item_no_stock_entry":q[12],
+	# 				"stock_uom":q[19],
+	# 				"transfer_qty":q[18],
+	# 				"amount":q[23],
+	# 				"valuation_rate":q[20],
+	# 				"trxtype": q[8],
+	# 		}
+	# 		data.append(row)
 
-		return data
+	# 	return data
 
 
 def get_conditions(filters):
