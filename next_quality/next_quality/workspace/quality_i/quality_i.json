@@ -73,7 +73,7 @@
    "type": "Link"
   }
  ],
- "modified": "2021-04-17 17:56:18.431127",
+ "modified": "2021-05-07 20:18:24.768741",
  "modified_by": "Administrator",
  "module": "Next Quality",
  "name": "Quality I",
@@ -89,14 +89,14 @@
   },
   {
    "doc_view": "",
-   "label": "Pending Inprocess Quality Inspection",
-   "link_to": "Pending Inprocess Quality Inspections",
+   "label": "Pending Incoming Quality Inspections",
+   "link_to": "Pending Incoming Quality Inspections",
    "type": "Report"
   },
   {
    "doc_view": "",
-   "label": "Pending Incoming Quality Inspection",
-   "link_to": "Pending Incoming Quality Inspections",
+   "label": "Pending Inprocess Quality Inspection",
+   "link_to": "Pending Inprocess Quality Inspections",
    "type": "Report"
   }
  ]

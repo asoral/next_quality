@@ -1,7 +1,14 @@
 frappe.query_reports["Production-Consumption"] = {
 	"filters": [
 
-
+        {
+			"fieldname":"company",
+			"label": __("Company"),
+			"fieldtype": "Link",
+			"options": "Company",
+			"reqd": 0,
+			"default": frappe.defaults.get_user_default("Company")
+		},
         {
             fieldname: 'item_code',
             label: __('Prod. Item'),
@@ -33,71 +40,68 @@ frappe.query_reports["Production-Consumption"] = {
             options: "Brand"
         },
         {
-            fieldname: 't_warehouse',
-            label: __('Target Warehouse'),
+            fieldname: 'warehouse',
+            label: __('Warehouse'),
             fieldtype: 'Link',
             options: 'Warehouse',
         },
         {
-            fieldname: 's_warehouse',
-            label: __('Source Warehouse'),
+            fieldname: 'work_order',
+            label: __('Work Order'),
             fieldtype: 'Link',
-            options: 'Warehouse'
+            options: 'Work Order',
         },
-//        {
-//            fieldname: 'stock_entry_type',
-//            label: __('Stock Entry'),
-//            fieldtype: 'Data',
-//            "default": "Manufacture"
-//        },
         {
-			"fieldname":"company",
-			"label": __("Company"),
-			"fieldtype": "Link",
-			"options": "Company",
-			"reqd": 0,
-			"default": frappe.defaults.get_user_default("Company")
+			fieldname: "from_date",
+			label: __("From Date"),
+			fieldtype: "Date",
+			default: frappe.defaults.get_global_default("year_start_date"),
+			reqd: 0
 		},
-//		{
-//			"fieldname":"period",
-//			"label": __("Period"),
-//			"fieldtype": "Select",
-//			"options": [
-//				{ "value": "Monthly", "label": __("Monthly") },
-//				{ "value": "Quarterly", "label": __("Quarterly") },
-//				{ "value": "Half-Yearly", "label": __("Half-Yearly") },
-//				{ "value": "Yearly", "label": __("Yearly") }
-//			],
-//			"default": "Monthly"
-//		},
+		{
+			fieldname:"to_date",
+			label: __("To Date"),
+			fieldtype: "Date",
+			default: frappe.defaults.get_global_default("year_end_date"),
+			reqd: 0
+        },
         {
-			"fieldname":"fiscal_year",
-			"label": __("Fiscal Year"),
-			"fieldtype": "Link",
-			"options":'Fiscal Year',
-			"reqd": 0,
-			"default": frappe.sys_defaults.fiscal_year
+			fieldname: "tree_type",
+			label: __("Tree Type"),
+			fieldtype: "Select",
+			options: ["Work Order" , "Prod. Item"],
+			default: "",
+			reqd: 1
 		},
-//		{
-//			"fieldname":"based_on",
-//			"label": __("Based On"),
-//			"fieldtype": "Data",
-//			"options": [
-//				{ "value": "dcs", "label": __("DCS") },
-//				{ "value": "milk_type", "label": __("Milk Type") }
-//			],
-//			"default": "dcs"
-//		},
-        {
-			"fieldname":"group_by",
-			"label": __("Group By"),
-			"fieldtype": "Select",
-			"options": [
-			{ "value": "all", "label": __("None") },
-				{ "value": "manufacture", "label": __("Work Order") },
-                { "value": "trxtype", "label": __("Prod. Item") },
-			],
-			"default": "None"
-		},
+        // {
+		// 	"fieldname":"group_by",
+		// 	"label": __("Group By"),
+		// 	"fieldtype": "Select",
+		// 	"options": [
+		// 	{ "value": "all", "label": __("None") },
+		// 	{ "value": "manufacture", "label": __("Work Order") },
+        //     { "value": "trxtype", "label": __("Prod. Item") },
+		// 	],
+		// 	"default": "None"
+		// },
+        // {
+            //            fieldname: 'stock_entry_type',
+            //            label: __('Stock Entry'),
+            //            fieldtype: 'Data',
+            //            "default": "Manufacture"
+            //        },
+                
+            //		{
+            //			"fieldname":"period",
+            //			"label": __("Period"),
+            //			"fieldtype": "Select",
+            //			"options": [
+            //				{ "value": "Monthly", "label": __("Monthly") },
+            //				{ "value": "Quarterly", "label": __("Quarterly") },
+            //				{ "value": "Half-Yearly", "label": __("Half-Yearly") },
+            //				{ "value": "Yearly", "label": __("Yearly") }
+            //			],
+            //			"default": "Monthly"
+            //		},
     ]
 }

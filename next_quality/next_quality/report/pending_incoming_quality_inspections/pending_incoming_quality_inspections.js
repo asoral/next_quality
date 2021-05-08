@@ -9,7 +9,7 @@ frappe.query_reports["Pending Incoming Quality Inspections"] = {
 			label: __("Tree Type"),
 			fieldtype: "Select",
 			options: ["Purchase Reciept"],
-			default: "",
+			default: "Purchase Reciept",
 			reqd: 1
 		},
 		{
