@@ -93,4 +93,4 @@ def copy_inps(work_order,bom,item_name):
     iqit_doc.save(ignore_permissions=True)
     iqit_doc.submit()
     return iqit_doc.name
-    return True
+   

@@ -256,7 +256,6 @@ def get_data(filters):
     se.stock_entry_type in ('Material Consumption for Manufacture', 'Manufacture')
     and se.docstatus = 1
 	"""
-	print(query)
 	# cond = ""
 	if filters.tree_type == 'Work Order':
 		cond = ""
