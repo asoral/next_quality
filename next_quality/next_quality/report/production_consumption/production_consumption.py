@@ -188,13 +188,13 @@ def get_columns(filters):
 			"fieldtype": "Percentage",
 			"width": 120
 		},
-		# {
-		# 	"label": _("WorkOrder"),
-		# 	"fieldname": "work_n",
-		# 	"fieldtype": "Link",
-		# 	"options": "Work Order",
-		# 	"width": 150
-		# },
+		{
+			"label": _("WorkOrder"),
+			"fieldname": "work_n",
+			"fieldtype": "Link",
+			"options": "Work Order",
+			"width": 150
+		},
 
 
 
@@ -305,6 +305,7 @@ def get_data(filters):
 					"trxtype": q[8],
 					"actual_yeild":q[26],
 					"yeild_deviation":q[27]
+					
 
 				}
 				data.append(row)
@@ -516,7 +517,7 @@ def get_conditions(filters):
 		if filters.get('warehouse'):
 			query += """ and sed.t_warehouse = '%s'  """ % filters.warehouse
 		if filters.get('work_order'):
-			query += """ and se.work_order = '%s'  """ % filters.work_order
+			query += """ and wo.name = '%s'  """ % filters.work_order
 		if filters.get("from_date"):
 			query += "and se.posting_date>='%s'" % filters.get('from_date')
 		if filters.get("to_date"):

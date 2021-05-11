@@ -14,6 +14,7 @@ frappe.ui.form.on("Material Produce",{
 					method:"next_quality.next_quality.custom_material_produce.create_inps",
 					args: {
 				    	work_order:frm.doc.work_order,
+						name:frm.doc.name,
 					},
 					callback: function(r) {
 						if (r.message) {
@@ -43,7 +44,8 @@ frappe.ui.form.on("Material Produce",{
 					args: {
 					work_order:frm.doc.work_order,
 					bom:frm.doc.bom,
-					item_name:frm.doc.item_name
+					item_name:frm.doc.item_name,
+					name:frm.doc.name
 					},
 					callback: function(r) {
 						if (r.message) {
