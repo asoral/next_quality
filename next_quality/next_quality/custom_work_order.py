@@ -26,6 +26,7 @@ def create_inps_qlt_ins(doctype,name,production_item,template):
 		for row in obj.item_quality_inspection_parameter:
 			iqit_doc.append("readings",{
 				'specification': row.specification,
+				'descriptions':row.descriptions,
 				'numeric': row.numeric,
 				'value': row.value,
 				'values':row.values,
@@ -84,6 +85,7 @@ def periodic_quality_inspection():
 				'value': row.value,
 				'selection':row.selection,
 				'values': row.values,
+				'descriptions':row.descriptions,
 				'formula_based_criteria': row.formula_based_criteria,
 				'acceptance_formula': row.acceptance_formula,
 				'min_value': row.min_value,

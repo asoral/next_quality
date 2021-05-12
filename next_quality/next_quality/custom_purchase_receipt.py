@@ -87,6 +87,7 @@ def create_quality_inspection(doc_name):
                             'alphanumeric':ro.alphanumeric,
                             'values':ro.values,
                             'value':ro.value,
+                            'descriptions':ro.descriptions,
                             'formula_based_criteria': ro.formula_based_criteria,
                             'acceptance_formula': ro.acceptance_formula,
                             'min_value': ro.min_value,

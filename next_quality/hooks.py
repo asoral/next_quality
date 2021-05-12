@@ -16,7 +16,7 @@ fixtures = [
     {"dt":"Custom Field", "filters": [["fieldname", "in", ("not_tested","quality_inspection_par","test_result","status","quality_inspection","selection","values","quality_inspection_parameter",
         "create_quality_inspection","quality_inspection_created","batch_no","quality_inspection","item_name","quality_inspection_created","selection","parameter_value","is_check","inspection_details",
         "bom","column_break_3","inspection_applicable_on","inspection_type","workstation_","periodicity","section_break_8","section_break_11","amended_form","mfg_inspection","copy_quality_inspection",
-        "select_intermediate_bom_to_copy_results_from","item_code","inps_type","quality_inspection","section_break_29","quality_inspection_parameter","quality_inspection")]]},
+        "select_intermediate_bom_to_copy_results_from","item_code","inps_type","quality_inspection","section_break_29","quality_inspection_parameter","quality_inspection","descriptions")]]},
     {"dt":"Property Setter", "filters": [["doc_type", "in", ("Item Quality Inspection Parameter", "Job Card", "Quality Inspection Reading", "Quality Inspection", "Work Order")]]}
     ]
 

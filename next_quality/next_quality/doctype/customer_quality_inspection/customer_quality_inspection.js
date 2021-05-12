@@ -34,6 +34,7 @@ frappe.ui.form.on('Customer Quality Inspection', {
                         row.max_value = data.max_value;
                         row.formula_based_criteria = data.formula_based_criteria;
                         row.acceptance_formula = data.acceptance_formula;
+                        row.descriptions=data.descriptions;
                         // row.lower_limit = data.lower_limit;
                         // row.upper_limit = data.upper_limit;
                         // row.target_value = data.target_value;

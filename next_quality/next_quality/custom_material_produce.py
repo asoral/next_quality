@@ -45,6 +45,7 @@ def create_inps(work_order,name):
                             'numeric': ro.numeric,
                             'values': ro.values,
                             'value':ro.value,
+                            'descriptions':row.descriptions,
                             'selection':ro.selection,
                             'formula_based_criteria': ro.formula_based_criteria,
                             'acceptance_formula': ro.acceptance_formula,
