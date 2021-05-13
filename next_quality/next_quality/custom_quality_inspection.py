@@ -103,10 +103,6 @@ def before_save(self,method):
 
 
 def before_submit(self,method):
-    if self.reference_type== "On Finish":
-        doc=frappe.get_doc("Material Produce",{"work_order":self.reference_name})
-        doc.quality_inspection=self.name
-        doc.save(ignore_permissions=True)
     if self.not_tested == 1:
         frappe.throw("Quality Inspection has not been completed. The status for document has to be Accepted or Rejected before you can post it.")
     else:
@@ -114,6 +110,12 @@ def before_submit(self,method):
 
 
 def set_insepection_in_batch(qc,method):
+    if qc.inps_type== "On Finish":
+        doc=frappe.get_doc("Material Produce",{"work_order":qc.reference_name})
+        doc.quality_inspection=qc.name
+        doc.save(ignore_permissions=True)
+        doc.reload()
+
     if qc.batch_no:
         if qc.reference_type== "Purchase Receipt":
             doc=frappe.get_doc("Purchase Receipt",qc.reference_name)
