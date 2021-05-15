@@ -55,14 +55,14 @@ frappe.query_reports["Production-Consumption"] = {
 			fieldname: "from_date",
 			label: __("From Date"),
 			fieldtype: "Date",
-			default: frappe.defaults.get_global_default("year_start_date"),
+			default: frappe.datetime.add_months(frappe.datetime.get_today(), -1),
 			reqd: 0
 		},
 		{
 			fieldname:"to_date",
 			label: __("To Date"),
 			fieldtype: "Date",
-			default: frappe.defaults.get_global_default("year_end_date"),
+			default: frappe.datetime.get_today(),
 			reqd: 0
         },
         {
@@ -70,7 +70,7 @@ frappe.query_reports["Production-Consumption"] = {
 			label: __("Tree Type"),
 			fieldtype: "Select",
 			options: ["Work Order" , "Prod. Item"],
-			default: "",
+			default: "Work Order",
 			reqd: 1
 		},
         // {
@@ -91,17 +91,17 @@ frappe.query_reports["Production-Consumption"] = {
             //            "default": "Manufacture"
             //        },
                 
-            //		{
-            //			"fieldname":"period",
-            //			"label": __("Period"),
-            //			"fieldtype": "Select",
-            //			"options": [
-            //				{ "value": "Monthly", "label": __("Monthly") },
-            //				{ "value": "Quarterly", "label": __("Quarterly") },
-            //				{ "value": "Half-Yearly", "label": __("Half-Yearly") },
-            //				{ "value": "Yearly", "label": __("Yearly") }
-            //			],
-            //			"default": "Monthly"
-            //		},
+        // {
+        //     "fieldname":"period",
+        //     "label": __("Period"),
+        //     "fieldtype": "Select",
+        //     "options": [
+        //         { "value": "Monthly", "label": __("Monthly") },
+        //         { "value": "Quarterly", "label": __("Quarterly") },
+        //         { "value": "Half-Yearly", "label": __("Half-Yearly") },
+        //         { "value": "Yearly", "label": __("Yearly") }
+        //     ],
+        //     "default": "Monthly"
+        // },
     ]
 }
