@@ -65,14 +65,14 @@ frappe.query_reports["Production-Consumption"] = {
 			default: frappe.datetime.get_today(),
 			reqd: 0
         },
-        {
-			fieldname: "tree_type",
-			label: __("Tree Type"),
-			fieldtype: "Select",
-			options: ["Work Order" , "Prod. Item"],
-			default: "Work Order",
-			reqd: 1
-		},
+        // {
+		// 	fieldname: "tree_type",
+		// 	label: __("Tree Type"),
+		// 	fieldtype: "Select",
+		// 	options: ["Work Order" , "Prod. Item"],
+		// 	default: "Work Order",
+		// 	reqd: 1
+		// },
         // {
 		// 	"fieldname":"group_by",
 		// 	"label": __("Group By"),

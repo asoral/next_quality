@@ -6,11 +6,13 @@ import frappe
 def before_submit(self,method):
     doc = frappe.get_doc("Work Order",self.work_order)
     if self.quality_inspection_created==1:
-        doc = frappe.get_doc("Quality Inspection",{"reference_name":self.work_order})
-        if doc.docstatus==0:
-            frappe.throw("Please complete quality Inspection created on Work Order {0}".format(self.work_order))
-        else:
-            pass
+        lst=frappe.db.get_value("Quality Inspection",{"reference_name":self.work_order},['name'])
+        if lst:
+            doc = frappe.get_doc("Quality Inspection",{"reference_name":self.work_order})
+            if doc.docstatus==0:
+                frappe.throw("Please complete quality Inspection created on Work Order {0}".format(self.work_order))
+            else:
+                pass
     else:
         doc = frappe.get_doc("Work Order",self.work_order)
         for row in doc.quality_inspection_parameter:
