@@ -13,10 +13,6 @@ def get_data(data):
 				'items': ['Stock Entry', 'Job Card', 'Pick List']
 			},
 			{
-				'label': _('Material'),
-				'items': ['Material Request', 'Material Consumption', 'Material Produce']
-			},
-			{
 				'label': _('Inspection'),
 				'items': ['Quality Inspection']
 			},
