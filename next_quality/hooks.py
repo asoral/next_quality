@@ -198,7 +198,7 @@ override_whitelisted_methods = {
 override_doctype_dashboards = {
 	"Customer": "next_quality.next_quality.custom_customer_dashboard.get_data",
     "Sales Order": "next_quality.sales_order_dashboard.get_data",
-    "Work Order": "next_quality.next_quality.custom_work_order_dashboard.get_data",
+    #"Work Order": "next_quality.next_quality.custom_work_order_dashboard.get_data",
     "Job Card":"next_quality.next_quality.custom_job_card_dashboard.get_data",
     "Purchase Receipt":"next_quality.next_quality.custom_purchase_receipt_dashboard.get_data",
     # "Material Produce":"next_quality.next_quality.custom_material_produce_dashboard.get_data"
