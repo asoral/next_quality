@@ -15,12 +15,12 @@ def on_submit(self,method):
                     if lst.quality_inspection_created==1:
                         doc = frappe.get_doc("Quality Inspection",lst.quality_inspection)
                         if doc.reference_type=="Work Order"and doc.inps_type=="On Finish":
-                            if a.batch_no and lst.quality_inspection and a.batch_no!=doc.batch_no:
+                            if a.batch_no and lst.quality_inspection and a.batch_no!=doc.batch_no and a.item_code==doc.item_code:
                                 q="""
                                 UPDATE `tabQuality Inspection`
                                 SET batch_no ='{0}', modified = '{1}'
                                 WHERE name = '{2}' and item_code = '{3}'
-                                """.format(a.batch_no, a.modified , lst.quality_inspection, l.production_item)
+                                """.format(a.batch_no, a.modified , lst.quality_inspection,doc.item_code)
                                 frappe.db.sql(q)
                                 frappe.db.commit()
                                 doc.reload()
