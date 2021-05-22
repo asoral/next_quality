@@ -62,7 +62,7 @@ frappe.ui.form.on("Job Card", {
 			});
     },
 
-    employee:function(frm){
+    before_submit:function(frm){
         console.log("job card",frm.doc.job_started);
         if(frm.doc.job_started == 1){
             var count = 0;
