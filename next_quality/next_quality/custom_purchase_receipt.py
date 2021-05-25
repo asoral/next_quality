@@ -75,6 +75,10 @@ def create_quality_inspection(doc_name):
                 doc_qi.item_code = item.item_code
                 doc_qi.batch_no = item.batch_no
                 doc_qi.sample_size = "1"
+                doc_qi.purchase_receipt_date=doc.posting_date
+                doc_qi.supplier=doc.supplier
+                doc_qi.supplier_batch_no=item.supplier_batch_no
+                doc_qi.manufacture_name=item.manufacture_name
                 doc_qi.inspected_by = frappe.session.user
                 doc_qi.quality_inspection_template = inspect_det.quality_inspection_template
                 if inspect_det.quality_inspection_template:
