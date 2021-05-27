@@ -14,12 +14,14 @@ def before_submit(self,method):
             else:
                 pass
     else:
-        doc = frappe.get_doc("Work Order",self.work_order)
-        for row in doc.quality_inspection_parameter:
-            if row.inspection_type=="On Finish":
-                frappe.throw("Quality Inspection is applied for FG on BOM, please create a quality inspection before submitting the production details.")
-            else:
-                pass
+        for i in self.material_produce_item:
+            if i.qty_produced>0 and i.type=='FG':
+                doc = frappe.get_doc("Work Order",self.work_order)
+                for row in doc.quality_inspection_parameter:
+                    if row.inspection_type=="On Finish":
+                        frappe.throw("Quality Inspection is applied for FG on BOM, please create a quality inspection before submitting the production details.")
+                    else:
+                        pass
 #quality Inspection
 @frappe.whitelist()
 def create_inps(work_order,name):
