@@ -82,9 +82,7 @@ def get_list(self,method):
                                             pass
                                         else:
                                             frappe.throw("Please Select another Batch No quality inspection didn't match As per customer requirement")
-                                else:
-                                    frappe.throw("Please Select another Batch No quality inspection didn't match As per customer requirement")
-
+                              
                         else:
                             pass
                 else:
