@@ -19,12 +19,12 @@ def get_list(self,method):
                     for row1 in doc.item_quality_inspection_parameter:
                         if row1.specification:
                             for row2 in lst.test_result:
-                                if row1.specification == row2.specification:
-                                    if not row2.reading_1 and row1.numeric==1:
-                                        frappe.throw("Please Select another Batch No quality inspection didn't match As per customer requirement")
-                                    elif row2.reading_1 and row1.numeric==1 and row2.numeric==1 and row1.formula_based_criteria==0 and row2.formula_based_criteria==0:
-                                        if float(row2.reading_1) <= row1.min_value or float(row2.reading_1) >= row1.max_value:
-                                            frappe.throw("Please Select another Batch No quality inspection didn't match As per customer requirement")
+                                # if row1.specification == row2.specification:
+                                #     if not row2.reading_1 and row1.numeric==1:
+                                #         frappe.throw("Please Select another Batch No quality inspection didn't match As per customer requirement")
+                                #     elif row2.reading_1 and row1.numeric==1 and row2.numeric==1 and row1.formula_based_criteria==0 and row2.formula_based_criteria==0:
+                                #         if float(row2.reading_1) <= row1.min_value or float(row2.reading_1) >= row1.max_value:
+                                #             frappe.throw("Please Select another Batch No quality inspection didn't match As per customer requirement")
 
                                 if row1.specification == row2.specification:
                                     if not row2.reading_value and row1.numeric==0 and row1.formula_based_criteria==0 and row1.selection==0:
