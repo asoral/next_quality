@@ -259,9 +259,9 @@ def make_quality_criteria(doc_name):
 def make_stock_quality_inspec(doc_name, doctype):
     if doctype == "Stock Entry":
         se_doc = frappe.get_doc("Stock Entry", doc_name)
-        if se_doc.stock_entry_type == "Manufacture":
+        if se_doc.stock_entry_type == "Repack":
             for line in se_doc.items:
-                if line.is_finished_item:
+                if line.is_finished_item==1:
                     item_doc = frappe.get_doc("Item",line.item_code)
                     doc = frappe.new_doc("Quality Inspection")
                     doc.inspection_type = "In Process"
@@ -273,19 +273,19 @@ def make_stock_quality_inspec(doc_name, doctype):
                     doc.inspected_by = frappe.session.user
                     doc.quality_inspection_template = item_doc.quality_inspection_template
                     doc.insert(ignore_permissions=True)
-        else:
-            for line in se_doc.items:
-                item_doc = frappe.get_doc("Item",line.item_code)
-                doc = frappe.new_doc("Quality Inspection")
-                doc.inspection_type = "In Process"
-                doc.reference_type = doctype
-                doc.reference_name = se_doc.name
-                doc.item_code = line.item_code
-                doc.batch_no = line.batch_no
-                doc.sample_size = 1
-                doc.inspected_by = frappe.session.user
-                doc.quality_inspection_template = item_doc.quality_inspection_template
-                doc.insert(ignore_permissions=True)
+        # else:
+        #     for line in se_doc.items:
+        #         item_doc = frappe.get_doc("Item",line.item_code)
+        #         doc = frappe.new_doc("Quality Inspection")
+        #         doc.inspection_type = "In Process"
+        #         doc.reference_type = doctype
+        #         doc.reference_name = se_doc.name
+        #         doc.item_code = line.item_code
+        #         doc.batch_no = line.batch_no
+        #         doc.sample_size = 1
+        #         doc.inspected_by = frappe.session.user
+        #         doc.quality_inspection_template = item_doc.quality_inspection_template
+        #         doc.insert(ignore_permissions=True)
 
     if doctype == "Delivery Note":
         dl_doc = frappe.get_doc("Delivery Note", doc_name)

@@ -1,5 +1,5 @@
 frappe.ui.form.on("Stock Entry", {
-    refresh: function(frm){
+    onload: function(frm){
         if(frm.doc.docstatus == 0 && frm.doc.inspection_required)
         {
             frm.add_custom_button(__("Make Quality Inspection"), function() {
@@ -12,10 +12,13 @@ frappe.ui.form.on("Stock Entry", {
                     callback: function(r) {
                         if (r.message)
                         {
-                            frappe.set_route('List',"Quality Inspection",{'reference_name': frm.doc.name});
+                            frappe.msgprint(__("Quality Inspection Created"));
                         }
                     }
+                    
                 });
+            
+  
             },'Create');
         }
     }
