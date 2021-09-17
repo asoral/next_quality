@@ -1,8 +1,8 @@
 frappe.ui.form.on("Purchase Receipt",{
 	refresh:function(frm,cdt,cdn){
 		
-		frappe.model.with_doc('Purchase Receipt Item',{"parent":frm.doc.name},function () {
-            let d = frappe.model.get_doc('Purchase Receipt Item', {"parent":frm.doc.name});
+		// frappe.model.with_doc('Purchase Receipt Item',{"parent":frm.doc.name},function () {
+            let d = frappe.model.get_doc('Purchase Receipt Item', {"parent":frm.doc.name,"idx":1});
 			if(frm.doc.docstatus == 0){
 				frm.add_custom_button(__("Quality Inspection"), function() {
 					if(d.quality_inspection_created==0){
@@ -38,7 +38,7 @@ frappe.ui.form.on("Purchase Receipt",{
 					}
 				}, 'Create');
 			}
-		});
+		// });
 	}
 });
 
