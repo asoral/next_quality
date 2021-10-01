@@ -128,9 +128,9 @@ def set_insepection_in_batch(qc,method):
 
     if qc.batch_no and qc.readings:
         batch = frappe.get_doc("Batch", qc.batch_no)
-        batch.last_test_date = datetime.now()
-        batch.last_quality_inspection = qc.name
-        batch.quality_inspection = qc.name
+        # batch.last_test_date = datetime.now()
+        # batch.last_quality_inspection = qc.name
+        # batch.quality_inspection = qc.name
         batch.reference_doctype=qc.reference_type
         batch.reference_name=qc.reference_name
         frappe.db.sql("delete from `tabQuality Inspection Reading` where parent =%s", (batch.name))
