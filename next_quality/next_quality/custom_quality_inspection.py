@@ -93,7 +93,7 @@ def before_save(self,method):
     if count == 0 and null == 0 :
         self.status = "Accepted"
         self.not_tested = 0
-    if count > 0 and self.accepted_under_deviation==0:
+    if count > 0:
         print(count)
         self.status ="Rejected"
         self.not_tested = 0

@@ -6,7 +6,9 @@ frappe.ui.form.on("Quality Inspection", {
             {
 				if(frm.doc.accepted_under_deviation==1){
 					row.status="Accepted"
+					frm.doc.status="Accepted"
 					refresh_field("readings");
+					refresh_field("status")
 				}
 			})
 	},
