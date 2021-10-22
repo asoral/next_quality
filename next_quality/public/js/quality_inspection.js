@@ -1,5 +1,15 @@
 
 frappe.ui.form.on("Quality Inspection", {
+
+	refresh:function(frm){
+		$.each(frm.doc["readings"],function(i,row)
+            {
+				if(frm.doc.accepted_under_deviation==1){
+					row.status="Accepted"
+					refresh_field("readings");
+				}
+			})
+	},
     
     quality_inspection_template: function(frm) {
 		if (frm.doc.quality_inspection_template) {
