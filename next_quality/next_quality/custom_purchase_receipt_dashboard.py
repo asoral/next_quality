@@ -16,6 +16,7 @@ def get_data(data):
 		'internal_links': {
 			'Purchase Order': ['items', 'purchase_order'],
 			'Project': ['items', 'project'],
+			'Delivery Note':['items','inter_company_reference']
 			
 		},
 		'transactions': [
