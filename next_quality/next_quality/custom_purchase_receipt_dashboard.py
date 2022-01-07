@@ -10,7 +10,8 @@ def get_data(data):
 			'Landed Cost Voucher': 'receipt_document',
 			'Auto Repeat': 'reference_document',
 			'Purchase Receipt': 'return_against',
-			'Quality Inspection':'reference_name'
+			'Quality Inspection':'reference_name',
+			'Delivery Note':'inter_company_reference'
 		},
 		'internal_links': {
 			'Purchase Order': ['items', 'purchase_order'],
@@ -24,7 +25,7 @@ def get_data(data):
 			},
 			{
 				'label': _('Reference'),
-				'items': ['Purchase Order','Quality Inspection', 'Project']
+				'items': ['Purchase Order','Quality Inspection', 'Project' ,'Delivery Note']
 			},
 			{
 				'label': _('Returns'),
