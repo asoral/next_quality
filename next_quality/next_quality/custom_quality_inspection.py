@@ -107,6 +107,14 @@ def before_submit(self,method):
         frappe.throw("Quality Inspection has not been completed. The status for document has to be Accepted or Rejected before you can post it.")
     else:
         pass
+    if self.reference_type == 'Stock Entry':
+        doc=frappe.get_doc("Stock Entry",self.reference_name)
+        for i in doc.items:
+            if i.item_code==self.item_code and i.t_warehouse:
+                i.quality_inspection_created =1
+                i.quality_inspection=self.name
+                doc.save(ignore_permissions=True)
+                
 
 
 def set_insepection_in_batch(qc,method):

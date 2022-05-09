@@ -3,6 +3,36 @@ import frappe
 from datetime import datetime
 
 
+
+def after_submit(self,method):
+    for i in self.items:
+        if i.quality_inspection:
+            doc=frappe.get_doc("Quality Inspection",i.quality_inspection)
+            frappe.db.sql("""update from `tabQuality Inspection` set batch_no='{0}' where name='{1}' """.format(i.batch_no,i.quality_inspection))
+            if i.batch_no and doc.readings:
+                batch = frappe.get_doc("Batch", i.batch_no)
+                batch.reference_doctype=doc.reference_type
+                batch.reference_name=doc.reference_name
+                frappe.db.sql("delete from `tabQuality Inspection Reading` where parent =%s", (batch.name))
+                for res in doc.readings:
+                    r = res.as_dict()
+                    r.pop("name")
+                    r.pop("owner")
+                    r.pop("creation")
+                    r.pop("modified")
+                    r.pop("modified_by")
+                    r.pop("parent")
+                    r.pop("parentfield")
+                    r.pop("parenttype")
+                    r.pop("idx")
+                    r.pop("docstatus")
+                    batch.append("test_result", r)
+                batch.flags.ignore_validate_update_after_submit = True
+                batch.save(ignore_permissions=True)
+                batch.clear_cache()
+                batch.reload()	
+
+
 def on_submit(self,method):
     if self.material_produce:
         lst = frappe.get_doc("Material Produce",self.material_produce)
