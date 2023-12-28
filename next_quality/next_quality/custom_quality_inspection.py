@@ -120,7 +120,8 @@ def set_insepection_in_batch(qc,method):
         if qc.reference_type== "Purchase Receipt":
             doc=frappe.get_doc("Purchase Receipt",qc.reference_name)
             for i in doc.get('items'):
-                i.batch_no = qc.batch_no
+                if i.item_code==qc.item_code and i.batch_no==qc.batch_no:
+                    i.batch_no = qc.batch_no
             doc.save(ignore_permissions=True)
             doc.reload()
         else:
@@ -156,6 +157,7 @@ def set_insepection_in_batch(qc,method):
 def set_batch_no(self):
     doc = frappe.get_doc("Stock Entry", self.item_code)
     for i in doc.get("items"):
+
         if not i.batch_no:
             pass
         else:
@@ -182,7 +184,8 @@ def set_qc(self,method):
     if self.reference_type== "Purchase Receipt":
         doc=frappe.get_doc("Purchase Receipt",self.reference_name)
         for i in doc.get('items'):
-            i.quality_inspection = self.name
+            if i.item_code==self.item_code and i.batch_no==self.batch_no:
+                i.quality_inspection = self.name
         doc.save(ignore_permissions=True)
         doc.reload()
 

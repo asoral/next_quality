@@ -148,6 +148,9 @@ doc_events = {
     },
     "Delivery Note":{
         "before_submit": "next_quality.next_quality.custom_delivery_note.get_list"
+    },
+    "Work Order":{
+        "before_save":"next_quality.next_quality.custom_work_order.validate_Qc"
     }
 }
 

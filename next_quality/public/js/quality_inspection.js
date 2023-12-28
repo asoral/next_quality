@@ -16,6 +16,7 @@ frappe.ui.form.on("Quality Inspection", {
     quality_inspection_template: function(frm) {
 		if (frm.doc.quality_inspection_template) {
 			frm.call({
+				
 				method: "next_quality.next_quality.custom_quality_inspection.get_item_specification_details",
 				args: {
                     quality_inspection_template: frm.doc.quality_inspection_template,

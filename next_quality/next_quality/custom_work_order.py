@@ -93,3 +93,9 @@ def periodic_quality_inspection():
 			})
 		iqit_doc.save(ignore_permissions=True)
         
+
+def validate_Qc(self,method):
+	if self.bom_no:
+		doc=frappe.db.get_value("Quality Inspection Template",{"bom":self.bom_no},["name"])
+		if not doc:
+			frappe.throw("Quality Inspection Template Not Found against Bom")
