@@ -38,9 +38,9 @@ class CustomQualityInspection(QualityInspection):
                         reading.update(d)
                         reading.status = "Accepted"
 
-        # if self.readings:
-        # 	self.inspect_and_set_status()
-
+        if self.readings:
+            self.inspect_and_set_status()
+    
     def update_qc_reference(self):
         quality_inspection = self.name if self.docstatus == 1 else ""
 
