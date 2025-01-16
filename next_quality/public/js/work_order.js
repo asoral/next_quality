@@ -5,7 +5,7 @@ frappe.ui.form.on("Work Order", {
             console.log(frm.doc.status)
             var count = 0;
             var temp = ""
-
+            
             $.each(frm.doc["quality_inspection_parameter"],function(i, quality_inspection_parameter)
             {
                  if(quality_inspection_parameter.inspection_type == "Manual"){
@@ -22,7 +22,11 @@ frappe.ui.form.on("Work Order", {
             if(count > 0){
             frm.add_custom_button(__('Create Quality Inspection'), function() {
             console.log(count)
-
+            if(frm.doc.custom_quality_inspection_created==1)
+                {	
+                    frappe.msgprint(__("Quality Inspection already Created"));
+                }
+            else{
             frm.call({
 				method: "next_quality.next_quality.custom_work_order.create_inps_qlt_ins",
 				args: {
@@ -37,6 +41,7 @@ frappe.ui.form.on("Work Order", {
 					}
 				}
                 });
+            }
 				}, __("Create"));  }
         }
 

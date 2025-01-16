@@ -36,6 +36,8 @@ def create_inps_qlt_ins(doctype,name,production_item,template):
 				'max_value': row.max_value
 			})
 		iqit_doc.save(ignore_permissions=True)
+	frappe.db.set_value(doctype, name, 'custom_quality_inspection_created', 1)
+	frappe.msgprint("Quality Inspection Created")
 	return True
 
 
