@@ -33,6 +33,7 @@ frappe.ui.form.on("Quality Inspection", {
 			});
 		}
 	},
+	
 	inspection_type: function(frm) {
 		if(frm.doc.inspection_type == "Incoming")
 		  {
@@ -51,28 +52,7 @@ frappe.ui.form.on("Quality Inspection", {
 			set_field_options("reference_type", ["Purchase Receipt", "Purchase Invoice","Delivery Note","Sales Invoice","Stock Entry"])
 		  }
 		},
-	// onload:function(frm,cdt,cdn){
-	// 		console.log("*******************")
-	// 		 frm.call({
-	// 			method:"next_quality.next_quality.custom_quality_inspection.get_parameter_values",
-	// 			args: {
-	// 				"quality_inspection_template_name":frm.doc.quality_inspection_template
-	// 			},
-	// 			callback: function(r)
-	// 			{
-	// 				console.log(r.message)
-	// 				var child = locals[cdt][cdn].readings;
-	// 				if (r.message) {
-	// 				//    frappe.utils.filter_dict(frm.fields_dict["readings"].grid.docfields, {"fieldname": "parameter_value"})[0].options = r.message;
-	// 				frappe.meta.get_docfield("Quality Inspection Reading","parameter_value").options = r.message
-	// 				// frm.set_df_property('parameter_value','options',r.message);
-
-
-	// 				}
-	// 				refresh_field("readings");
-	// 			}
-	// 		});
-	// 	 },
+	
 		
 		
 });
