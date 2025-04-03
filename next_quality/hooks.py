@@ -52,7 +52,6 @@ doctype_js = {
     "Purchase Receipt": "public/js/purchase_receipt.js",
     "Job Card": "public/js/job_card.js",
     "Item": "public/js/item.js",
-    "Material Produce": "public/js/material_produce.js",
     "Batch":"public/js/batch.js"
 }
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
@@ -150,7 +149,8 @@ doc_events = {
         "before_submit": "next_quality.next_quality.custom_delivery_note.get_list"
     },
     "Work Order":{
-        "before_save":"next_quality.next_quality.custom_work_order.validate_Qc"
+        "before_save":"next_quality.next_quality.custom_work_order.validate_Qc",
+        # "on_submit":"next_quality.next_quality.custom_work_order.timelogs_data"
     }
 }
 

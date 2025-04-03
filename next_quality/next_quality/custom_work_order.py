@@ -2,6 +2,18 @@ from __future__ import unicode_literals
 import frappe
 from frappe.model.mapper import get_mapped_doc
 
+# @frappe.whitelist()
+# def timelogs_data(self,method):
+# 	job_cards = frappe.get_all("Job Card", filters={"work_order": self.name}, fields=["name", "expected_start_date", "expected_end_date", "for_quantity"])
+# 	for job_card in job_cards:
+# 		doc = frappe.get_doc("Job Card", job_card.name)
+# 		doc.append("time_logs", {
+# 			"from_time": job_card.get("expected_start_date"),
+# 			"to_time": job_card.get("expected_end_date"),
+# 			"completed_qty": job_card.get("for_quantity")
+# 		})
+# 	self.submit()
+
 @frappe.whitelist()
 def set_inq(name):
 	doc=frappe.db.get_all("Quality Inspection",{"reference_name":name},['name'])
@@ -36,6 +48,8 @@ def create_inps_qlt_ins(doctype,name,production_item,template):
 				'max_value': row.max_value
 			})
 		iqit_doc.save(ignore_permissions=True)
+	frappe.db.set_value(doctype, name, 'custom_quality_inspection_created', 1)
+	frappe.msgprint("Quality Inspection Created")
 	return True
 
 

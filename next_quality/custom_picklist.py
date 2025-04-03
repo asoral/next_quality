@@ -143,3 +143,4 @@ class CustomPickList(PickList):
 #         else:
 #             return batch_locations
 #     return batch_locations
+

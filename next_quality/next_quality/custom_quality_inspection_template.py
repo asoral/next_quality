@@ -7,8 +7,8 @@ def before_insert(self,method):
 	list=frappe.db.get_all("Quality Inspection Template",{"inspection_applicable_on":self.inspection_applicable_on,"bom":self.bom,"inspection_type":self.inspection_type}
 			,["bom","inspection_applicable_on","inspection_type"])
 	if list:
-	    msg="There is already a Quality Inspection created for {0} with same Inspection Type and Applicability. Please edit that inspection or delete and recreate one.".format(self.bom)
-	    frappe.throw(msg)
+		msg="There is already a Quality Inspection created for {0} with same Inspection Type and Applicability. Please edit that inspection or delete and recreate one.".format(self.bom)
+		frappe.throw(msg)
 	
 	
 # def before_save(self,method):
