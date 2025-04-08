@@ -1,4 +1,5 @@
 from __future__ import unicode_literals
+from datetime import timedelta,datetime
 import frappe
 from frappe.model.mapper import get_mapped_doc
 
@@ -113,3 +114,22 @@ def validate_Qc(self,method):
 		doc=frappe.db.get_value("Quality Inspection Template",{"bom":self.bom_no},["name"])
 		if not doc:
 			frappe.throw("Quality Inspection Template Not Found against Bom")
+
+
+def submit_job_card(self, method):
+    job_cards = frappe.get_all(
+        "Job Card",
+        filters={"docstatus": 0, "work_order": self.name},
+        fields=["name", "operation", "work_order"]
+    )
+
+    for ope in self.operations:
+        for job_card in job_cards:
+            if job_card.operation == ope.operation:
+                job_card_doc = frappe.get_doc("Job Card", job_card.name)
+                job_card_doc.append("time_logs", {
+                    "from_time": datetime.now(),
+                    "to_time": datetime.now()
+                })
+                job_card_doc.submit()
+

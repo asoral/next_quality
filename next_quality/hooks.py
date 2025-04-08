@@ -150,6 +150,7 @@ doc_events = {
     },
     "Work Order":{
         "before_save":"next_quality.next_quality.custom_work_order.validate_Qc",
+        "on_submit":"next_quality.next_quality.custom_work_order.submit_job_card",
         # "on_submit":"next_quality.next_quality.custom_work_order.timelogs_data"
     }
 }
