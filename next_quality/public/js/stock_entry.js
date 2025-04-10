@@ -20,5 +20,38 @@ frappe.ui.form.on("Stock Entry", {
   
             },'Create');
         }
+        
+        if (frm.doc.stock_entry_type === "Manufacture"){
+           
+            frm.add_custom_button(__('On Finish Create Quality Inspection'), function() {
+                if(frm.doc.custom_quality_inspection_created==1)
+                    {	
+                        frappe.msgprint(__("Quality Inspection already Created"));
+                    }
+                else{
+                frm.call({
+                    method: "next_quality.next_quality.custom_stock_entry.create_quality_inspection",
+                    args: {
+                        doctype: frm.doc.doctype,
+                        name: frm.doc.name,
+                        work_order:frm.doc.work_order
+                    },
+                    callback: function(r) {
+                        if (r.message) {
+                            frappe.msgprint(__("Quality Inspection Created"));
+                            frm.reload()
+                        }
+                    }
+                    });
+         }
+        
+				}); 
+        frm.set_df_property("custom_on_finish_inspection_required", "hidden", 0);
+        frm.refresh_fied("custom_on_finish_inspection_required")
+        }
+        else{
+            frm.set_df_property("custom_on_finish_inspection_required", "hidden", 1);
+        }
     }
 });
+

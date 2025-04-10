@@ -2,6 +2,77 @@ from __future__ import unicode_literals
 import frappe
 from datetime import datetime
 
+@frappe.whitelist()
+def create_quality_inspection(doctype,name,work_order):
+    work_order_data = frappe.get_doc("Work Order",work_order)
+    inspection_type = None
+    for qua_insp in work_order_data.quality_inspection_parameter:
+        inspection_type = qua_insp.inspection_type
+
+    st_doc = frappe.get_doc("Stock Entry",name)
+    item_code = None
+    batch_no = None
+    for item in st_doc.items:
+        item_code = item.item_code
+        batch_no = item.batch_no
+    temp = frappe.get_value("BOM",{"name":st_doc.bom_no},"item_name")
+    # for temp in res:
+    iqit_doc = frappe.new_doc("Quality Inspection")
+    iqit_doc.inspection_type = "In Process"
+    iqit_doc.reference_type = "Work Order"
+    iqit_doc.reference_name = work_order
+    iqit_doc.custom_stock_entry = name
+    iqit_doc.item_code = item_code
+    iqit_doc.inps_type = inspection_type
+    iqit_doc.batch_no = batch_no
+    iqit_doc.sample_size = "1"
+    iqit_doc.inspected_by = frappe.session.user
+    iqit_doc.bom_no = st_doc.bom_no
+    iqit_doc.quality_inspection_template = temp
+    obj = frappe.get_doc("Quality Inspection Template",temp)
+    for row in obj.item_quality_inspection_parameter:
+        iqit_doc.append("readings",{
+            'specification': row.specification,
+            'descriptions':row.descriptions,
+            'numeric': row.numeric,
+            'value': row.value,
+            'values':row.values,
+            'formula_based_criteria': row.formula_based_criteria,
+            'acceptance_formula': row.acceptance_formula,
+            'min_value': row.min_value,
+            'max_value': row.max_value
+        })
+    iqit_doc.save(ignore_permissions=True)
+    frappe.db.set_value(doctype, name, 'custom_quality_inspection_created', 1)
+    frappe.msgprint("Quality Inspection Created")
+    return True
+
+
+def delete_quality_inspection(self,method):
+    if self.custom_stock_entry:
+        stock_entry = frappe.get_doc("Stock Entry",self.custom_stock_entry)
+        if stock_entry.custom_quality_inspection_created == 1 and self.stock_entry_type == "Manufacture":
+            stock_entry.db_set("custom_quality_inspection_created", 0, update_modified = False)
+            frappe.db.set_value("Stock Entry", stock_entry.name, 'custom_quality_inspection_created', 0)
+
+
+def submit_quality_inspection(self,method):
+    if self.custom_quality_inspection_created ==1 and self.stock_entry_type == "Manufacture":
+        quality_insp = frappe.get_doc("Quality Inspection",{"custom_stock_entry":self.name})
+        if quality_insp.docstatus != 1:
+            frappe.throw("Please Submit the Quality Inspection.")
+        else:
+            quality_doc = frappe.get_doc("Quality Inspection",{"custom_stock_entry":self.name})
+            batch_no = None
+            for item in quality_doc.items:
+                batch_no = item.batch_no
+            frappe.db.set_value("Quality Inspection",quality_doc.name,"batch_no",batch_no)
+
+    
+
+def create_quality_insp(self,method):
+    if self.custom_on_finish_inspection_required == 1 and self.docstatus != 1 and self.stock_entry_type == "Manufacture":
+        frappe.frappe.msgprint('"Please Create On Finish Quality Inspection"')
 
 def on_submit(self,method):
     pass
