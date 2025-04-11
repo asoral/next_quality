@@ -6,8 +6,10 @@ from datetime import datetime
 def create_quality_inspection(doctype,name,work_order):
     work_order_data = frappe.get_doc("Work Order",work_order)
     inspection_type = None
+    template = None
     for qua_insp in work_order_data.quality_inspection_parameter:
         inspection_type = qua_insp.inspection_type
+        template = qua_insp.inprocess_quality_inspection_template
 
     st_doc = frappe.get_doc("Stock Entry",name)
     item_code = None
@@ -15,8 +17,7 @@ def create_quality_inspection(doctype,name,work_order):
     for item in st_doc.items:
         item_code = item.item_code
         batch_no = item.batch_no
-    temp = frappe.get_value("BOM",{"name":st_doc.bom_no},"item_name")
-    # for temp in res:
+    
     iqit_doc = frappe.new_doc("Quality Inspection")
     iqit_doc.inspection_type = "In Process"
     iqit_doc.reference_type = "Work Order"
@@ -28,8 +29,8 @@ def create_quality_inspection(doctype,name,work_order):
     iqit_doc.sample_size = "1"
     iqit_doc.inspected_by = frappe.session.user
     iqit_doc.bom_no = st_doc.bom_no
-    iqit_doc.quality_inspection_template = temp
-    obj = frappe.get_doc("Quality Inspection Template",temp)
+    iqit_doc.quality_inspection_template = template
+    obj = frappe.get_doc("Quality Inspection Template",template)
     for row in obj.item_quality_inspection_parameter:
         iqit_doc.append("readings",{
             'specification': row.specification,
