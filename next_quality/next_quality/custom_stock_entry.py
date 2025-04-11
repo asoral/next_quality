@@ -63,11 +63,11 @@ def submit_quality_inspection(self,method):
         if quality_insp.docstatus != 1:
             frappe.throw("Please Submit the Quality Inspection.")
         else:
-            quality_doc = frappe.get_doc("Quality Inspection",{"custom_stock_entry":self.name})
+            quality_doc = frappe.get_doc("Stock Entry",{"name":self.name})
             batch_no = None
             for item in quality_doc.items:
                 batch_no = item.batch_no
-            frappe.db.set_value("Quality Inspection",quality_doc.name,"batch_no",batch_no)
+            frappe.db.set_value("Quality Inspection",quality_insp.name,"batch_no",batch_no)
 
     
 
