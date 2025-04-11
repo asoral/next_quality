@@ -52,7 +52,7 @@ def create_quality_inspection(doctype,name,work_order):
 def delete_quality_inspection(self,method):
     if self.custom_stock_entry:
         stock_entry = frappe.get_doc("Stock Entry",self.custom_stock_entry)
-        if stock_entry.custom_quality_inspection_created == 1 and self.stock_entry_type == "Manufacture":
+        if stock_entry.custom_quality_inspection_created == 1 and stock_entry.stock_entry_type == "Manufacture":
             stock_entry.db_set("custom_quality_inspection_created", 0, update_modified = False)
             frappe.db.set_value("Stock Entry", stock_entry.name, 'custom_quality_inspection_created', 0)
 
@@ -74,6 +74,23 @@ def submit_quality_inspection(self,method):
 def create_quality_insp(self,method):
     if self.custom_on_finish_inspection_required == 1 and self.docstatus != 1 and self.stock_entry_type == "Manufacture":
         frappe.frappe.msgprint('"Please Create On Finish Quality Inspection"')
+
+
+@frappe.whitelist()
+def get_list(company):
+	list=[]
+	lst=[]
+	doc=frappe.db.get_all("Stock Entry",{"stock_entry_type":"Send to Subcontractor","docstatus":1,"company":["!=", company],'posting_date': ['>=', '2021-07-08']},['name'])
+
+	db=frappe.db.get_all("Stock Entry",{"stock_entry_type":"Material Receipt","docstatus":1},['reference_challan'])
+	for i in db:
+		if i.reference_challan:
+			lst.append(i.reference_challan)
+	for i in doc:
+		if i.name not in lst:
+			list.append(i.name)
+	return list
+
 
 def on_submit(self,method):
     pass
