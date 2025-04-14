@@ -113,7 +113,7 @@ override_doctype_class = {
 
 doc_events = {
     "Quality Inspection": {
-        # "on_submit": "next_quality.next_quality.custom_quality_inspection.set_insepection_in_batch",
+        "on_submit": "next_quality.next_quality.custom_quality_inspection.set_insepection_in_batch",
         "before_save":"next_quality.next_quality.custom_quality_inspection.before_save",
         # "after_save":"next_quality.next_quality.custom_quality_inspection.after_save",
         "validate":"next_quality.next_quality.custom_quality_inspection.set_inps",
