@@ -117,19 +117,23 @@ def validate_Qc(self,method):
 
 
 def submit_job_card(self, method):
-    job_cards = frappe.get_all(
-        "Job Card",
-        filters={"docstatus": 0, "work_order": self.name},
-        fields=["name", "operation", "work_order"]
-    )
+	job_cards = frappe.get_all(
+		"Job Card",
+		filters={"docstatus": 0, "work_order": self.name},
+		fields=["name", "operation", "work_order"]
+	)
 
-    for ope in self.operations:
-        for job_card in job_cards:
-            if job_card.operation == ope.operation:
-                job_card_doc = frappe.get_doc("Job Card", job_card.name)
-                job_card_doc.append("time_logs", {
-                    "from_time": datetime.now(),
-                    "to_time": datetime.now()
-                })
-                job_card_doc.submit()
+	used_cards = set()
+	for ope in self.operations:
+		for job_card in job_cards:
+			if job_card.name in used_cards:
+				continue
+			if job_card.operation == ope.operation:
+				job_card_doc = frappe.get_doc("Job Card", job_card.name)
+				job_card_doc.append("time_logs", {
+					"from_time": datetime.now(),
+					"to_time": datetime.now()
+				})
 
+				used_cards.add(job_card.name)
+				job_card_doc.submit()
