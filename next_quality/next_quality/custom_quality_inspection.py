@@ -110,28 +110,9 @@ def before_submit(self,method):
 
 
 def set_insepection_in_batch(qc,method):
-    if qc.inps_type== "On Finish":
-        doc=frappe.get_doc("Material Produce",{"work_order":qc.reference_name})
-        doc.quality_inspection=qc.name
-        doc.save(ignore_permissions=True)
-        doc.reload()
-
-    if qc.batch_no:
-        if qc.reference_type== "Purchase Receipt":
-            doc=frappe.get_doc("Purchase Receipt",qc.reference_name)
-            for i in doc.get('items'):
-                if i.item_code==qc.item_code and i.batch_no==qc.batch_no:
-                    i.batch_no = qc.batch_no
-            doc.save(ignore_permissions=True)
-            doc.reload()
-        else:
-            pass
-
     if qc.batch_no and qc.readings:
         batch = frappe.get_doc("Batch", qc.batch_no)
-        # batch.last_test_date = datetime.now()
-        # batch.last_quality_inspection = qc.name
-        # batch.quality_inspection = qc.name
+        
         batch.reference_doctype=qc.reference_type
         batch.reference_name=qc.reference_name
         frappe.db.sql("delete from `tabQuality Inspection Reading` where parent =%s", (batch.name))
