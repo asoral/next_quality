@@ -145,7 +145,7 @@ doc_events = {
     },
     "Stock Entry":{
         "on_submit": ["next_quality.next_quality.custom_stock_entry.on_submit",
-                    "next_quality.next_quality.custom_stock_entry.submit_quality_inspection"],
+                    "next_quality.next_quality.custom_stock_entry.submit_quality_inspection","next_quality.next_quality.custom_quality_inspection.set_insepection_in_batch_from_stock_entry"],
         "validate":"next_quality.next_quality.custom_stock_entry.create_quality_insp"
     },
     "Delivery Note":{
