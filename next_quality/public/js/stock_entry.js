@@ -1,6 +1,5 @@
 frappe.ui.form.on("Stock Entry", {
     refresh: function(frm){
-        frm.set_df_property("inspection_required", "hidden", 1);
         frappe.call({
 			method: "next_quality.next_quality.custom_stock_entry.get_list",
 			args: {
