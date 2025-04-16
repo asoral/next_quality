@@ -137,35 +137,36 @@ def set_insepection_in_batch(qc,method):
 
 
 def set_insepection_in_batch_from_stock_entry(self,method):
-    batch_no = None
-    for item in self.items:
-        batch_no = item.batch_no
-        break
+    if self.stock_entry_type == "Manufacture" and self.custom_on_finish_inspection_required ==1:
+        batch_no = None
+        for item in self.items:
+            batch_no = item.batch_no
+            break
 
-    quality_inspection = frappe.get_doc("Quality Inspection",{"batch_no":batch_no,"docstatus":1})
-    if quality_inspection.batch_no and quality_inspection.readings:
-        batch = frappe.get_doc("Batch", batch_no)
-        
-        batch.reference_doctype=quality_inspection.reference_type
-        batch.reference_name=quality_inspection.reference_name
-        frappe.db.sql("delete from `tabQuality Inspection Reading` where parent =%s", (batch.name))
-        for res in quality_inspection.readings:
-            r = res.as_dict()
-            r.pop("name")
-            r.pop("owner")
-            r.pop("creation")
-            r.pop("modified")
-            r.pop("modified_by")
-            r.pop("parent")
-            r.pop("parentfield")
-            r.pop("parenttype")
-            r.pop("idx")
-            r.pop("docstatus")
-            batch.append("test_result", r)
-        batch.flags.ignore_validate_update_after_submit = True
-        batch.save(ignore_permissions=True)
-        batch.clear_cache()
-        batch.reload()	
+        quality_inspection = frappe.get_doc("Quality Inspection",{"batch_no":batch_no,"docstatus":1})
+        if quality_inspection.batch_no and quality_inspection.readings:
+            batch = frappe.get_doc("Batch", batch_no)
+            
+            batch.reference_doctype=quality_inspection.reference_type
+            batch.reference_name=quality_inspection.reference_name
+            frappe.db.sql("delete from `tabQuality Inspection Reading` where parent =%s", (batch.name))
+            for res in quality_inspection.readings:
+                r = res.as_dict()
+                r.pop("name")
+                r.pop("owner")
+                r.pop("creation")
+                r.pop("modified")
+                r.pop("modified_by")
+                r.pop("parent")
+                r.pop("parentfield")
+                r.pop("parenttype")
+                r.pop("idx")
+                r.pop("docstatus")
+                batch.append("test_result", r)
+            batch.flags.ignore_validate_update_after_submit = True
+            batch.save(ignore_permissions=True)
+            batch.clear_cache()
+            batch.reload()	
 
 
 def set_batch_no(self):
