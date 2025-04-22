@@ -23,3 +23,6 @@ def custom_validate_item_details(args, item):
 			else:
 				if item.is_stock_item:
 					throw(_("Item {0} must be a Non-Stock Item").format(item.name))
+
+def custom_on_trash(self):
+	self.update_qc_reference()
