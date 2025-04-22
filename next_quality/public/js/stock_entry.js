@@ -41,8 +41,38 @@ frappe.ui.form.on("Stock Entry", {
   
             },'Create');
         }
-        
+
         if (frm.doc.stock_entry_type === "Manufacture"){
+            frm.set_df_property("custom_on_finish_inspection_required", "hidden", 0);
+            frm.refresh_fied("custom_on_finish_inspection_required")
+        }
+        else{
+            frm.set_df_property("custom_on_finish_inspection_required", "hidden", 1);
+        }
+    },
+    get_items: function () {
+		var me = this;
+		if (!this.frm.doc.fg_completed_qty || !this.frm.doc.bom_no)
+			frappe.throw(__("BOM and Manufacturing Quantity are required"));
+
+		if (this.frm.doc.work_order || this.frm.doc.bom_no) {
+			// if work order / bom is mentioned, get items
+			return this.frm.call({
+				doc: me.frm.doc,
+				freeze: true,
+				method: "get_items",
+				callback: function (r) {
+					if (!r.exc) refresh_field("items");
+					if (me.frm.doc.bom_no) attach_bom_items(me.frm.doc.bom_no)
+				}
+			});
+		}
+	},
+
+
+
+    custom_on_finish_inspection_required :function(frm){
+        if (frm.doc.stock_entry_type === "Manufacture" && frm.doc.custom_on_finish_inspection_required ==1){
            
             frm.add_custom_button(__('On Finish Create Quality Inspection'), function() {
                 if(frm.doc.custom_quality_inspection_created==1)
@@ -67,31 +97,9 @@ frappe.ui.form.on("Stock Entry", {
          }
         
 				}); 
-        frm.set_df_property("custom_on_finish_inspection_required", "hidden", 0);
-        frm.refresh_fied("custom_on_finish_inspection_required")
-        }
-        else{
-            frm.set_df_property("custom_on_finish_inspection_required", "hidden", 1);
+       
         }
     },
-    get_items: function () {
-		var me = this;
-		if (!this.frm.doc.fg_completed_qty || !this.frm.doc.bom_no)
-			frappe.throw(__("BOM and Manufacturing Quantity are required"));
-
-		if (this.frm.doc.work_order || this.frm.doc.bom_no) {
-			// if work order / bom is mentioned, get items
-			return this.frm.call({
-				doc: me.frm.doc,
-				freeze: true,
-				method: "get_items",
-				callback: function (r) {
-					if (!r.exc) refresh_field("items");
-					if (me.frm.doc.bom_no) attach_bom_items(me.frm.doc.bom_no)
-				}
-			});
-		}
-	},
 });
 
 function attach_bom_items(bom_no) {
