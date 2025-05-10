@@ -49,7 +49,7 @@ doctype_js = {
     "Customer": "public/js/customer.js",
     "Stock Entry": "public/js/stock_entry.js",
     "Work Order" : "public/js/work_order.js",
-    "Purchase Receipt": "public/js/purchase_receipt.js",
+    # "Purchase Receipt": "public/js/purchase_receipt.js",
     "Job Card": "public/js/job_card.js",
     "Item": "public/js/item.js",
     "Batch":"public/js/batch.js"
@@ -139,15 +139,15 @@ doc_events = {
     "Batch":{
         "onload":"next_quality.next_quality.custom_batch.set_status"
     },
-    "Purchase Receipt":{
-        "on_submit":"next_quality.next_quality.custom_purchase_receipt.on_submit",
-        # "validate":"next_quality.next_quality.custom_purchase_receipt.validate"
-    },
-    "Stock Entry":{
-        "on_submit": ["next_quality.next_quality.custom_stock_entry.on_submit",
-                    "next_quality.next_quality.custom_stock_entry.submit_quality_inspection","next_quality.next_quality.custom_quality_inspection.set_insepection_in_batch_from_stock_entry"],
-        "validate":"next_quality.next_quality.custom_stock_entry.create_quality_insp"
-    },
+    # "Purchase Receipt":{
+        # "on_submit":"next_quality.next_quality.custom_purchase_receipt.on_submit",
+    #     # "validate":"next_quality.next_quality.custom_purchase_receipt.validate"
+    # },
+    # "Stock Entry":{
+    #     "on_submit": ["next_quality.next_quality.custom_stock_entry.on_submit",
+    #                 "next_quality.next_quality.custom_stock_entry.submit_quality_inspection","next_quality.next_quality.custom_quality_inspection.set_insepection_in_batch_from_stock_entry"],
+    #     "validate":"next_quality.next_quality.custom_stock_entry.create_quality_insp"
+    # },
     "Delivery Note":{
         "before_submit": "next_quality.next_quality.custom_delivery_note.get_list"
     },
