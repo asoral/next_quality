@@ -143,11 +143,12 @@ doc_events = {
         # "on_submit":"next_quality.next_quality.custom_purchase_receipt.on_submit",
     #     # "validate":"next_quality.next_quality.custom_purchase_receipt.validate"
     # },
-    # "Stock Entry":{
-    #     "on_submit": ["next_quality.next_quality.custom_stock_entry.on_submit",
-    #                 "next_quality.next_quality.custom_stock_entry.submit_quality_inspection","next_quality.next_quality.custom_quality_inspection.set_insepection_in_batch_from_stock_entry"],
-    #     "validate":"next_quality.next_quality.custom_stock_entry.create_quality_insp"
-    # },
+    "Stock Entry":{
+        "on_submit": [
+            # "next_quality.next_quality.custom_stock_entry.on_submit",
+            "next_quality.next_quality.custom_stock_entry.submit_quality_inspection","next_quality.next_quality.custom_quality_inspection.set_insepection_in_batch_from_stock_entry"],
+        "validate":"next_quality.next_quality.custom_stock_entry.create_quality_insp"
+    },
     "Delivery Note":{
         "before_submit": "next_quality.next_quality.custom_delivery_note.get_list"
     },
