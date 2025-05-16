@@ -118,7 +118,8 @@ doc_events = {
         # "after_save":"next_quality.next_quality.custom_quality_inspection.after_save",
         "validate":"next_quality.next_quality.custom_quality_inspection.set_inps",
         "before_submit":"next_quality.next_quality.custom_quality_inspection.before_submit",
-        "after_insert":"next_quality.next_quality.custom_quality_inspection.set_qc",
+        "after_insert":["next_quality.next_quality.custom_quality_inspection.set_qc",
+                        "next_quality.next_quality.custom_quality_inspection.set_supplier"],
         "on_trash":"next_quality.next_quality.custom_stock_entry.delete_quality_inspection"
     },
     "Sales Order": {

@@ -100,7 +100,10 @@ def before_save(self,method):
     if null > 0:
         self.not_tested = 1
 
-
+def set_supplier(self,method):
+    if self.reference_type == "Purchase Receipt":
+        pur_rec = frappe.get_doc(self.reference_type,self.reference_name)
+        self.db_set("supplier" , pur_rec.supplier)
 
 def before_submit(self,method):
     if self.not_tested == 1:
