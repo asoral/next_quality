@@ -9,8 +9,9 @@ from frappe import _
 def execute(filters=None):
 	columns = get_columns(filters)
 	data = get_data(filters)
-	chart = get_chart_data()
-	return columns, data, None, chart
+	# chart = get_chart_data()
+	return columns, data, None 
+
 
 
 def get_columns(filters):
@@ -311,10 +312,125 @@ def get_data(filters):
 		}
 		data.append(row)
 	return data
+
+def get_conditions(filters):
+	
+	if filters:
+		query = """ """
+		# and stock_entry_type = 'Manufacture'
+		if filters.get('item_code'):
+			query += """ and wo.production_item = '%s'  """ % filters.item_code
+		if filters.get('serial_number'):
+			query += """ and sed.serial_no = '%s'  """ % filters.serial_number
+		if filters.get('batch_number'):
+			query += """ and sed.batch_no = '%s'  """ % filters.batch_number
+		if filters.get('item_group'):
+			query += """ and  i.item_group = '%s'  """ % filters.item_group
+		if filters.get('brand'):
+			query += """ and i.brand = '%s'  """ % filters.brand
+		if filters.get('company'):
+			query += """and se.company = '%s'  """ % filters.company
+		if filters.get('warehouse'):
+			query += """ and sed.t_warehouse = '%s'  """ % filters.warehouse
+		if filters.get('work_order'):
+			query += """ and se.work_order = '%s'  """ % filters.work_order
+		if filters.get("from_date"):
+			query += "and se.posting_date>='%s'" % filters.get('from_date')
+		if filters.get("to_date"):
+			query += " and se.posting_date<='%s'" % filters.get('to_date')
+		if filters.get('group_by'):
+			if filters.get("group_by") == 'manufacture':
+				query += """ group by work_order """ 
+		if filters.get('group_by'):
+			if filters.get("group_by") == 'trxtype':
+				query += """group by trxtype"""
+	return query
+
+
+def get_chart_data():
+	# New chart 
+    query = """
+        SELECT
+            sed.item_name,
+            SUM(sed.transfer_qty)
+        FROM
+            `tabStock Entry` se
+        JOIN
+            `tabStock Entry Detail` sed ON sed.parent = se.name
+        WHERE
+            se.docstatus = 1
+            AND se.stock_entry_type IN ('Material Consumption for Manufacture', 'Manufacture')
+            AND sed.s_warehouse IS NULL
+        GROUP BY
+            sed.item_name
+        ORDER BY
+            SUM(sed.transfer_qty) DESC
+        LIMIT 30
+    """
+
+    data = frappe.db.sql(query)
+    labels = [d[0] for d in data]
+    values = [d[1] for d in data]
+
+    chart = {
+        "data": {
+            "labels": labels,
+            "datasets": [{
+                "name": _("Item"),
+                "values": values
+            }]
+        },
+        "type": "bar"
+    }
+    return chart
+
+
+# def get_chart_data():
+# 	query = """ select distinct
+# 			sed.item_name as "Item:Data:120"
+# 			from 
+# 				`tabStock Entry` se, `tabStock Entry Detail` sed
+# 			where
+# 					sed.parent = se.name
+# 				and se.docstatus = 1
+# 				and se.stock_entry_type in ('Material Consumption for Manufacture', 'Manufacture')
+# 				and sed.s_warehouse is null
+# 				"""
+
+# 	q_data = frappe.db.sql(query)
+# 	labels = []
+# 	value = []
+# 	for q in q_data:
+# 		labels.append(q[0])
+# 		query2 = """ select SUM(transfer_qty)
+# 				from 
+# 					`tabStock Entry` se, `tabStock Entry Detail` sed
+# 				where
+
+# 						sed.parent = se.name
+# 						and se.stock_entry_type in ('Material Consumption for Manufacture', 'Manufacture')
+# 						and se.docstatus = 1
+# 					"""
+# 		query2 += """ and  sed.item_name = '%s'  """ % q[0]
+# 		testvalue = frappe.db.sql(query2)
+# 		value.append(testvalue[0])
+# 	# value = ["12","13"]
+# 	# print("**********************************##", value)
+# 	datasets = []
+# 	if value:
+# 		datasets.append({'name': _('Item'), 'values': value})
+# 	chart = {
+# 		"data": {
+# 			'labels': labels,
+# 			'datasets': datasets
+# 		}
+# 	}
+# 	chart["type"] = "bar"
+# 	return chart
+# ------------------------------------------------------------------------------------------------------------------------------------------>>>>>
 	# return [data for _ in range(count)]
 
 	#
-
 	# elif filters.tree_type == 'Prod. Item':
 	# 	# cond = ""
 	# 	# trxtype = """ select distinct wo.production_item from `tabWork Order` wo,`tabStock Entry` se,`tabStock Entry Detail` as sed,`tabItem` as i where wo.name = se.work_order and se.stock_entry_type in ("Manufacture",'Material Consumption for Manufacture') and wo.docstatus = 1 """
@@ -496,80 +612,5 @@ def get_data(filters):
 	# 	return data
 
 
-def get_conditions(filters):
-	
-	if filters:
-		query = """ """
-		# and stock_entry_type = 'Manufacture'
-		if filters.get('item_code'):
-			query += """ and wo.production_item = '%s'  """ % filters.item_code
-		if filters.get('serial_number'):
-			query += """ and sed.serial_no = '%s'  """ % filters.serial_number
-		if filters.get('batch_number'):
-			query += """ and sed.batch_no = '%s'  """ % filters.batch_number
-		if filters.get('item_group'):
-			query += """ and  i.item_group = '%s'  """ % filters.item_group
-		if filters.get('brand'):
-			query += """ and i.brand = '%s'  """ % filters.brand
-		if filters.get('company'):
-			query += """and se.company = '%s'  """ % filters.company
-		if filters.get('warehouse'):
-			query += """ and sed.t_warehouse = '%s'  """ % filters.warehouse
-		if filters.get('work_order'):
-			query += """ and se.work_order = '%s'  """ % filters.work_order
-		if filters.get("from_date"):
-			query += "and se.posting_date>='%s'" % filters.get('from_date')
-		if filters.get("to_date"):
-			query += " and se.posting_date<='%s'" % filters.get('to_date')
-		if filters.get('group_by'):
-			if filters.get("group_by") == 'manufacture':
-				query += """ group by work_order """ 
-		if filters.get('group_by'):
-			if filters.get("group_by") == 'trxtype':
-				query += """group by trxtype"""
-	return query
 
-
-def get_chart_data():
-	query = """ select distinct
-			sed.item_name as "Item:Data:120"
-			from 
-				`tabStock Entry` se, `tabStock Entry Detail` sed
-			where
-					sed.parent = se.name
-				and se.docstatus = 1
-				and se.stock_entry_type in ('Material Consumption for Manufacture', 'Manufacture')
-				and sed.s_warehouse is null
-				"""
-
-	q_data = frappe.db.sql(query)
-	labels = []
-	value = []
-	for q in q_data:
-		labels.append(q[0])
-		query2 = """ select SUM(transfer_qty)
-				from 
-					`tabStock Entry` se, `tabStock Entry Detail` sed
-				where
-
-						sed.parent = se.name
-						and se.stock_entry_type in ('Material Consumption for Manufacture', 'Manufacture')
-						and se.docstatus = 1
-					"""
-		query2 += """ and  sed.item_name = '%s'  """ % q[0]
-		testvalue = frappe.db.sql(query2)
-		value.append(testvalue[0])
-	# value = ["12","13"]
-	# print("**********************************##", value)
-	datasets = []
-	if value:
-		datasets.append({'name': _('Item'), 'values': value})
-	chart = {
-		"data": {
-			'labels': labels,
-			'datasets': datasets
-		}
-	}
-	chart["type"] = "bar"
-	return chart
 
