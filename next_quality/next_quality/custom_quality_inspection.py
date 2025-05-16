@@ -103,7 +103,7 @@ def before_save(self,method):
 def set_supplier(self,method):
     if self.reference_type == "Purchase Receipt":
         pur_rec = frappe.get_doc(self.reference_type,self.reference_name)
-        self.db_set("supplier" , pur_rec.supplier)
+        self.db_set("supplier" , pur_rec.supplier_name)
 
 def before_submit(self,method):
     if self.not_tested == 1:
