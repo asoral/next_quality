@@ -15,602 +15,198 @@ def execute(filters=None):
 
 
 def get_columns(filters):
-	columns = [
-		{
-			"label": _("Work Order"),
-			"fieldname": "work_order",
-			"fieldtype": "Link",
-			"options": "Work Order",
-			"width": 150
-		},
-
-		{
-			"label": _("Prod. Item "),
-			"fieldname": "item_code",
-			"fieldtype": "Link",
-			"options": "Item",
-			"width": 120
-		},
-		{
-			"label": _("Prod. Item Name"),
-			"fieldname": "production_item",
-			"fieldtype": "Data",
-			"width": 120
-		},
-		{
-			"label": _("Consumption ID"),
-			"fieldname":"material_consumption",
-			"fieldtype": "Link",
-			"options": "Material Consumption",
-			"width": 120
-		},
-		{
-			"label": _("Production ID"),
-			"fieldname": "material_produce",
-			"fieldtype": "Link",
-			"options": "Material Produce",
-			"width": 120
-		},
-		{
-			"label": _("Stock Entry"),
-			"fieldname": "name",
-			"fieldtype": "Link",
-			"options": "Stock Entry",
-			"width": 150
-		},
-		{
-			"label": _("Company ID"),
-			"fieldname": "company",
-			"fieldtype": "Link",
-			"options": "Company",
-			"width": 120
-		},
-		{
-			"label": _("Prod. Item Group"),
-			"fieldname": "item_group",
-			"fieldtype": "Data",
-			"width": 120
-		},
-		{
-			"label": _("Prod. Brand"),
-			"fieldname": "brand",
-			"fieldtype": "Data",
-			"width": 100
-		},
-		{
-			"label": _("FG Inspection"),
-			"fieldname": "name1",
-			"fieldtype": "Link",
-			"options": "Quality Inspection",
-			"width": 120
-		},
-		{
-			"label": _("Date"),
-			"fieldname": "posting_date",
-			"fieldtype": "Date",
-			"width": 120
-		},
-		# {
-		#     "label": _("Type"),
-		#     "fieldname": "stock_entry_type",
-		#     "fieldtype": "Data",
-		#     "width": 120
-		# },
-		{
-			"label": _("Trx. Type"),
-			"fieldname": "trxtype",
-			"fieldtype": "Data",
-			"width": 120
-		},
-
-		# {
-		#     "label": _("Source Warehouse"),
-		#     "fieldname": "s_warehouse",
-		#     "fieldtype": "Link",
-		#     "options": "Warehouse",
-		#     "width": 150
-		# },
-		{
-			"label": _("Target Warehouse"),
-			"fieldname": "t_warehouse",
-			"fieldtype": "Link",
-			"options": "Warehouse",
-			"width": 150
-		},
-		{
-			"label": _("Item"),
-			"fieldname": "item_no_stock_entry",
-			"fieldtype": "Data",
-			"width": 120
-		},
-		{
-			"label": _("Serial No"),
-			"fieldname": "serial_no",
-			"fieldtype": "Data",
-			"width": 120
-		},
-		{
-			"label": _("Batch"),
-			"fieldname": "batch_no",
-			"fieldtype": "Data",
-			"width": 120
-		},
-		{
-			"label": _("Quantity"),
-			"fieldname": "qty",
-			"fieldtype": "Data",
-			"width": 120
-		},
-		{
-			"label": _("UOM"),
-			"fieldname": "uom",
-			"fieldtype": "Data",
-			"width": 120
-		},
-		{
-			"label": _("Qty as per Stock UOM"),
-			"fieldname": "transfer_qty",
-			"fieldtype": "Data",
-			"width": 120
-		},
-		{
-			"label": _("Stock UOM"),
-			"fieldname": "stock_uom",
-			"fieldtype": "Data",
-			"width": 120
-		},
-		{
-			"label": _("Amount"),
-			"fieldname": "amount",
-			"fieldtype": "Data",
-			"width": 120
-		},
-		{
-			"label": _("Valuation Rate"),
-			"fieldname": "valuation_rate",
-			"fieldtype": "Data",
-			"width": 120
-		},
-		{
-			"label": _("Cost"),
-			"fieldname": "basic_rate",
-			"fieldtype": "Data",
-			"width": 120
-		},
-		{
-			"label": _("Actual yeild"),
-			"fieldname": "actual_yeild",
-			"fieldtype": "Percentage",
-			"width": 120
-		},
-		{
-			"label": _("Yeild Deviation"),
-			"fieldname": "yeild_deviation",
-			"fieldtype": "Percentage",
-			"width": 120
-		},
-		# {
-		# 	"label": _("WorkOrder"),
-		# 	"fieldname": "work_n",
-		# 	"fieldtype": "Link",
-		# 	"options": "Work Order",
-		# 	"width": 150
-		# },
-
-
+	return [
+		{"label": _("Work Order"), "fieldname": "work_order", "fieldtype": "Link", "options": "Work Order", "width": 150},
+		{"label": _("Prod. Item "), "fieldname": "item_code", "fieldtype": "Link", "options": "Item", "width": 120},
+		{"label": _("Prod. Item Name"), "fieldname": "production_item", "fieldtype": "Data", "width": 120},
+		{"label": _("Stock Entry"), "fieldname": "name", "fieldtype": "Link", "options": "Stock Entry", "width": 150},
+		{ "label": _("Consumption ID"), "fieldname": "material_consumption", "fieldtype": "Data",  "width": 120 },
+		{ "label": _("Production ID"), "fieldname": "material_produce", "fieldtype": "Data", "width": 120 },
+		{"label": _("Company ID"), "fieldname": "company", "fieldtype": "Link", "options": "Company", "width": 120},
+		{"label": _("Prod. Item Group"), "fieldname": "item_group", "fieldtype": "Data", "width": 120},
+		{"label": _("Prod. Brand"), "fieldname": "brand", "fieldtype": "Data", "width": 100},
+		{"label": _("FG Inspection"), "fieldname": "name1", "fieldtype": "Link", "options": "Quality Inspection", "width": 120},
+		{"label": _("Date"), "fieldname": "posting_date", "fieldtype": "Date", "width": 120},
+		{"label": _("Trx. Type"), "fieldname": "trxtype", "fieldtype": "Data", "width": 120},
+		{"label": _("Target Warehouse"), "fieldname": "t_warehouse", "fieldtype": "Link", "options": "Warehouse", "width": 150},
+		{"label": _("Item"), "fieldname": "item_no_stock_entry", "fieldtype": "Data", "width": 120},
+		{"label": _("Serial No"), "fieldname": "serial_no", "fieldtype": "Data", "width": 120},
+		{"label": _("Batch"), "fieldname": "batch_no", "fieldtype": "Data", "width": 120},
+		{"label": _("Quantity"), "fieldname": "qty", "fieldtype": "Data", "width": 120},
+		{"label": _("UOM"), "fieldname": "uom", "fieldtype": "Data", "width": 120},
+		{"label": _("Qty as per Stock UOM"), "fieldname": "transfer_qty", "fieldtype": "Data", "width": 120},
+		{"label": _("Stock UOM"), "fieldname": "stock_uom", "fieldtype": "Data", "width": 120},
+		{"label": _("Amount"), "fieldname": "amount", "fieldtype": "Data", "width": 120},
+		{"label": _("Valuation Rate"), "fieldname": "valuation_rate", "fieldtype": "Data", "width": 120},
+		{"label": _("Cost"), "fieldname": "basic_rate", "fieldtype": "Data", "width": 120},
+		{"label": _("Actual yeild"), "fieldname": "actual_yeild", "fieldtype": "Percentage", "width": 120},
+		{"label": _("Yeild Deviation"), "fieldname": "yeild_deviation", "fieldtype": "Percentage", "width": 120},
+		# { "label": _("Source Warehouse"), "fieldname": "s_warehouse", "fieldtype": "Link", "options": "Warehouse", "width": 150 },
+		# { "label": _("Type"), "fieldname": "stock_entry_type", "fieldtype": "Data", "width": 120 },
 
 	]
-	return columns
-
 
 def get_data(filters):
-	# print("======")
 	data = []
-	conditions = get_conditions(filters)
-	a = int(conditions.count("group by work_order"))
-	b = int(conditions.count("group by trxtype"))
-	query = """select 
-    se.work_order,
-    wo.production_item,
-    i.item_group as FGGroup,
-    i.brand as 'FG Brand',
-    se.name as 'SE Voucher',
-    qi.name as name1,
-    se.posting_date as 'Posting Date',
-    se.posting_time as 'Posting Time',
-    case
-    when sed.s_warehouse is not null and sed.t_warehouse is null then 'Consumed'
-    when sed.s_warehouse is null and sed.t_warehouse is not null then 'Produced'
-    end as 'Trx. Type',
-    case
-    when sed.s_warehouse is not null and sed.t_warehouse is null then sed.s_warehouse
-    when sed.s_warehouse is null and sed.t_warehouse is not null then sed.t_warehouse
-    end as 'Warehouse',
-    se.material_consumption as 'Consumption ID',
-    se.material_produce as 'Production ID',
-    sed.item_code as Item,
-    sed.item_name as 'Item Name',
-    sed.batch_no as 'Batch No.',
-    sed.serial_no as 'Serial No',
-    sed.qty,
-	se.company as 'Company ID',
-    sed.uom,
-    sed.transfer_qty as 'Qty in Stock UOM',
-    sed.stock_uom as 'Stock UOM',
-    sed.basic_rate,
-    sed.basic_amount,
-    sed.additional_cost,
-    sed.amount,
-    sed.valuation_rate,
-	wo.actual_yeild,
-	wo.yeild_deviation
-    
-    
-
-	from 
-    `tabStock Entry` as se
-    inner join `tabStock Entry Detail` as sed on sed.parent = se.name
-    inner join `tabWork Order` as wo on se.work_order = wo.name
-    inner join `tabItem` as i on wo.production_item = i.name
-    left outer join `tabQuality Inspection` as qi on qi.reference_name = wo.name and qi.docstatus = 1
-	where 
-    se.stock_entry_type in ('Material Consumption for Manufacture', 'Manufacture')
-    and se.docstatus = 1
+	query = """
+		SELECT 
+			se.work_order,
+			wo.production_item,
+			i.item_group,
+			i.brand,
+			se.name,
+			qi.name as name1,
+			se.posting_date,
+			CASE
+				WHEN sed.s_warehouse IS NOT NULL AND sed.t_warehouse IS NULL THEN 'Consumed'
+				WHEN sed.s_warehouse IS NULL AND sed.t_warehouse IS NOT NULL THEN 'Produced'
+			END as trxtype,
+			CASE
+				WHEN sed.s_warehouse IS NOT NULL AND sed.t_warehouse IS NULL THEN sed.s_warehouse
+				WHEN sed.s_warehouse IS NULL AND sed.t_warehouse IS NOT NULL THEN sed.t_warehouse
+			END as warehouse,
+			se.material_consumption,
+			se.material_produce,
+			sed.item_code,
+			sed.item_name,
+			sed.batch_no,
+			sed.serial_no,
+			sed.qty,
+			se.company,
+			sed.uom,
+			sed.transfer_qty,
+			sed.stock_uom,
+			sed.basic_rate,
+			sed.amount,
+			sed.valuation_rate,
+			wo.actual_yeild,
+			wo.yeild_deviation
+		FROM 
+			`tabStock Entry` se
+		INNER JOIN `tabStock Entry Detail` sed ON sed.parent = se.name
+		INNER JOIN `tabWork Order` wo ON se.work_order = wo.name
+		INNER JOIN `tabItem` i ON wo.production_item = i.name
+		LEFT JOIN `tabQuality Inspection` qi ON qi.reference_name = wo.name AND qi.docstatus = 1
+		WHERE 
+			se.stock_entry_type IN ('Material Consumption for Manufacture', 'Manufacture')
+			AND se.docstatus = 1
+			{conditions}
+		ORDER BY se.posting_date DESC
 	"""
-	# cond = ""
-	# if filters.tree_type == 'Work Order':
-		# cond = ""
-		# work_order = """ select distinct se.work_order from `tabStock Entry` se,`tabStock Entry Detail` as sed, `tabWork Order` as wo,`tabItem` as i where se.stock_entry_type in("Manufacture",'Material Consumption for Manufacture') and se.docstatus = 1 and se.work_order != "" """
-		# p_work_order = frappe.db.sql(work_order + conditions)
-		# count = len(p_work_order)
-		# # print("*******",p_work_order)
-		# for p in p_work_order:
-		# 	# data = []
-		# 	row = {
-		# 		"work_order": p[0]
-		# 	}
-			# data.append(row)
-	order_by="""order by se.posting_date desc, wo.name ,'Trx. Type' """
-	# cond = """ and  se.work_order = '%s'""" % p[0]
-	q_data = frappe.db.sql(query+conditions+order_by )
-	# data = []
-	# row = {
-	#     "work_order": p[0]
-	# }
-	# data.append(row)
-	for q in q_data:
-		row = {
-			"work_order":q[0],
-			"name": q[4],
-			"posting_date": q[6],
-			"stock_entry_type": q[0],
-			"material_consumption":q[10],
-			"material_produce":q[11],
-			"item_code": q[1],
-			"item_group": q[2],
-			# "s_warehouse": q[13],
-			"t_warehouse": q[9],
-			"company":q[17],
-			"serial_no": q[15],
-			"batch_no": q[14],
-			"name1":q[5],
-			"qty": q[16],
-			"uom": q[20],
-			"basic_rate": q[21],
-			"brand": q[3],
-			"production_item":q[13],
-			"item_no_stock_entry":q[12],
-			"stock_uom":q[20],
-			"transfer_qty":q[19],
-			"amount":q[24],
-			"valuation_rate":q[25],
-			"trxtype": q[8],
-			"actual_yeild":q[26],
-			"yeild_deviation":q[27]
-			
 
-		}
-		data.append(row)
+	conditions, values = get_conditions(filters)
+	query = query.format(conditions=conditions)
+
+	q_data = frappe.db.sql(query, values=values, as_dict=True)
+	for row in q_data:
+		data.append({
+			"work_order": row.work_order,
+			"name": row.name,
+			"posting_date": row.posting_date,
+			"material_consumption": row.material_consumption,
+			"material_produce": row.material_produce,
+			"item_code": row.production_item,
+			"item_group": row.item_group,
+			"brand": row.brand,
+			"t_warehouse": row.warehouse,
+			"company": row.company,
+			"serial_no": row.serial_no,
+			"batch_no": row.batch_no,
+			"name1": row.name1,
+			"qty": row.qty,
+			"uom": row.uom,
+			"basic_rate": row.basic_rate,
+			"production_item": row.item_name,
+			"item_no_stock_entry": row.item_code,
+			"stock_uom": row.stock_uom,
+			"transfer_qty": row.transfer_qty,
+			"amount": row.amount,
+			"valuation_rate": row.valuation_rate,
+			"trxtype": row.trxtype,
+			"actual_yeild": row.actual_yeild,
+			"yeild_deviation": row.yeild_deviation,
+		})
 	return data
 
 def get_conditions(filters):
-	
-	if filters:
-		query = """ """
-		# and stock_entry_type = 'Manufacture'
-		if filters.get('item_code'):
-			query += """ and wo.production_item = '%s'  """ % filters.item_code
-		if filters.get('serial_number'):
-			query += """ and sed.serial_no = '%s'  """ % filters.serial_number
-		if filters.get('batch_number'):
-			query += """ and sed.batch_no = '%s'  """ % filters.batch_number
-		if filters.get('item_group'):
-			query += """ and  i.item_group = '%s'  """ % filters.item_group
-		if filters.get('brand'):
-			query += """ and i.brand = '%s'  """ % filters.brand
-		if filters.get('company'):
-			query += """and se.company = '%s'  """ % filters.company
-		if filters.get('warehouse'):
-			query += """ and sed.t_warehouse = '%s'  """ % filters.warehouse
-		if filters.get('work_order'):
-			query += """ and se.work_order = '%s'  """ % filters.work_order
-		if filters.get("from_date"):
-			query += "and se.posting_date>='%s'" % filters.get('from_date')
-		if filters.get("to_date"):
-			query += " and se.posting_date<='%s'" % filters.get('to_date')
-		if filters.get('group_by'):
-			if filters.get("group_by") == 'manufacture':
-				query += """ group by work_order """ 
-		if filters.get('group_by'):
-			if filters.get("group_by") == 'trxtype':
-				query += """group by trxtype"""
-	return query
+	conditions = []
+	values = {}
 
+	if filters.get('item_code'):
+		conditions.append("wo.production_item = %(item_code)s")
+		values["item_code"] = filters['item_code']
+	if filters.get('serial_number'):
+		conditions.append("sed.serial_no = %(serial_number)s")
+		values["serial_number"] = filters['serial_number']
+	if filters.get('batch_number'):
+		conditions.append("sed.batch_no = %(batch_number)s")
+		values["batch_number"] = filters['batch_number']
+	if filters.get('item_group'):
+		conditions.append("i.item_group = %(item_group)s")
+		values["item_group"] = filters['item_group']
+	if filters.get('brand'):
+		conditions.append("i.brand = %(brand)s")
+		values["brand"] = filters['brand']
+	if filters.get('company'):
+		conditions.append("se.company = %(company)s")
+		values["company"] = filters['company']
+	if filters.get('warehouse'):
+		conditions.append("sed.t_warehouse = %(warehouse)s")
+		values["warehouse"] = filters['warehouse']
+	if filters.get('work_order'):
+		conditions.append("se.work_order = %(work_order)s")
+		values["work_order"] = filters['work_order']
+	if filters.get("from_date"):
+		conditions.append("se.posting_date >= %(from_date)s")
+		values["from_date"] = filters["from_date"]
+	if filters.get("to_date"):
+		conditions.append("se.posting_date <= %(to_date)s")
+		values["to_date"] = filters["to_date"]
 
-def get_chart_data():
-	# New chart 
-    query = """
-        SELECT
-            sed.item_name,
-            SUM(sed.transfer_qty)
-        FROM
-            `tabStock Entry` se
-        JOIN
-            `tabStock Entry Detail` sed ON sed.parent = se.name
-        WHERE
-            se.docstatus = 1
-            AND se.stock_entry_type IN ('Material Consumption for Manufacture', 'Manufacture')
-            AND sed.s_warehouse IS NULL
-        GROUP BY
-            sed.item_name
-        ORDER BY
-            SUM(sed.transfer_qty) DESC
-        LIMIT 30
-    """
+	# Group by removed since it doesn’t work in current logic without aggregation
 
-    data = frappe.db.sql(query)
-    labels = [d[0] for d in data]
-    values = [d[1] for d in data]
+	return " AND " + " AND ".join(conditions) if conditions else "", values
 
-    chart = {
-        "data": {
-            "labels": labels,
-            "datasets": [{
-                "name": _("Item"),
-                "values": values
-            }]
-        },
-        "type": "bar"
-    }
-    return chart
 
 
 # def get_chart_data():
-# 	query = """ select distinct
-# 			sed.item_name as "Item:Data:120"
-# 			from 
-# 				`tabStock Entry` se, `tabStock Entry Detail` sed
-# 			where
-# 					sed.parent = se.name
-# 				and se.docstatus = 1
-# 				and se.stock_entry_type in ('Material Consumption for Manufacture', 'Manufacture')
-# 				and sed.s_warehouse is null
-# 				"""
+# 	# New chart 
+#     query = """
+#         SELECT
+#             sed.item_name,
+#             SUM(sed.transfer_qty)
+#         FROM
+#             `tabStock Entry` se
+#         JOIN
+#             `tabStock Entry Detail` sed ON sed.parent = se.name
+#         WHERE
+#             se.docstatus = 1
+#             AND se.stock_entry_type IN ('Material Consumption for Manufacture', 'Manufacture')
+#             AND sed.s_warehouse IS NULL
+#         GROUP BY
+#             sed.item_name
+#         ORDER BY
+#             SUM(sed.transfer_qty) DESC
+#         LIMIT 30
+#     """
 
-# 	q_data = frappe.db.sql(query)
-# 	labels = []
-# 	value = []
-# 	for q in q_data:
-# 		labels.append(q[0])
-# 		query2 = """ select SUM(transfer_qty)
-# 				from 
-# 					`tabStock Entry` se, `tabStock Entry Detail` sed
-# 				where
+#     data = frappe.db.sql(query)
+#     labels = [d[0] for d in data]
+#     values = [d[1] for d in data]
 
-# 						sed.parent = se.name
-# 						and se.stock_entry_type in ('Material Consumption for Manufacture', 'Manufacture')
-# 						and se.docstatus = 1
-# 					"""
-# 		query2 += """ and  sed.item_name = '%s'  """ % q[0]
-# 		testvalue = frappe.db.sql(query2)
-# 		value.append(testvalue[0])
-# 	# value = ["12","13"]
-# 	# print("**********************************##", value)
-# 	datasets = []
-# 	if value:
-# 		datasets.append({'name': _('Item'), 'values': value})
-# 	chart = {
-# 		"data": {
-# 			'labels': labels,
-# 			'datasets': datasets
-# 		}
-# 	}
-# 	chart["type"] = "bar"
-# 	return chart
-# ------------------------------------------------------------------------------------------------------------------------------------------>>>>>
-	# return [data for _ in range(count)]
+#     chart = {
+#         "data": {
+#             "labels": labels,
+#             "datasets": [{
+#                 "name": _("Item"),
+#                 "values": values
+#             }]
+#         },
+#         "type": "bar"
+#     }
+#     return chart
 
-	#
-	# elif filters.tree_type == 'Prod. Item':
-	# 	# cond = ""
-	# 	# trxtype = """ select distinct wo.production_item from `tabWork Order` wo,`tabStock Entry` se,`tabStock Entry Detail` as sed,`tabItem` as i where wo.name = se.work_order and se.stock_entry_type in ("Manufacture",'Material Consumption for Manufacture') and wo.docstatus = 1 """
-	# 	# p_trxtype = frappe.db.sql(trxtype+conditions)
-	# 	# # print("&&&&&",p_trxtype)
-	# 	# for p in p_trxtype:
-	# 		# cond += """ and  b.production_item = '%s' order by b.modified desc """ % p[0]
-	# 	query = """ select
-	# 	se.work_order,
-	# 	wo.production_item,
-	# 	i.item_group as FGGroup,
-	# 	i.brand as 'FG Brand',
-	# 	se.name as 'SE Voucher',
-	# 	qi.name as 'FG Inspection',
-	# 	se.posting_date as 'Posting Date',
-	# 	se.posting_time as 'Posting Time',
-	# 	case
-	# 	when sed.s_warehouse is not null and sed.t_warehouse is null then 'Consumed'
-	# 	when sed.s_warehouse is null and sed.t_warehouse is not null then 'Produced'
-	# 	end as 'Trx. Type',
-	# 	case
-	# 	when sed.s_warehouse is not null and sed.t_warehouse is null then sed.s_warehouse
-	# 	when sed.s_warehouse is null and sed.t_warehouse is not null then sed.t_warehouse
-	# 	end as 'Warehouse',
-	# 	se.material_consumption as 'Consumption ID',
-	# 	se.material_produce as 'Production ID',
-	# 	sed.item_code as Item,
-	# 	sed.item_name as 'Item Name',
-	# 	sed.batch_no as 'Batch No.',
-	# 	sed.serial_no as 'Serial No',
-	# 	se.company as 'Company ID',
-	# 	sed.qty,
-	# 	sed.uom,
-	# 	sed.transfer_qty as 'Qty in Stock UOM',
-	# 	sed.stock_uom as 'Stock UOM',
-	# 	sed.basic_rate,
-	# 	sed.basic_amount,
-	# 	sed.additional_cost,
-	# 	sed.amount,
-	# 	sed.valuation_rate,
-	# 	wo.actual_yeild,
-	# 	wo.yeild_deviation
-		
-		
-
-	# 	from 
-	# 	`tabStock Entry` as se
-	# 	inner join `tabStock Entry Detail` as sed on sed.parent = se.name
-	# 	inner join `tabWork Order` as wo on se.work_order = wo.name
-	# 	inner join `tabItem` as i on wo.production_item = i.name
-	# 	left outer join `tabQuality Inspection` as qi on qi.reference_name = wo.name and qi.docstatus = 1
-	# 	where 
-	# 	se.stock_entry_type in ('Material Consumption for Manufacture', 'Manufacture')
-	# 	and se.docstatus = 1
-	# 				"""
-			
-	# 	order_by="""order by sed.modified desc ,se.posting_date desc, wo.name , wo.production_item"""
-	# 	# cond = """ and  wo.production_item = '%s' """ % p[0]
-	# 	q_data = frappe.db.sql(query+conditions+order_by)
-	# 	for q in q_data:
-	# 		row = {
-	# 			"work_order":q[0],
-	# 			"name": q[4],
-	# 			"posting_date": q[6],
-	# 			"work_order": q[0],
-	# 			"material_consumption":q[10],
-	# 			"material_produce":q[11],
-	# 			"item_code": q[1],
-	# 			"item_group": q[2],
-	# 			# "s_warehouse": q[13],
-	# 			"t_warehouse": q[9],
-	# 			"company":q[16],
-	# 			"serial_no": q[15],
-	# 			"batch_no": q[14],
-	# 			"name1":q[5],
-	# 			"qty": q[17],
-	# 			"uom": q[20],
-	# 			"basic_rate": q[21],
-	# 			"brand": q[3],
-	# 			"production_item":q[13],
-	# 			"item_no_stock_entry":q[12],
-	# 			"stock_uom":q[20],
-	# 			"transfer_qty":q[19],
-	# 			"amount":q[24],
-	# 			"valuation_rate":q[25],
-	# 			"trxtype": q[8],
-	# 			"actual_yeild":q[26],
-	# 			"yeild_deviation":q[27]
-
-	# 		}
-	# 		data.append(row)
-
-	# 	return data
-	# else:
-	# 	query = """ select
-	# 		se.work_order,
-	# 		wo.production_item,
-	# 		i.item_group as FGGroup,
-	# 		i.brand as 'FG Brand',
-	# 		se.name as 'SE Voucher',
-	# 		qi.name as 'FG Inspection',
-	# 		se.posting_date as 'Posting Date',
-	# 		se.posting_time as 'Posting Time',
-	# 		case
-	# 		when sed.s_warehouse is not null and sed.t_warehouse is null then 'Consumed'
-	# 		when sed.s_warehouse is null and sed.t_warehouse is not null then 'Produced'
-	# 		end as 'Trx. Type',
-	# 		case
-	# 		when sed.s_warehouse is not null and sed.t_warehouse is null then sed.s_warehouse
-	# 		when sed.s_warehouse is null and sed.t_warehouse is not null then sed.t_warehouse
-	# 		end as 'Warehouse',
-	# 		se.material_consumption as 'Consumption ID',
-	# 		se.material_produce as 'Production ID',
-	# 		sed.item_code as Item,
-	# 		sed.item_name as 'Item Name',
-	# 		sed.batch_no as 'Batch No.',
-	# 		sed.serial_no as 'Serial No',
-	# 		sed.qty,
-	# 		sed.uom,
-	# 		sed.transfer_qty as 'Qty in Stock UOM',
-	# 		sed.stock_uom as 'Stock UOM',
-	# 		sed.basic_rate,
-	# 		sed.basic_amount,
-	# 		sed.additional_cost,
-	# 		sed.amount,
-	# 		sed.valuation_rate,
-	# 		se.company as 'Company ID',
-	# 		wo.actual_yeild,
-	# 		wo.yeild_deviation
-
-	# 		from 
-	# 		`tabStock Entry` as se
-	# 		inner join `tabStock Entry Detail` as sed on sed.parent = se.name
-	# 		inner join `tabWork Order` as wo on se.work_order = wo.name
-	# 		inner join `tabItem` as i on wo.production_item = i.name
-	# 		left outer join `tabQuality Inspection` as qi on qi.reference_name = wo.name and qi.docstatus = 1
-	# 		where 
-	# 		se.stock_entry_type in ('Material Consumption for Manufacture', 'Manufacture')
-	# 		and se.docstatus = 1
-
-					
-
-	# 				"""
-	# 	# and d.item_code = c.item_code
-	# 	# group by work_order
-	# 	# print("====query",query+conditions)
-	# 	order_by = """ order by se.posting_date desc, wo.name , wo.production_item"""
-	# 	q_data = frappe.db.sql(query + conditions + order_by)
-	# 	data = []
-	# 	for q in q_data:
-	# 		row = {
-	# 				"name": q[4],
-	# 				"posting_date": q[6],
-	# 				"work_order": q[0],
-	# 				"material_consumption":q[10],
-	# 				"material_produce":q[11],
-	# 				"item_code": q[1],
-	# 				"item_group": q[2],
-	# 				# "s_warehouse": q[13],
-	# 				"t_warehouse": q[9],
-	# 				"company":q[25],
-	# 				"serial_no": q[15],
-	# 				"batch_no": q[14],
-	# 				"name1":q[5],
-	# 				"qty": q[16],
-	# 				"uom": q[17],
-	# 				"basic_rate": q[20],
-	# 				"brand": q[3],
-	# 				"production_item":q[13],
-	# 				"item_no_stock_entry":q[12],
-	# 				"stock_uom":q[19],
-	# 				"transfer_qty":q[18],
-	# 				"amount":q[23],
-	# 				"valuation_rate":q[20],
-	# 				"trxtype": q[8],
-	# 		}
-	# 		data.append(row)
-
-	# 	return data
-
+ 
 
 
 
