@@ -4,7 +4,7 @@ from frappe.model.document import Document
 
 
 def before_insert(self,method):
-	list=frappe.db.get_all("Quality Inspection Template",{"inspection_applicable_on":self.inspection_applicable_on,"bom":self.bom,"inspection_type":self.inspection_type}
+	list=frappe.db.get_all("Quality Inspection Template",{"inspection_applicable_on":self.inspection_applicable_on,"bom":self.bom,"inspection_type":self.inspection_type,"mfg_inspection":1}
 			,["bom","inspection_applicable_on","inspection_type"])
 	if list:
 		msg="There is already a Quality Inspection created for {0} with same Inspection Type and Applicability. Please edit that inspection or delete and recreate one.".format(self.bom)
