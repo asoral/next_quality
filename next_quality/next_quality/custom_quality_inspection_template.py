@@ -41,11 +41,40 @@ pass
 def get_template_details(template):
 	if not template: return []
 
-	return frappe.get_all('Item Quality Inspection Parameter',
-		fields=["specification", "value", "acceptance_formula",
-			"numeric", "formula_based_criteria","selection","values", "min_value", "max_value","descriptions"],
+	fields = ["*", "specification", "value", "acceptance_formula",
+			"numeric", "formula_based_criteria","selection","values", "min_value", "max_value","descriptions"]
+	
+	meta = frappe.get_meta('Item Quality Inspection Parameter')
+	if meta.has_field('custom_coa_print_'):
+		fields.append('custom_coa_print_')
+	elif meta.has_field('coa_print'):
+		fields.append('coa_print as custom_coa_print_')
+
+	res = frappe.get_all('Item Quality Inspection Parameter',
+		fields=["*"], # Fetch everything
 		filters={'parenttype': 'Quality Inspection Template', 'parent': template},
 		order_by="idx")
+
+	# Universal mapping and data fixing
+	for row in res:
+		coa_print_val = ""
+		if frappe.db.has_column("Item Quality Inspection Parameter", "custom_coa_print"):
+			coa_print_val = frappe.db.get_value("Item Quality Inspection Parameter", row.name, "custom_coa_print")
+		elif frappe.db.has_column("Item Quality Inspection Parameter", "custom_coa_print_"):
+			coa_print_val = frappe.db.get_value("Item Quality Inspection Parameter", row.name, "custom_coa_print_")
+		elif frappe.db.has_column("Item Quality Inspection Parameter", "coa_print"):
+			coa_print_val = frappe.db.get_value("Item Quality Inspection Parameter", row.name, "coa_print")
+		
+		coa_print_val = coa_print_val or getattr(row, "custom_coa_print", None) or getattr(row, "custom_coa_print_", None) or getattr(row, "coa_print", None) or ""
+		
+		# Ensure it maps to both standard names for UI visibility
+		row['custom_coa_print_'] = coa_print_val
+		row['coa_print'] = coa_print_val
+		
+		if not row.get('status'):
+			row['status'] = "Accepted"
+			
+	return res
 
 
 

@@ -24,6 +24,16 @@ def make_inprocess_quality_inspection(self,method):
 				iqit_doc.inps_type=row.inspection_type
 				obj = frappe.get_doc("Quality Inspection Template", row.inprocess_quality_inspection_template)
 				for ro in obj.item_quality_inspection_parameter:
+					coa_print_val = ""
+					if frappe.db.has_column("Item Quality Inspection Parameter", "custom_coa_print"):
+						coa_print_val = frappe.db.get_value("Item Quality Inspection Parameter", ro.name, "custom_coa_print")
+					elif frappe.db.has_column("Item Quality Inspection Parameter", "custom_coa_print_"):
+						coa_print_val = frappe.db.get_value("Item Quality Inspection Parameter", ro.name, "custom_coa_print_")
+					elif frappe.db.has_column("Item Quality Inspection Parameter", "coa_print"):
+						coa_print_val = frappe.db.get_value("Item Quality Inspection Parameter", ro.name, "coa_print")
+					
+					coa_print_val = coa_print_val or getattr(ro, "custom_coa_print", None) or getattr(ro, "custom_coa_print_", None) or getattr(ro, "coa_print", None) or ""
+
 					iqit_doc.append("readings", {
 						'specification': ro.specification,
 						'numeric': ro.numeric,
@@ -34,7 +44,9 @@ def make_inprocess_quality_inspection(self,method):
 						'formula_based_criteria': ro.formula_based_criteria,
 						'acceptance_formula': ro.acceptance_formula,
 						'min_value': ro.min_value,
-						'max_value': ro.max_value
+						'max_value': ro.max_value,
+						'custom_coa_print_': coa_print_val,
+						'coa_print': coa_print_val
 					})
 				iqit_doc.save(ignore_permissions=True)
 
@@ -64,6 +76,16 @@ def periodic_quality_inspect():
 		iqit_doc.inps_type=res.inspection_type
 		obj = frappe.get_doc("Quality Inspection Template", res.inprocess_quality_inspection_template)
 		for row in obj.item_quality_inspection_parameter:
+			coa_print_val = ""
+			if frappe.db.has_column("Item Quality Inspection Parameter", "custom_coa_print"):
+				coa_print_val = frappe.db.get_value("Item Quality Inspection Parameter", row.name, "custom_coa_print")
+			elif frappe.db.has_column("Item Quality Inspection Parameter", "custom_coa_print_"):
+				coa_print_val = frappe.db.get_value("Item Quality Inspection Parameter", row.name, "custom_coa_print_")
+			elif frappe.db.has_column("Item Quality Inspection Parameter", "coa_print"):
+				coa_print_val = frappe.db.get_value("Item Quality Inspection Parameter", row.name, "coa_print")
+			
+			coa_print_val = coa_print_val or getattr(row, "custom_coa_print", None) or getattr(row, "custom_coa_print_", None) or getattr(row, "coa_print", None) or ""
+
 			iqit_doc.append("readings", {
 				'specification': row.specification,
 				'numeric': row.numeric,
@@ -74,6 +96,8 @@ def periodic_quality_inspect():
 				'formula_based_criteria': row.formula_based_criteria,
 				'acceptance_formula': row.acceptance_formula,
 				'min_value': row.min_value,
-				'max_value': row.max_value
+				'max_value': row.max_value,
+				'custom_coa_print_': coa_print_val,
+				'coa_print': coa_print_val
 			})
 		iqit_doc.save(ignore_permissions=True)
