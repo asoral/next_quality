@@ -93,11 +93,11 @@ def before_save(self,method):
     if count == 0 and null == 0 :
         self.status = "Accepted"
         self.not_tested = 0
-    if count > 0:
+    elif count > 0:
         print(count)
         self.status ="Rejected"
         self.not_tested = 0
-    if null > 0:
+    elif null > 0:
         self.not_tested = 1
 
 
@@ -118,6 +118,11 @@ def set_insepection_in_batch(qc,method):
         frappe.db.sql("delete from `tabQuality Inspection Reading` where parent =%s", (batch.name))
         for res in qc.readings:
             r = res.as_dict()
+            # Explicitly carry the COA value
+            coa_val = res.get('custom_coa_print_') or res.get('coa_print')
+            r['custom_coa_print_'] = coa_val
+            r['coa_print'] = coa_val
+            
             r.pop("name")
             r.pop("owner")
             r.pop("creation")
@@ -152,6 +157,11 @@ def set_insepection_in_batch_from_stock_entry(self,method):
             frappe.db.sql("delete from `tabQuality Inspection Reading` where parent =%s", (batch.name))
             for res in quality_inspection.readings:
                 r = res.as_dict()
+                # Explicitly carry the COA value
+                coa_val = res.get('custom_coa_print_') or res.get('coa_print')
+                r['custom_coa_print_'] = coa_val
+                r['coa_print'] = coa_val
+                
                 r.pop("name")
                 r.pop("owner")
                 r.pop("creation")
@@ -187,13 +197,43 @@ def get_item_specification_details(quality_inspection_template,item_code = None)
                                                                item_code, 'quality_inspection_template')
 
     if not quality_inspection_template: return
-    return frappe.get_all('Item Quality Inspection Parameter',
-                        fields=[
-                                "specification", "value", "acceptance_formula",
-                               "values","selection","numeric","formula_based_criteria","min_value", "max_value","descriptions"
-                                ],
+    fields = ["*", "specification", "value", "acceptance_formula",
+              "values", "selection", "numeric", "formula_based_criteria",
+              "min_value", "max_value", "descriptions"]
+    
+    # Smart check for field name
+    meta = frappe.get_meta('Item Quality Inspection Parameter')
+    if meta.has_field('custom_coa_print_'):
+        fields.append('custom_coa_print_')
+    elif meta.has_field('coa_print'):
+        fields.append('coa_print as custom_coa_print_')
+
+    res = frappe.get_all('Item Quality Inspection Parameter',
+                        fields=["*"], # Fetch everything to be absolutely safe
                         filters={'parenttype': 'Quality Inspection Template', 'parent': quality_inspection_template},
                         order_by="idx")
+    
+    # Universal mapping and data fixing
+    for row in res:
+        coa_print_val = ""
+        if frappe.db.has_column("Item Quality Inspection Parameter", "custom_coa_print"):
+            coa_print_val = frappe.db.get_value("Item Quality Inspection Parameter", row.name, "custom_coa_print")
+        elif frappe.db.has_column("Item Quality Inspection Parameter", "custom_coa_print_"):
+            coa_print_val = frappe.db.get_value("Item Quality Inspection Parameter", row.name, "custom_coa_print_")
+        elif frappe.db.has_column("Item Quality Inspection Parameter", "coa_print"):
+            coa_print_val = frappe.db.get_value("Item Quality Inspection Parameter", row.name, "coa_print")
+        
+        coa_print_val = coa_print_val or getattr(row, "custom_coa_print", None) or getattr(row, "custom_coa_print_", None) or getattr(row, "coa_print", None) or ""
+        
+        # Ensure it maps to both standard names
+        row['custom_coa_print_'] = coa_print_val
+        row['coa_print'] = coa_print_val
+        
+        # Also ensure status is set as expected in your previous versions
+        if not row.get('status'):
+            row['status'] = "Accepted"
+            
+    return res
 
 def set_qc(self,method):
     if self.reference_type== "Purchase Receipt":
@@ -201,6 +241,7 @@ def set_qc(self,method):
         for i in doc.get('items'):
             if i.item_code==self.item_code and i.batch_no==self.batch_no:
                 i.quality_inspection = self.name
+        doc.flags.ignore_validate_update_after_submit = True
         doc.save(ignore_permissions=True)
         doc.reload()
 
@@ -210,6 +251,7 @@ def set_inps(self,method):
         for i in doc.get('quality_inspection_parameter'):
             i.inprocess_quality_inspection = self.name
             i.reload() 
+        doc.flags.ignore_validate_update_after_submit = True
         doc.save(ignore_permissions=True)
         doc.reload()
     for i in self.readings:

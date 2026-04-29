@@ -32,6 +32,16 @@ def create_quality_inspection(doctype,name,work_order):
     iqit_doc.quality_inspection_template = template
     obj = frappe.get_doc("Quality Inspection Template",template)
     for row in obj.item_quality_inspection_parameter:
+        coa_print_val = ""
+        if frappe.db.has_column("Item Quality Inspection Parameter", "custom_coa_print"):
+            coa_print_val = frappe.db.get_value("Item Quality Inspection Parameter", row.name, "custom_coa_print")
+        elif frappe.db.has_column("Item Quality Inspection Parameter", "custom_coa_print_"):
+            coa_print_val = frappe.db.get_value("Item Quality Inspection Parameter", row.name, "custom_coa_print_")
+        elif frappe.db.has_column("Item Quality Inspection Parameter", "coa_print"):
+            coa_print_val = frappe.db.get_value("Item Quality Inspection Parameter", row.name, "coa_print")
+        
+        coa_print_val = coa_print_val or getattr(row, "custom_coa_print", None) or getattr(row, "custom_coa_print_", None) or getattr(row, "coa_print", None) or ""
+
         iqit_doc.append("readings",{
             'specification': row.specification,
             'descriptions':row.descriptions,
@@ -41,7 +51,9 @@ def create_quality_inspection(doctype,name,work_order):
             'formula_based_criteria': row.formula_based_criteria,
             'acceptance_formula': row.acceptance_formula,
             'min_value': row.min_value,
-            'max_value': row.max_value
+            'max_value': row.max_value,
+            'custom_coa_print_': coa_print_val,
+            'coa_print': coa_print_val
         })
     iqit_doc.save(ignore_permissions=True)
     frappe.db.set_value(doctype, name, 'custom_quality_inspection_created', 1)

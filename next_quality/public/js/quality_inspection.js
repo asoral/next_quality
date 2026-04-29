@@ -2,6 +2,10 @@
 frappe.ui.form.on("Quality Inspection", {
 
 	refresh:function(frm){
+		if(frm.is_new() && frm.doc.quality_inspection_template && 
+            (!frm.doc.readings || frm.doc.readings.length === 0 || !frm.doc.readings[0].custom_coa_print_)) {
+			frm.trigger("quality_inspection_template");
+		}
 		$.each(frm.doc["readings"],function(i,row)
             {
 				if(frm.doc.accepted_under_deviation==1){
@@ -26,7 +30,12 @@ frappe.ui.form.on("Quality Inspection", {
 				    if (r.message) {
                         frm.clear_table('readings');
 						r.message.forEach((d) => {
-							frm.add_child("readings", d);
+							var child = frm.add_child("readings", d);
+							// Ensure both field mappings work in JS as well
+							if(d.custom_coa_print_) {
+								child.custom_coa_print_ = d.custom_coa_print_;
+								child.coa_print = d.custom_coa_print_;
+							}
 						});
 						refresh_field("readings");
 					}
