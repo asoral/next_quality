@@ -2,47 +2,36 @@
 frappe.ui.form.on("Quality Inspection", {
 
 	refresh:function(frm){
-		if(frm.is_new() && frm.doc.quality_inspection_template && 
-            (!frm.doc.readings || frm.doc.readings.length === 0 || !frm.doc.readings[0].custom_coa_print_)) {
-			frm.trigger("quality_inspection_template");
+		if(frm.doc.docstatus == 0 && (!frm.doc.readings || frm.doc.readings.length === 0)) {
+			if (frm.doc.quality_inspection_template) {
+				frm.trigger("quality_inspection_template");
+			}
 		}
-		$.each(frm.doc["readings"],function(i,row)
-            {
-				if(frm.doc.accepted_under_deviation==1){
-					row.status="Accepted"
-					frm.doc.status="Accepted"
-					refresh_field("readings");
-					refresh_field("status")
-				}
-			})
+		
+		$.each(frm.doc["readings"] || [], function(i, row) {
+			if(frm.doc.accepted_under_deviation == 1){
+				row.status = "Accepted";
+				frm.doc.status = "Accepted";
+			}
+		});
+		if (frm.doc.accepted_under_deviation == 1) {
+			refresh_field("readings");
+			refresh_field("status");
+		}
 	},
-    
-    quality_inspection_template: function(frm) {
+
+	quality_inspection_template: function(frm) {
 		if (frm.doc.quality_inspection_template) {
-			frm.call({
-				
-				method: "next_quality.next_quality.custom_quality_inspection.get_item_specification_details",
-				args: {
-                    quality_inspection_template: frm.doc.quality_inspection_template,
-                    item_code: frm.doc.item_code
-                  },
-				callback: function(r) {
-				    if (r.message) {
-                        frm.clear_table('readings');
-						r.message.forEach((d) => {
-							var child = frm.add_child("readings", d);
-							// Ensure both field mappings work in JS as well
-							if(d.custom_coa_print_) {
-								child.custom_coa_print_ = d.custom_coa_print_;
-								child.coa_print = d.custom_coa_print_;
-							}
-						});
-						refresh_field("readings");
-					}
+			return frm.call({
+				method: "get_item_specification_details",
+				doc: frm.doc,
+				callback: function() {
+					refresh_field("readings");
 				}
 			});
 		}
 	},
+
 	inspection_type: function(frm) {
 		if(frm.doc.inspection_type == "Incoming")
 		  {

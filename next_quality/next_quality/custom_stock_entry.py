@@ -30,31 +30,24 @@ def create_quality_inspection(doctype,name,work_order):
     iqit_doc.inspected_by = frappe.session.user
     iqit_doc.bom_no = st_doc.bom_no
     iqit_doc.quality_inspection_template = template
-    obj = frappe.get_doc("Quality Inspection Template",template)
-    for row in obj.item_quality_inspection_parameter:
-        coa_print_val = ""
-        if frappe.db.has_column("Item Quality Inspection Parameter", "custom_coa_print"):
-            coa_print_val = frappe.db.get_value("Item Quality Inspection Parameter", row.name, "custom_coa_print")
-        elif frappe.db.has_column("Item Quality Inspection Parameter", "custom_coa_print_"):
-            coa_print_val = frappe.db.get_value("Item Quality Inspection Parameter", row.name, "custom_coa_print_")
-        elif frappe.db.has_column("Item Quality Inspection Parameter", "coa_print"):
-            coa_print_val = frappe.db.get_value("Item Quality Inspection Parameter", row.name, "coa_print")
-        
-        coa_print_val = coa_print_val or getattr(row, "custom_coa_print", None) or getattr(row, "custom_coa_print_", None) or getattr(row, "coa_print", None) or ""
+    if template:
+        from next_quality.next_quality.custom_quality_inspection_template import get_template_details
+        parameters = get_template_details(template)
+        for row in parameters:
+            iqit_doc.append("readings", {
+                'specification': row.get('specification'),
+                'descriptions': row.get('descriptions'),
+                'numeric': row.get('numeric'),
+                'value': row.get('value'),
+                'values': row.get('values'),
+                'formula_based_criteria': row.get('formula_based_criteria'),
+                'acceptance_formula': row.get('acceptance_formula'),
+                'min_value': row.get('min_value'),
+                'max_value': row.get('max_value'),
+                'custom_coa_print_': row.get('custom_coa_print_'),
+                'coa_print': row.get('coa_print')
+            })
 
-        iqit_doc.append("readings",{
-            'specification': row.specification,
-            'descriptions':row.descriptions,
-            'numeric': row.numeric,
-            'value': row.value,
-            'values':row.values,
-            'formula_based_criteria': row.formula_based_criteria,
-            'acceptance_formula': row.acceptance_formula,
-            'min_value': row.min_value,
-            'max_value': row.max_value,
-            'custom_coa_print_': coa_print_val,
-            'coa_print': coa_print_val
-        })
     iqit_doc.save(ignore_permissions=True)
     frappe.db.set_value(doctype, name, 'custom_quality_inspection_created', 1)
     frappe.msgprint("Quality Inspection Created")

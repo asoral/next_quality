@@ -73,6 +73,10 @@ def get_template_details(template):
 		
 		if not row.get('status'):
 			row['status'] = "Accepted"
+		
+		# Clean system fields to prevent conflicts when adding to new documents
+		for field in ['name', 'owner', 'creation', 'modified', 'modified_by', 'parent', 'parentfield', 'parenttype', 'idx', 'docstatus']:
+			row.pop(field, None)
 			
 	return res
 

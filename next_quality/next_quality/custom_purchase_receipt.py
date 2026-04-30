@@ -82,33 +82,25 @@ def create_quality_inspection(doc_name):
                 doc_qi.inspected_by = frappe.session.user
                 doc_qi.quality_inspection_template = inspect_det.quality_inspection_template
                 if inspect_det.quality_inspection_template:
-                    obj = frappe.get_doc("Quality Inspection Template",inspect_det.quality_inspection_template)
-                    for ro in obj.item_quality_inspection_parameter:
-                        coa_print_val = ""
-                        if frappe.db.has_column("Item Quality Inspection Parameter", "custom_coa_print"):
-                            coa_print_val = frappe.db.get_value("Item Quality Inspection Parameter", ro.name, "custom_coa_print")
-                        elif frappe.db.has_column("Item Quality Inspection Parameter", "custom_coa_print_"):
-                            coa_print_val = frappe.db.get_value("Item Quality Inspection Parameter", ro.name, "custom_coa_print_")
-                        elif frappe.db.has_column("Item Quality Inspection Parameter", "coa_print"):
-                            coa_print_val = frappe.db.get_value("Item Quality Inspection Parameter", ro.name, "coa_print")
-                        
-                        coa_print_val = coa_print_val or getattr(ro, "custom_coa_print", None) or getattr(ro, "custom_coa_print_", None) or getattr(ro, "coa_print", None) or ""
-
+                    from next_quality.next_quality.custom_quality_inspection_template import get_template_details
+                    parameters = get_template_details(inspect_det.quality_inspection_template)
+                    for ro in parameters:
                         doc_qi.append("readings", {
-                            'specification': ro.specification,
-                            'numeric': ro.numeric,
-                            'selection':ro.selection,
-                            'alphanumeric':ro.alphanumeric,
-                            'values':ro.values,
-                            'value':ro.value,
-                            'descriptions':ro.descriptions,
-                            'formula_based_criteria': ro.formula_based_criteria,
-                            'acceptance_formula': ro.acceptance_formula,
-                            'min_value': ro.min_value,
-                            'max_value': ro.max_value,
-                            'custom_coa_print_': coa_print_val,
-                            'coa_print': coa_print_val
+                            'specification': ro.get('specification'),
+                            'numeric': ro.get('numeric'),
+                            'selection': ro.get('selection'),
+                            'alphanumeric': ro.get('alphanumeric'),
+                            'values': ro.get('values'),
+                            'value': ro.get('value'),
+                            'descriptions': ro.get('descriptions'),
+                            'formula_based_criteria': ro.get('formula_based_criteria'),
+                            'acceptance_formula': ro.get('acceptance_formula'),
+                            'min_value': ro.get('min_value'),
+                            'max_value': ro.get('max_value'),
+                            'custom_coa_print_': ro.get('custom_coa_print_'),
+                            'coa_print': ro.get('coa_print')
                         })
+
                 doc_qi.insert(ignore_permissions=True)
                 # doc.submit()
                 q = "update `tab{0} Item`  set quality_inspection_created = 1 where parent = '{1}' and item_code = '{2}';".format(
