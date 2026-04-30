@@ -121,7 +121,8 @@ def set_insepection_in_batch(qc,method):
         frappe.db.sql("delete from `tabQuality Inspection Reading` where parent =%s", (batch.name))
         for res in qc.readings:
             r = res.as_dict()
-            coa_val = res.get('custom_coa_print_') or res.get('coa_print') or ""
+            # Explicitly carry the COA value
+            coa_val = res.get('custom_coa_print_') or res.get('coa_print')
             r['custom_coa_print_'] = coa_val
             r['coa_print'] = coa_val
             
@@ -159,7 +160,8 @@ def set_insepection_in_batch_from_stock_entry(self,method):
             frappe.db.sql("delete from `tabQuality Inspection Reading` where parent =%s", (batch.name))
             for res in quality_inspection.readings:
                 r = res.as_dict()
-                coa_val = res.get('custom_coa_print_') or res.get('coa_print') or ""
+                # Explicitly carry the COA value
+                coa_val = res.get('custom_coa_print_') or res.get('coa_print')
                 r['custom_coa_print_'] = coa_val
                 r['coa_print'] = coa_val
                 
@@ -216,7 +218,15 @@ def get_item_specification_details(quality_inspection_template,item_code = None)
     
     # Universal mapping and data fixing
     for row in res:
-        coa_print_val = getattr(row, "custom_coa_print_", None) or getattr(row, "coa_print", None) or ""
+        coa_print_val = ""
+        if frappe.db.has_column("Item Quality Inspection Parameter", "custom_coa_print"):
+            coa_print_val = frappe.db.get_value("Item Quality Inspection Parameter", row.name, "custom_coa_print")
+        elif frappe.db.has_column("Item Quality Inspection Parameter", "custom_coa_print_"):
+            coa_print_val = frappe.db.get_value("Item Quality Inspection Parameter", row.name, "custom_coa_print_")
+        elif frappe.db.has_column("Item Quality Inspection Parameter", "coa_print"):
+            coa_print_val = frappe.db.get_value("Item Quality Inspection Parameter", row.name, "coa_print")
+        
+        coa_print_val = coa_print_val or getattr(row, "custom_coa_print", None) or getattr(row, "custom_coa_print_", None) or getattr(row, "coa_print", None) or ""
         
         # Ensure it maps to both standard names
         row['custom_coa_print_'] = coa_print_val
