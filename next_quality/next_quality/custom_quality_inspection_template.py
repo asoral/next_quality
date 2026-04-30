@@ -57,7 +57,15 @@ def get_template_details(template):
 
 	# Universal mapping and data fixing
 	for row in res:
-		coa_print_val = getattr(row, "custom_coa_print_", None) or getattr(row, "coa_print", None) or ""
+		coa_print_val = ""
+		if frappe.db.has_column("Item Quality Inspection Parameter", "custom_coa_print"):
+			coa_print_val = frappe.db.get_value("Item Quality Inspection Parameter", row.name, "custom_coa_print")
+		elif frappe.db.has_column("Item Quality Inspection Parameter", "custom_coa_print_"):
+			coa_print_val = frappe.db.get_value("Item Quality Inspection Parameter", row.name, "custom_coa_print_")
+		elif frappe.db.has_column("Item Quality Inspection Parameter", "coa_print"):
+			coa_print_val = frappe.db.get_value("Item Quality Inspection Parameter", row.name, "coa_print")
+		
+		coa_print_val = coa_print_val or getattr(row, "custom_coa_print", None) or getattr(row, "custom_coa_print_", None) or getattr(row, "coa_print", None) or ""
 		
 		# Ensure it maps to both standard names for UI visibility
 		row['custom_coa_print_'] = coa_print_val
