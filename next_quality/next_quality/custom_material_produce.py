@@ -44,15 +44,7 @@ def create_inps(work_order,name):
                     iqit_doc.inps_type=row.inspection_type
                     obj = frappe.get_doc("Quality Inspection Template", row.inprocess_quality_inspection_template)
                     for ro in obj.item_quality_inspection_parameter:
-                        coa_print_val = ""
-                        if frappe.db.has_column("Item Quality Inspection Parameter", "custom_coa_print"):
-                            coa_print_val = frappe.db.get_value("Item Quality Inspection Parameter", ro.name, "custom_coa_print")
-                        elif frappe.db.has_column("Item Quality Inspection Parameter", "custom_coa_print_"):
-                            coa_print_val = frappe.db.get_value("Item Quality Inspection Parameter", ro.name, "custom_coa_print_")
-                        elif frappe.db.has_column("Item Quality Inspection Parameter", "coa_print"):
-                            coa_print_val = frappe.db.get_value("Item Quality Inspection Parameter", ro.name, "coa_print")
-                        
-                        coa_print_val = coa_print_val or getattr(ro, "custom_coa_print", None) or getattr(ro, "custom_coa_print_", None) or getattr(ro, "coa_print", None) or ""
+                        coa_print_val = getattr(ro, "custom_coa_print_", None) or getattr(ro, "coa_print", None) or ""
 
                         iqit_doc.append("readings", {
                             'specification': ro.specification,
