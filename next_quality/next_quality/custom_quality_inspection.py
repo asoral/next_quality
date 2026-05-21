@@ -22,6 +22,8 @@ class CustomQualityInspection(QualityInspection):
         parameters = get_template_details(self.quality_inspection_template)
         for d in parameters:
             child = self.append('readings', {})
+            for k in ["name", "parent", "parentfield", "parenttype", "owner", "idx", "creation", "modified", "modified_by", "doctype", "docstatus"]:
+                d.pop(k, None)
             child.update(d)
             child.status = "Accepted"
 
