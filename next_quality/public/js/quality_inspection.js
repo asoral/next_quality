@@ -27,14 +27,25 @@ frappe.ui.form.on("Quality Inspection", {
                     item_code: frm.doc.item_code
                   },
 				callback: function(r) {
-				    if (r.message) {
+				    if (r.message && r.message.length > 0) {
                         frm.clear_table('readings');
 						r.message.forEach((d) => {
-							var child = frm.add_child("readings", d);
+							var child = frm.add_child("readings");
+							// Copy specific fields, exclude internal frappe fields like name, parent
+							Object.keys(d).forEach(k => {
+								if(!["name", "parent", "parentfield", "parenttype", "owner", "idx", "creation", "modified", "modified_by", "doctype", "docstatus"].includes(k)) {
+									child[k] = d[k];
+								}
+							});
+							
 							// Ensure both field mappings work in JS as well
 							if(d.custom_coa_print_) {
 								child.custom_coa_print_ = d.custom_coa_print_;
 								child.coa_print = d.custom_coa_print_;
+							}
+							
+							if(!child.status) {
+								child.status = "Accepted";
 							}
 						});
 						refresh_field("readings");
