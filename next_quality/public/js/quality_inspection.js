@@ -101,7 +101,19 @@ frappe.ui.form.on("Quality Inspection", {
 frappe.ui.form.on("Quality Inspection Reading",{
 	form_render:function(frm,cdt,cdn){
 		var child = locals[cdt][cdn];
-		var obj = JSON.parse(child.values);
+		
+		// Add error handling for empty or invalid values field
+		if(!child.values) {
+			return;
+		}
+		
+		try {
+			var obj = JSON.parse(child.values);
+		} catch(e) {
+			console.error("Error parsing values for Quality Inspection Reading:", e);
+			return;
+		}
+		
 		var i = 0;
 		var b=[];
 		for(i; i < obj.length; i++) {
@@ -114,5 +126,15 @@ frappe.ui.form.on("Quality Inspection Reading",{
 		}
 		
     },
+	
+	reading_1: function(frm, cdt, cdn) {
+		// Refresh field dependencies when reading_1 is changed to ensure all fields are properly displayed
+		frm.get_field("readings").refresh();
+	},
+	
+	reading_value: function(frm, cdt, cdn) {
+		// Refresh field dependencies when reading_value is changed to ensure all fields are properly displayed
+		frm.get_field("readings").refresh();
+	}
 	
 });
