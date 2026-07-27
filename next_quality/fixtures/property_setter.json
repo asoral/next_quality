@@ -1159,12 +1159,12 @@
   "doctype_or_field": "DocType",
   "field_name": null,
   "is_system_generated": 0,
-  "modified": "2026-04-17 13:15:38.271042",
+  "modified": "2026-07-23 17:24:45.992707",
   "module": null,
   "name": "Quality Inspection-main-field_order",
   "property": "field_order",
   "property_type": "Data",
   "row_name": null,
-  "value": "[\"naming_series\", \"company\", \"report_date\", \"status\", \"inps_type\", \"not_tested\", \"packing_details\", \"date_of_sampling\", \"supplier\", \"accepted_under_deviation\", \"child_row_reference\", \"column_break_4\", \"inspection_type\", \"reference_type\", \"reference_name\", \"purchase_receipt_date\", \"manufacture_name\", \"supplier_batch_no\", \"section_break_7\", \"item_code\", \"item_serial_no\", \"batch_no\", \"sample_size\", \"coa_remark\", \"column_break1\", \"item_name\", \"description\", \"bom_no\", \"material_origin\", \"material_make_brand\", \"custom_stock_entry\", \"specification_details\", \"quality_inspection_template\", \"manual_inspection\", \"readings\", \"readings_html\", \"custom_readings_html\", \"section_break_14\", \"inspected_by\", \"verified_by\", \"column_break_17\", \"remarks\", \"amended_from\", \"abbr\", \"print_settings_section\", \"letter_head\"]"
+  "value": "[\"naming_series\", \"company\", \"report_date\", \"status\", \"inps_type\", \"not_tested\", \"packing_details\", \"date_of_sampling\", \"supplier\", \"accepted_under_deviation\", \"child_row_reference\", \"column_break_4\", \"inspection_type\", \"reference_type\", \"reference_name\", \"purchase_receipt_date\", \"manufacture_name\", \"supplier_batch_no\", \"section_break_7\", \"item_code\", \"item_serial_no\", \"batch_no\", \"sample_size\", \"coa_remark\", \"column_break1\", \"item_name\", \"description\", \"bom_no\", \"material_origin\", \"material_make_brand\", \"custom_stock_entry\", \"specification_details\", \"quality_inspection_template\", \"manual_inspection\", \"readings\", \"custom_readings_html\", \"section_break_14\", \"inspected_by\", \"verified_by\", \"column_break_17\", \"remarks\", \"amended_from\", \"abbr\", \"print_settings_section\", \"letter_head\"]"
  }
 ]
