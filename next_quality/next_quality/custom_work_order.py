@@ -1,4 +1,3 @@
-from __future__ import unicode_literals
 from datetime import timedelta,datetime
 import frappe
 from frappe.model.mapper import get_mapped_doc

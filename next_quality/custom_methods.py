@@ -1,5 +1,3 @@
-
-from __future__ import unicode_literals
 import frappe
 # from erpnext.controllers.queries import get_match_cond
 from datetime import datetime
