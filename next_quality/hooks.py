@@ -218,6 +218,17 @@ override_doctype_dashboards = {
 #
 # auto_cancel_exempted_doctypes = ["Auto Repeat"]
 
+# Desk navigation (Frappe v16): Apps screen entry. The sidebars and dock ship as
+# <module>/sidebar/*, <module>/workspace/* and dock/next_quality/next_quality.json
+app_logo_url = "/assets/next_quality/images/next_quality-logo.svg"
+app_home = "/desk/next-quality"
 
-
-
+add_to_apps_screen = [
+	{
+		"name": "next_quality",
+		"logo": "/assets/next_quality/images/next_quality-logo.svg",
+		"title": "Next Quality",
+		"route": app_home,
+		"has_permission": "next_quality.navigation.check_app_permission",
+	}
+]

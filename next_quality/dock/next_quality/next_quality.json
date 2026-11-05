@@ -1,0 +1,23 @@
+{
+ "app": "next_quality",
+ "creation": "2026-11-05 18:00:00.000000",
+ "docstatus": 0,
+ "doctype": "Dock",
+ "idx": 0,
+ "items": [
+  {
+   "added": 0,
+   "hidden": 0,
+   "icon": "badge-check",
+   "link_to": "Next Quality",
+   "link_type": "Sidebar",
+   "title": "Next Quality"
+  }
+ ],
+ "modified": "2026-11-05 18:00:00.000000",
+ "modified_by": "Administrator",
+ "name": "next_quality",
+ "owner": "Administrator",
+ "standard": 1,
+ "user": ""
+}

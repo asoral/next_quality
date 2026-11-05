@@ -1,103 +1,66 @@
 {
- "category": "Modules",
- "charts": [
-  {
-   "chart_name": "Quality Inspection Analysis"
-  }
- ],
- "creation": "2021-04-17 14:36:26.869636",
- "developer_mode_only": 0,
- "disable_user_customization": 0,
+ "app": "next_quality",
+ "charts": [],
+ "content": "[{\"id\":\"Zn7Damfz78\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Shortcuts</b></span>\",\"col\":12}},{\"id\":\"5zVUZ8ZVtk\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Customer Inspection Criteria\",\"col\":3}},{\"id\":\"zsUjmTcfab\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Customer Quality Inspection\",\"col\":3}},{\"id\":\"gTqgEwaepA\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Pending Incoming Quality Inspections\",\"col\":3}},{\"id\":\"hAD5Lsnly7\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Pending Inprocess Quality Inspections\",\"col\":3}},{\"id\":\"8jNV5VNfq6\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Production-Consumption\",\"col\":3}}]",
+ "creation": "2026-11-05 18:00:00.000000",
+ "custom_blocks": [],
  "docstatus": 0,
  "doctype": "Workspace",
- "extends": "Quality",
- "extends_another_page": 1,
+ "for_user": "",
  "hide_custom": 0,
- "icon": "quality",
+ "icon": "badge-check",
  "idx": 0,
- "is_default": 0,
- "is_standard": 1,
+ "is_hidden": 0,
  "label": "Quality I",
- "links": [
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Quality Inspection",
-   "link_type": "Page",
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Quality Inspection",
-   "link_to": "Quality Inspection",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Quality Inspection Template",
-   "link_to": "Quality Inspection Template",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Print CoA",
-   "link_to": "Batch",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "Pending Inprocess Quality Inspection",
-   "link_to": "Pending Inprocess Quality Inspections",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "Pending Incoming Quality Inspection",
-   "link_to": "Pending Incoming Quality Inspections",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  }
- ],
- "modified": "2021-05-07 20:18:24.768741",
+ "links": [],
+ "modified": "2026-11-05 18:00:00.000000",
  "modified_by": "Administrator",
  "module": "Next Quality",
  "name": "Quality I",
+ "number_cards": [],
  "owner": "Administrator",
- "pin_to_bottom": 0,
- "pin_to_top": 0,
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [],
+ "sequence_id": 208.0,
  "shortcuts": [
   {
-   "doc_view": "",
-   "label": "Quality Inspection",
-   "link_to": "Quality Inspection",
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Customer Inspection Criteria",
+   "link_to": "Customer Inspection Criteria",
    "type": "DocType"
   },
   {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Customer Quality Inspection",
+   "link_to": "Customer Quality Inspection",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
    "doc_view": "",
    "label": "Pending Incoming Quality Inspections",
    "link_to": "Pending Incoming Quality Inspections",
    "type": "Report"
   },
   {
+   "color": "Grey",
    "doc_view": "",
-   "label": "Pending Inprocess Quality Inspection",
+   "label": "Pending Inprocess Quality Inspections",
    "link_to": "Pending Inprocess Quality Inspections",
    "type": "Report"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "",
+   "label": "Production-Consumption",
+   "link_to": "Production-Consumption",
+   "type": "Report"
   }
- ]
+ ],
+ "title": "Quality I",
+ "type": "Workspace"
 }
