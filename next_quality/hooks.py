@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
 from . import __version__ as app_version
 
 app_name = "next_quality"
@@ -130,10 +129,6 @@ doc_events = {
         # "before_save":"next_quality.next_quality.custom_quality_inspection_template.before_save",
 
     },
-    "Material Produce": {
-        "before_submit":"next_quality.next_quality.custom_material_produce.before_submit",
-        "after_save":"next_quality.next_quality.custom_material_produce.after_save"
-    },
     "Job Card":{
         "before_save":"next_quality.next_quality.custom_job_card.make_inprocess_quality_inspection",
     },
@@ -208,8 +203,6 @@ override_doctype_dashboards = {
 	"Customer": "next_quality.next_quality.custom_customer_dashboard.get_data",
     "Sales Order": "next_quality.sales_order_dashboard.get_data",
     #"Work Order": "next_quality.next_quality.custom_work_order_dashboard.get_data",
-    "Job Card":"next_quality.next_quality.custom_job_card_dashboard.get_data",
-    "Purchase Receipt":"next_quality.next_quality.custom_purchase_receipt_dashboard.get_data",
     # "Material Produce":"next_quality.next_quality.custom_material_produce_dashboard.get_data"
 
 }

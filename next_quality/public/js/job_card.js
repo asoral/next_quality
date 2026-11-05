@@ -63,8 +63,7 @@ frappe.ui.form.on("Job Card", {
     },
 
     before_submit:function(frm){
-        console.log("job card",frm.doc.job_started);
-        if(frm.doc.job_started == 1){
+        if((frm.doc.time_logs || []).length > 0){
             var count = 0;
             var temp = ""
 
@@ -100,7 +99,6 @@ frappe.ui.form.on("Job Card", {
         }
     },
     on_submit:function(frm){
-        console.log("job card",frm.doc.job_started);
         if(frm.doc.status=="Completed"){
             var count = 0;
             var temp = ""

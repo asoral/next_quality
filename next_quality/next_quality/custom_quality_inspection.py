@@ -1,4 +1,3 @@
-from __future__ import unicode_literals
 import frappe
 from frappe.model.document import Document
 from datetime import datetime
@@ -26,57 +25,27 @@ class CustomQualityInspection(QualityInspection):
                 d.pop(k, None)
             child.update(d)
             child.status = "Accepted"
+            child.parameter_group = frappe.get_value(
+                "Quality Inspection Parameter", d.specification, "parameter_group"
+            )
 
-    def update_qc_reference(self):
-        quality_inspection = self.name if self.docstatus == 1 else ""
-
-        if self.reference_type == 'Job Card':
+    def update_qc_reference(self, remove_reference=False):
+        """Work Order links are maintained here; every other reference type uses the v16 standard logic."""
+        if self.reference_type == "Work Order":
             if self.reference_name:
-                frappe.db.sql("""
-                    UPDATE `tab{doctype}`
+                quality_inspection = self.name if self.docstatus == 1 and not remove_reference else ""
+                frappe.db.sql(
+                    """
+                    UPDATE `tabWork Order`
                     SET quality_inspection = %s, modified = %s
                     WHERE name = %s and production_item = %s
-                """.format(doctype=self.reference_type),
-                    (quality_inspection, self.modified, self.reference_name, self.item_code))
-        elif self.reference_type == 'Work Order':
-            if self.reference_name:
-                frappe.db.sql("""
-					UPDATE `tab{doctype}`
-					SET quality_inspection = %s, modified = %s
-					WHERE name = %s and production_item = %s
-				    """.format(doctype=self.reference_type),
-					(quality_inspection, self.modified, self.reference_name, self.item_code))
+                    """,
+                    (quality_inspection, self.modified, self.reference_name, self.item_code),
+                )
+            return
 
-        else:
-            args = [quality_inspection, self.modified, self.reference_name, self.item_code]
-            doctype = self.reference_type + ' Item'
+        super().update_qc_reference(remove_reference=remove_reference)
 
-            if self.reference_type == 'Stock Entry':
-                doctype = 'Stock Entry Detail'
-
-            if self.reference_type and self.reference_name:
-                conditions = ""
-                if self.batch_no and self.docstatus == 1:
-                    conditions += " and t1.batch_no = %s"
-                    args.append(self.batch_no)
-
-                if self.docstatus == 2: # if cancel, then remove qi link wherever same name
-                    conditions += " and t1.quality_inspection = %s"
-                    args.append(self.name)
-
-                    frappe.db.sql("""
-					UPDATE
-						`tab{child_doc}` t1, `tab{parent_doc}` t2
-					SET
-						t1.quality_inspection = %s, t2.modified = %s
-					WHERE
-						t1.parent = %s
-						and t1.item_code = %s
-						and t1.parent = t2.name
-						{conditions}
-				    """.format(parent_doc=self.reference_type, child_doc=doctype, conditions=conditions),
-					args)
-  
 def before_save(self,method):
     count = 0
     null =0
