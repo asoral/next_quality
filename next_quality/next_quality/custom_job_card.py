@@ -50,7 +50,10 @@ def make_inprocess_quality_inspection(self,method):
 				iqit_doc.save(ignore_permissions=True)
 
 @frappe.whitelist()
-def get_inprocess_qite(workstation,bom = None,):
+def get_inprocess_qite(workstation=None, bom=None):
+    if not workstation:
+        return []
+
     QIT = frappe.db.get_all("Quality Inspection Template", fields=["name","quality_inspection_template_name","inspection_type","inspection_applicable_on","periodicity"],
                             filters={ "inspection_applicable_on": "Job Card",
 									 "bom":bom,"workstation_":workstation}, order_by="idx")

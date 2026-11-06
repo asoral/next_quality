@@ -38,6 +38,8 @@ frappe.ui.form.on("Job Card", {
 
     onload:function(frm){
         frm.clear_table("quality_inspection_parameter");
+        // a new Job Card has no workstation yet, and the method needs one
+        if (!frm.doc.workstation) return;
         frm.call({
 				method: "next_quality.next_quality.custom_job_card.get_inprocess_qite",
 				args: {

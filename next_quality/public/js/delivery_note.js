@@ -1,6 +1,6 @@
 frappe.ui.form.on("Delivery Note", {
     onload: function(frm){
-        set_batch_filter(frm)
+        // set_batch_filter() is commented out below, so it is not called any more
         if(frm.doc.docstatus == 0)
         {
             frm.add_custom_button(__("Make Quality Inspection"), function() {
