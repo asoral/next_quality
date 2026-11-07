@@ -10,14 +10,7 @@ app_color = "grey"
 app_email = "dexciss@gmail.com"
 app_license = "MIT"
 
-fixtures = [
-    # {"dt":"Custom Field", "filters": [["fieldname", "in", ("release_fence", "search_mode", "priority", "size_minimum", "size_maximum", "customer_pricing_rule_id", "planning_parameters", "column_break_16", "alternate_selection", "column_break_25", "type", "post_op_time", "postop_time", "size_minimum", "size_multiple", "size_maximum", "planning_parameters", "release_fence", "duration", "duration_per_unit", "column_break_66", "search_mode", "priority", "alternate_selection", "type", "c", "location", "available", "type", "column_break_5", "minimum_calendar", "min_interval", "location", "column_break_7", "priority", "fence", "effective_start", "effective_end", "size_minimum", "size_multiple", "size_maximum", "section_break_2", "resource", "resource_quantity", "lead_time", "type", "release_plan", "release_plan_wo", "frepple_po_ref", "column_break_2", "calendar", "release_plan_wo", "frepple_mo_ref", "section_break_15", "warehouse", "type", "constrained", "column_break_21", "efficiency", "maximum_calendar", "available", "maximum", "max_early", "efficiency_calendar")]]}, 
-    {"dt":"Custom Field", "filters": [["fieldname", "in", ("not_tested","quality_inspection_par","test_result","status","quality_inspection","selection","values","quality_inspection_parameter",
-        "create_quality_inspection","custom_coa_print",   "custom_coa_print_"  ,"quality_inspection_created","batch_no","quality_inspection","item_name","quality_inspection_created","selection","parameter_value","is_check","inspection_details",
-        "bom","column_break_3","inspection_applicable_on","inspection_type","workstation_","periodicity","section_break_8","section_break_11","amended_form","mfg_inspection","copy_quality_inspection",
-        "select_intermediate_bom_to_copy_results_from","item_code","inps_type","quality_inspection","section_break_29","quality_inspection_parameter","quality_inspection","descriptions")]]},
-    {"dt":"Property Setter", "filters": [["doc_type", "in", ("Item Quality Inspection Parameter", "Job Card", "Quality Inspection Reading", "Quality Inspection", "Work Order")]]}
-    ]
+fixtures = []
 
 
 # include js, css files in header of desk.html
@@ -232,3 +225,11 @@ add_to_apps_screen = [
 		"has_permission": "next_quality.navigation.check_app_permission",
 	}
 ]
+
+# Install / uninstall
+# -------------------
+# Custom fields and property setters are defined in next_quality/constants/custom_fields.py.
+# They are created on install and on every migrate, and removed when the app is uninstalled.
+after_install = "next_quality.setup.install.after_install"
+after_migrate = "next_quality.setup.install.after_migrate"
+before_uninstall = "next_quality.setup.uninstall.before_uninstall"
